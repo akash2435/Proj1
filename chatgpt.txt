@@ -1,0 +1,85 @@
+Explain the below code
+
+
+    $(document).ready(
+        {
+             var code = $('#txtemail').val();
+            // var _token = localStorage.getItem('token');
+                     if(code != '' && code != null) 
+                        {
+                            $.ajax(
+                                {
+                                    type: 'GET',
+                                    url: 'https://localhost:7010/api/Authentication/GetUserByEmail/' + code,
+               
+                                    contentType: "application/json; charset=utf-8",
+                                    dataType: "json",
+                                    async: false,
+                                    success: function (data)
+                                    {
+                                        if (data != null) 
+                                        {
+                                            $('#txtname').val(data.Username);
+                                            $('#txtemail').val(data.Email);                   
+                                            $('#txtrole').val(data.Role);
+                                            // $('#chkactive').prop('checked', data.isActive);
+                                        }
+                                    },
+                                    failure: function (error) 
+                                    {
+
+                                    }
+                                })
+                        }
+            })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+using System.ComponentModel.DataAnnotations;
+
+namespace User.Management.API.Models.Authentication.SignUp
+{
+    public class EditUser
+    {
+        public string? Username { get; set; }
+                
+        public string? Email { get; set; }
+        public string? Role { get; set; }
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
