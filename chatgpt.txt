@@ -83,3 +83,59 @@ namespace User.Management.API.Models.Authentication.SignUp
 
 
 
+ [HttpPut("EditUser")]
+ public async Task<IActionResult> EditUser([FromBody] EditUser editUser)
+ {
+     // Check if the provided email exists
+     // Check if the provided email exists
+     var user = await _userManager.FindByEmailAsync(editUser.Email);
+
+     if (user == null)
+     {
+         return StatusCode(StatusCodes.Status404NotFound,
+             new Response { Status = "Error", Message = "User not found." });
+     }
+
+     // Update user details
+     user.UserName = editUser.Username;
+     user.Email = editUser.Email;
+
+     // Check if the role exists
+     var roleExists = await _roleManager.RoleExistsAsync(editUser.Role);
+     if (!roleExists)
+     {
+         return StatusCode(StatusCodes.Status500InternalServerError,
+             new Response { Status = "Error", Message = "This Role Doesnot Exist." });
+     }
+
+     // Remove existing roles and add the new role
+     var currentRoles = await _userManager.GetRolesAsync(user);
+     await _userManager.RemoveFromRolesAsync(user, currentRoles);
+     await _userManager.AddToRoleAsync(user, editUser.Role);
+
+     // Update user in the database
+     var result = await _userManager.UpdateAsync(user);
+
+     if (result.Succeeded)
+     {
+         return StatusCode(StatusCodes.Status200OK,
+             new Response { Status = "Success", Message = "User updated successfully." });
+     }
+     else
+     {
+         return StatusCode(StatusCodes.Status500InternalServerError,
+             new Response { Status = "Error", Message = "Failed to update user." });
+     }
+ }
+
+
+
+
+
+
+
+
+
+
+
+
