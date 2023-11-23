@@ -1,16 +1,73 @@
-Explain the below code
+﻿<style type="text/css">
+     .card {
+         width: 60%;
+         margin-left: 20%;
+         margin-top: 5%
+     }
+</style>
+
+<div class="card">
+    <div class="card-header">
+        <h2>Edit Customer</h2>
+    </div>
+    <div class="card-body">
+
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Existing Email</label>
+                    <input disabled="disabled" value="@ViewData["editgemail"]" class="form-control" id="txtgemail" />
+                </div>
+            </div>
+            
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Name</label>
+                    <input class="form-control" id="txtname" />
+                </div>
+            </div>
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>Email</label>
+                    <input class="form-control" id="txtemail" />
+                </div>
+            </div>
+            
+            
+            <div class="col-lg-12">
+                <div class="form-group">
+                    <label>
+                        User Role
+                    </label>
+                    <input class="form-control" id="txtrole" />
+                </div>
+            </div>
+            
+
+        </div>
+    </div>
+    <div class="card-footer">
+        <a onclick="SaveUser()" class="btn btn-primary">Save</a>
+        <a asp-controller="User" asp-action="Index" class="btn btn-danger">Back</a>
+    </div>
 
 
-    $(document).ready(
+</div>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script type="text/javascript">
+    var js = jQuery.noConflict(true);
+   
+
+    $(document).ready(function()
         {
-             var code = $('#txtemail').val();
+            var codes = $('#txtgemail').val();
             // var _token = localStorage.getItem('token');
-                     if(code != '' && code != null) 
+                     if(codes != '' && codes != null) 
                         {
                             $.ajax(
                                 {
                                     type: 'GET',
-                                    url: 'https://localhost:7010/api/Authentication/GetUserByEmail/' + code,
+                                    url: 'https://localhost:7010/api/Authentication/GetUserByEmail/' + codes,
                
                                     contentType: "application/json; charset=utf-8",
                                     dataType: "json",
@@ -33,109 +90,88 @@ Explain the below code
                         }
             })
 
+    // function SaveUser() {
+    //     // var _token = localStorage.getItem('token');
+
+    //     var isproceed = true;
+
+    //    var _code = $('#txtgemail');
+    //     var _name = $('#txtname');
+    //     var _email = $('#txtemail');  
+    //     var _Role = $('#txtrole');
+   
+
+    //     var code = _code.val();
+    //     var name = _name.val();
+    //     var email = _email.val();
+    //     var Role = _Role.val();
+
+
+  
+
+    //     if (code == null || code == '') {
+    //         _code.css('border-color', 'red');
+    //         isproceed = false;
+    //     } else {
+    //         _code.css('border-color', '#ccc');
+    //     }
+    //     if (name == null || name == '') {
+    //         _name.css('border-color', 'red');
+    //         isproceed = false;
+    //     } else {
+    //         _name.css('border-color', '#ccc');
+    //     }
+    //     if (email == null || email == '') {
+    //         _email.css('border-color', 'red');
+    //         isproceed = false;
+    //     } else {
+    //         _email.css('border-color', '#ccc');
+    //     }
+       
+    //     if (Role == null || Role == '') {
+    //         _Role.css('border-color', 'red');
+    //         isproceed = false;
+    //     } else {
+    //         _Role.css('border-color', '#ccc');
+    //     }
+    //     if (isproceed) {
+
+    //         var _obj = new Object();  
+    //         _obj.Username = name;
+    //         _obj.Email = email;          
+    //         _obj.Role = Role;
+    //         // _obj.isActive = active;
+
+    //         $.ajax({
+    //             type: 'PUT',
+    //             url: 'https://localhost:7010/api/Authentication/EditUser?Email=' + code,
+    //             // headers: {
+    //             //     'Authorization': 'bearer ' + _token
+    //             // },
+    //             data: JSON.stringify(_obj),
+    //             contentType: "application/json; charset=utf-8",
+    //             dataType: "json",
+    //             async: false,
+    //             success: function (data) {
+    //                 debugger;
+    //                 if (data.responseCode == 200) {
+    //                     window.location.href = '/User';
+    //                     alert('Saved Successfully.')
+    //                 } else {
+    //                     alert('Failed to save')
+    //                 }
+    //             },
+    //             failure: function (error) {
+
+    //             }
+    //         })
+
+    //     }
+
+
+    // }
+</script>
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-using System.ComponentModel.DataAnnotations;
-
-namespace User.Management.API.Models.Authentication.SignUp
-{
-    public class EditUser
-    {
-        public string? Username { get; set; }
-                
-        public string? Email { get; set; }
-        public string? Role { get; set; }
-    }
-}
-
-
-
-
-
-
-
-
-
-
-
-
-
- [HttpPut("EditUser")]
- public async Task<IActionResult> EditUser([FromBody] EditUser editUser)
- {
-     // Check if the provided email exists
-     // Check if the provided email exists
-     var user = await _userManager.FindByEmailAsync(editUser.Email);
-
-     if (user == null)
-     {
-         return StatusCode(StatusCodes.Status404NotFound,
-             new Response { Status = "Error", Message = "User not found." });
-     }
-
-     // Update user details
-     user.UserName = editUser.Username;
-     user.Email = editUser.Email;
-
-     // Check if the role exists
-     var roleExists = await _roleManager.RoleExistsAsync(editUser.Role);
-     if (!roleExists)
-     {
-         return StatusCode(StatusCodes.Status500InternalServerError,
-             new Response { Status = "Error", Message = "This Role Doesnot Exist." });
-     }
-
-     // Remove existing roles and add the new role
-     var currentRoles = await _userManager.GetRolesAsync(user);
-     await _userManager.RemoveFromRolesAsync(user, currentRoles);
-     await _userManager.AddToRoleAsync(user, editUser.Role);
-
-     // Update user in the database
-     var result = await _userManager.UpdateAsync(user);
-
-     if (result.Succeeded)
-     {
-         return StatusCode(StatusCodes.Status200OK,
-             new Response { Status = "Success", Message = "User updated successfully." });
-     }
-     else
-     {
-         return StatusCode(StatusCodes.Status500InternalServerError,
-             new Response { Status = "Error", Message = "Failed to update user." });
-     }
- }
-
-
-
-
-
-
-
-
-
-
-
-
+            
