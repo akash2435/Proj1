@@ -1,177 +1,49 @@
-﻿<style type="text/css">
-     .card {
-         width: 60%;
-         margin-left: 20%;
-         margin-top: 5%
-     }
-</style>
+[HttpPost]
+[Route("login")]
+public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
+{
+    var user = await _userManager.FindByNameAsync(loginModel.Username);
 
-<div class="card">
-    <div class="card-header">
-        <h2>Edit Customer</h2>
-    </div>
-    <div class="card-body">
+    if (user == null)
+    {
+        return Unauthorized(new Response { Status = "Error", Message = "Invalid username or password." });
+    }
 
-        <div class="row">
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <label>Existing Email</label>
-                    <input disabled="disabled" value="@ViewData["editgemail"]" class="form-control" id="txtgemail" />
-                </div>
-            </div>
-            
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <label>Name</label>
-                    <input class="form-control" id="txtname" />
-                </div>
-            </div>
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <label>Email</label>
-                    <input class="form-control" id="txtemail" />
-                </div>
-            </div>
-            
-            
-            <div class="col-lg-12">
-                <div class="form-group">
-                    <label>
-                        User Role
-                    </label>
-                    <input class="form-control" id="txtrole" />
-                </div>
-            </div>
-            
+    // Check if the entered password is correct
+    var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginModel.Password);
 
-        </div>
-    </div>
-    <div class="card-footer">
-        <a onclick="SaveUser()" class="btn btn-primary">Save</a>
-        <a asp-controller="User" asp-action="Index" class="btn btn-danger">Back</a>
-    </div>
+    if (!isPasswordValid)
+    {
+        return Unauthorized(new Response { Status = "Error", Message = "Invalid username or password." });
+    }
 
+    if (user.TwoFactorEnabled)
+    {
+        // Handle two-factor authentication if enabled
+        // ... (code for sending OTP to email)
 
-</div>
-<script src="~/lib/jquery/dist/jquery.min.js"></script>
-<script type="text/javascript">
-    var js = jQuery.noConflict(true);
-   
+        return StatusCode(StatusCodes.Status200OK,
+            new Response { Status = "Success", Message = $"We have sent an OTP to your Email {user.Email}" });
+    }
 
-    $(document).ready(function()
-        {
-            var codes = $('#txtgemail').val();
-            // var _token = localStorage.getItem('token');
-                     if(codes != '' && codes != null) 
-                        {
-                            $.ajax(
-                                {
-                                    type: 'GET',
-                                    url: 'https://localhost:7010/api/Authentication/GetUserByEmail/' + codes,
-               
-                                    contentType: "application/json; charset=utf-8",
-                                    dataType: "json",
-                                    async: false,
-                                    success: function (data)
-                                    {
-                                        if (data != null) 
-                                        {
-                                            $('#txtname').val(data.Username);
-                                            $('#txtemail').val(data.Email);                   
-                                            $('#txtrole').val(data.Role);
-                                            // $('#chkactive').prop('checked', data.isActive);
-                                        }
-                                    },
-                                    failure: function (error) 
-                                    {
+    // Generate JWT token if authentication is successful
+    var authClaims = new List<Claim>
+    {
+        new Claim(ClaimTypes.Name, user.UserName),
+        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+    };
 
-                                    }
-                                })
-                        }
-            })
+    var userRoles = await _userManager.GetRolesAsync(user);
+    foreach (var role in userRoles)
+    {
+        authClaims.Add(new Claim(ClaimTypes.Role, role));
+    }
 
-    // function SaveUser() {
-    //     // var _token = localStorage.getItem('token');
+    var jwtToken = GetToken(authClaims);
 
-    //     var isproceed = true;
-
-    //    var _code = $('#txtgemail');
-    //     var _name = $('#txtname');
-    //     var _email = $('#txtemail');  
-    //     var _Role = $('#txtrole');
-   
-
-    //     var code = _code.val();
-    //     var name = _name.val();
-    //     var email = _email.val();
-    //     var Role = _Role.val();
-
-
-  
-
-    //     if (code == null || code == '') {
-    //         _code.css('border-color', 'red');
-    //         isproceed = false;
-    //     } else {
-    //         _code.css('border-color', '#ccc');
-    //     }
-    //     if (name == null || name == '') {
-    //         _name.css('border-color', 'red');
-    //         isproceed = false;
-    //     } else {
-    //         _name.css('border-color', '#ccc');
-    //     }
-    //     if (email == null || email == '') {
-    //         _email.css('border-color', 'red');
-    //         isproceed = false;
-    //     } else {
-    //         _email.css('border-color', '#ccc');
-    //     }
-       
-    //     if (Role == null || Role == '') {
-    //         _Role.css('border-color', 'red');
-    //         isproceed = false;
-    //     } else {
-    //         _Role.css('border-color', '#ccc');
-    //     }
-    //     if (isproceed) {
-
-    //         var _obj = new Object();  
-    //         _obj.Username = name;
-    //         _obj.Email = email;          
-    //         _obj.Role = Role;
-    //         // _obj.isActive = active;
-
-    //         $.ajax({
-    //             type: 'PUT',
-    //             url: 'https://localhost:7010/api/Authentication/EditUser?Email=' + code,
-    //             // headers: {
-    //             //     'Authorization': 'bearer ' + _token
-    //             // },
-    //             data: JSON.stringify(_obj),
-    //             contentType: "application/json; charset=utf-8",
-    //             dataType: "json",
-    //             async: false,
-    //             success: function (data) {
-    //                 debugger;
-    //                 if (data.responseCode == 200) {
-    //                     window.location.href = '/User';
-    //                     alert('Saved Successfully.')
-    //                 } else {
-    //                     alert('Failed to save')
-    //                 }
-    //             },
-    //             failure: function (error) {
-
-    //             }
-    //         })
-
-    //     }
-
-
-    // }
-</script>
-
-
-
-            
+    return Ok(new
+    {
+        token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
+        expiration = jwtToken.ValidTo
+    });
+}
