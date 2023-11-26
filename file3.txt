@@ -1,2 +1,3 @@
 Hello Friend
 https://localhost:7010/api/Authentication/ConfirmEmail?token=CfDJ8HIWVKeX1VtMnqu%2BnabplTV9eFsAs16pou%2F1OZ6MitveJKJ2Av6jmUGOLY3rimtowAWK2DHLMmZY6e6GvZ01x1BwZjY6UGsMGMoB54GBj0ZzOiEDk06y0Ol0BtYPd0EI6EdI49zMy0zglQPCl9FEIy%2FlAKhSDXe5yNSFRks7QTEDP8nDJQQ0NxBQZWSzY8uomawL9HHRcc9NekTdQOq%2BAySKaL0JaBoPpEkBtfiy9MZcehcTwjW%2BEGzu5KY7GumeFQ%3D%3D&email=shravyasatheesh0191@gmail.com
+https://meet.google.com/wbe-addq-dfz?pli=1
