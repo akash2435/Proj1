@@ -1,0 +1,127 @@
+HTML
+
+<div class="captcha-container">
+        
+        <form action="#" method="post" id="captcha-form">
+            <div class="captcha">
+                <span class="captcha-text" id="captcha-text">ABCD</span>
+                <button type="button" id="refresh-btn" onclick="refreshCaptcha()">Refresh</button>
+            </div>
+            <label for="user-input">Enter the code above:</label>
+            <input type="text" id="user-input" name="user-input" required>
+            <button type="submit">Submit</button>
+        </form>
+    </div>
+==============================================================
+CSS
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.captcha-container {
+    background-color: transparent;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.captcha {
+    display: flex;
+    align-items: center;
+}
+
+.captcha-text {
+    font-size: 24px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+#refresh-btn {
+    cursor: pointer;
+    border: none;
+    background-color: #4caf50;
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+#refresh-btn:hover {
+    background-color: #45a049;
+}
+
+label {
+    display: block;
+    margin-top: 10px;
+}
+
+input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    box-sizing: border-box;
+}
+
+button {
+    cursor: pointer;
+    border: none;
+    background-color: #007bff;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 4px;
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+==============================================================
+JS
+
+function refreshCaptcha() {
+    var captchaText = generateCaptcha();
+    document.getElementById('captcha-text').textContent = captchaText;
+}
+
+function generateCaptcha() {
+    var chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ123456789abcdefghijklmnopqrstuvwxyz';
+    var captcha = '';
+
+    for (var i = 0; i < 6; i++) {
+        var randomIndex = Math.floor(Math.random() * chars.length);
+        captcha += chars.charAt(randomIndex);
+    }
+
+    return captcha;
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    refreshCaptcha();
+
+    document.getElementById('captcha-form').addEventListener('submit', function(event) {
+        var userInput = document.getElementById('user-input').value.toUpperCase();
+        var captchaText = document.getElementById('captcha-text').textContent;
+
+        if (userInput !== captchaText) {
+            alert('CAPTCHA verification failed. Please try again.');
+            event.preventDefault();
+        }
+    });
+    document.getElementById('captcha-form').addEventListener('submit', function(event) {
+        var userInput = document.getElementById('user-input').value.toUpperCase();
+        var captchaText = document.getElementById('captcha-text').textContent;
+
+        if (userInput === captchaText) {
+            alert('CAPTCHA verified');
+            event.preventDefault();
+        }
+    });
+});
