@@ -6,21 +6,24 @@
     <title>Responsive Website</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <style>
-        /* Add your custom styles here */
+        .jumbotron
+        {
+            background: url(Nova-Maldives-lead-1368x636.jpg);
+        }
     </style>
 </head>
 <body>
 
-<!-- Navigation Bar -->
+
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
-    <a class="navbar-brand" href="#">Your Website</a>
+    <a class="navbar-brand" href="#">MALDIVES</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
     <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ml-auto">
             <li class="nav-item active">
-                <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+                <a class="nav-link" href="WebPage.html">Home </a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="#features">Features</a>
@@ -32,31 +35,15 @@
     </div>
 </nav>
 
-<!-- Hero Section -->
+
 <div class="jumbotron">
     <div class="container">
-        <h1 class="display-4">Welcome to Your Website</h1>
-        <p class="lead">A simple and responsive website built with Bootstrap.</p>
+        <h1 class="display-2">Feedback about Maldives World</h1>
     </div>
 </div>
 
-<!-- Features Section -->
-<div class="container" id="features">
-    <div class="row">
-        <div class="col-lg-6">
-            <h2>Feature 1</h2>
-            <p>Some description about feature 1.</p>
-        </div>
-        <div class="col-lg-6">
-            <h2>Feature 2</h2>
-            <p>Some description about feature 2.</p>
-        </div>
-    </div>
-</div>
 
-<!-- Contact Form -->
 <div class="container" id="contact">
-    <h2>Contact Us</h2>
     <form>
         <div class="form-group">
             <label for="name">Name:</label>
@@ -67,14 +54,14 @@
             <input type="email" class="form-control" id="email" placeholder="Enter your email">
         </div>
         <div class="form-group">
-            <label for="message">Message:</label>
-            <textarea class="form-control" id="message" rows="4" placeholder="Enter your message"></textarea>
+            <label for="message">Feedback:</label>
+            <textarea class="form-control" id="message" rows="4"></textarea>
         </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
 
-<!-- Bootstrap JavaScript and dependencies -->
+
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
