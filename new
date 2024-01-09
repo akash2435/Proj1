@@ -180,27 +180,36 @@ for(let i=0;i<minus.length;i++)
     });
 }
 ==================new js============================
-const toggleElement = (element) => {
+const toggleClasses = async (index) => {
   return new Promise((resolve) => {
-    element.classList.toggle("hidden");
-    resolve();
+    plus[index].classList.toggle("hidden");
+    minus[index].classList.toggle("hidden");
+    para[index].classList.toggle("hidden");
+
+    // Simulate some asynchronous operation (you can replace this with actual asynchronous code if needed)
+    setTimeout(() => {
+      resolve();
+    }, 500);
   });
 };
 
-const handleClick = (index, elements) => {
-  const promises = elements.map((element) => toggleElement(element));
-
-  return Promise.all(promises);
+const handlePlusClick = async (index) => {
+  await toggleClasses(index);
 };
 
-plus.forEach((button, index) => {
-  button.addEventListener("click", async () => {
-    await handleClick(index, [plus[index], minus[index], para[index]]);
-  });
-});
+const handleMinusClick = async (index) => {
+  await toggleClasses(index);
+};
 
-minus.forEach((button, index) => {
-  button.addEventListener("click", async () => {
-    await handleClick(index, [plus[index], minus[index], para[index]]);
+for (let i = 0; i < plus.length; i++) {
+  plus[i].addEventListener("click", async function () {
+    await handlePlusClick(i);
   });
-});
+}
+
+for (let i = 0; i < minus.length; i++) {
+  minus[i].addEventListener("click", async function () {
+    await handleMinusClick(i);
+  });
+}
+
