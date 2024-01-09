@@ -179,3 +179,31 @@ for(let i=0;i<minus.length;i++)
         para[i].classList.toggle("hidden");
     });
 }
+==================new js============================
+const toggleElements = (index) => {
+  return new Promise((resolve) => {
+    plus[index].classList.toggle("hidden");
+    minus[index].classList.toggle("hidden");
+    para[index].classList.toggle("hidden");
+
+    setTimeout(() => {
+      resolve();
+    }, 500);
+  });
+};
+
+const handleClick = async (index) => {
+  await toggleElements(index);
+};
+
+plus.forEach((button, index) => {
+  button.addEventListener("click", async () => {
+    await handleClick(index);
+  });
+});
+
+minus.forEach((button, index) => {
+  button.addEventListener("click", async () => {
+    await handleClick(index);
+  });
+});
