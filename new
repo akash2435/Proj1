@@ -180,12 +180,13 @@ for(let i=0;i<minus.length;i++)
     });
 }
 ==================new js============================
-const toggleElements = (index) => {
+const toggleElements = async (index) => {
   return new Promise((resolve) => {
     plus[index].classList.toggle("hidden");
     minus[index].classList.toggle("hidden");
     para[index].classList.toggle("hidden");
 
+    // Simulate some asynchronous operation (you can replace this with actual asynchronous code if needed)
     setTimeout(() => {
       resolve();
     }, 500);
@@ -194,16 +195,18 @@ const toggleElements = (index) => {
 
 const handleClick = async (index) => {
   await toggleElements(index);
+  // Add additional asynchronous operations if needed
 };
 
-plus.forEach((button, index) => {
-  button.addEventListener("click", async () => {
-    await handleClick(index);
+for (let i = 0; i < plus.length; i++) {
+  plus[i].addEventListener("click", async function () {
+    await handleClick(i);
   });
-});
+}
 
-minus.forEach((button, index) => {
-  button.addEventListener("click", async () => {
-    await handleClick(index);
+for (let i = 0; i < minus.length; i++) {
+  minus[i].addEventListener("click", async function () {
+    await handleClick(i);
   });
-});
+}
+
