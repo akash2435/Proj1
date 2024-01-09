@@ -1,1 +1,181 @@
 HTML code
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- displays site properly based on user's device -->
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="stylesheet" href="/faq-accordion-main/faq-accordion-main/css/bootstrap.css">
+  <link rel="icon" type="image/png" sizes="32x32" href="./assets/images/favicon-32x32.png">
+
+  <!-- <link rel="stylesheet" href="faq-accordion-main/faq-accordion-main/styleshet.css"> -->
+  <link rel="stylesheet" href="stylesheet.css">
+  <title>Frontend Mentor | FAQ accordion</title>
+
+  <!-- Feel free to remove these styles or customise in your own stylesheet 👍 -->
+  <!-- <style>
+    .attribution { font-size: 11px; text-align: center; }
+    .attribution a { color: hsl(228, 45%, 44%); }
+  </style> -->
+</head> 
+<body>
+  <div class="container">
+    <div class="heading">
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-star.svg" alt="" />
+      <h1>FAQs</h1>
+    </div>
+
+    <div class="question">
+      <h4>What is Frontend Mentor, and how will it help me?</h4>
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-minus.svg" alt="" class="minus hidden">
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-plus.svg" alt="" class="plus">
+    </div>
+    <p class="para hidden">
+      Frontend Mentor offers realistic coding challenges to help developers improve their 
+      frontend coding skills with projects in HTML, CSS, and JavaScript. It's suitable for 
+      all levels and ideal for portfolio building.
+    </p>
+    <hr>
+    <div class="question">
+      <h4>Is Frontend Mentor free?</h4>
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-plus.svg" alt="" class="plus">
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-minus.svg" alt="" class="minus hidden">
+    </div>
+    <p class="para hidden">
+      Yes, Frontend Mentor offers both free and premium coding challenges, with the free 
+      option providing access to a range of projects suitable for all skill levels.
+    </p>
+    <hr>
+    <div class="question">
+      <h4>Can I use Frontend Mentor projects in my portfolio?</h4>
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-plus.svg" alt="" class="plus">
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-minus.svg" alt="" class="minus hidden">
+    </div>
+    <p class="para hidden">
+      Yes, you can use projects completed on Frontend Mentor in your portfolio. It's an excellent
+      way to showcase your skills to potential employers!
+    </p>
+    <hr>
+    <div class="question">
+      <h4>How can I get help if I'm stuck on a Frontend Mentor challenge?</h4>
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-plus.svg" alt="" class="plus">
+      <img src="/faq-accordion-main/faq-accordion-main/assets/images/icon-minus.svg" alt="" class="minus hidden">
+    </div>
+    <p class="para hidden">
+      The best place to get help is inside Frontend Mentor's Discord community. There's a help 
+      channel where you can ask questions and seek support from other community members.
+    </p>
+  </div>
+  <!-- <div class="attribution">
+    Challenge by <a href="https://www.frontendmentor.io?ref=challenge" target="_blank">Frontend Mentor</a>. 
+    Coded by <a href="#">Your Name Here</a>.
+  </div> -->
+<script src="script.js"></script>
+</body>
+</html>
+
+================================CSS==================================================
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  body {
+    background: url('/faq-accordion-main/faq-accordion-main/assets/images/background-pattern-desktop.svg') no-repeat;
+    background-color: hsl(0, 0%, 100%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    flex-direction: column;
+    min-height: 100vh;
+    padding: 20px; 
+  }
+
+  .container {
+    background-color: hsl(0, 0%, 100%);
+    width: 90%;
+    max-width: 600px; 
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px; 
+    border-radius: 10px;
+    border: 2px solid hsl(0, 0%, 100%);
+    box-shadow: 0px 0px 2px 0px hsl(0, 0%, 100%);
+    position: fixed;
+    margin-top: 75px;
+  }
+
+  .container .heading {
+    display: flex;
+    gap: 20px;
+  }
+
+  .container .heading h1 {
+    font-weight: 800;
+    font-family: 'Work Sans', sans-serif;
+    font-size: 24px; 
+  }
+
+  .container .question {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-family: 'Work Sans', sans-serif;
+    font-weight: 700;
+    font-size: 16px; 
+  }
+
+  .container p {
+    color: hsl(292, 42%, 14%);
+    font-size: 14px;
+    font-weight: 400;
+    font-family: 'Work Sans', sans-serif;
+  }
+
+  .container .question img {
+    cursor: pointer;
+  }
+
+  .hidden {
+    display: none;
+  }
+
+  h4 {
+    cursor: pointer;
+  }
+
+  h4:hover {
+    color: hsl(292, 16%, 49%);
+  }
+
+  .container hr {
+    margin: 0;
+    padding: 0;
+  }
+
+============================================JS========================================================
+const plus=document.querySelectorAll(".plus");
+const minus=document.querySelectorAll(".minus");
+const para=document.querySelectorAll(".para");
+
+for(let i=0;i<plus.length;i++)
+{
+    plus[i].addEventListener("click",function(){
+        plus[i].classList.toggle("hidden");
+        minus[i].classList.toggle("hidden");
+        para[i].classList.toggle("hidden");
+    });
+}
+
+for(let i=0;i<minus.length;i++)
+{
+    minus[i].addEventListener("click",function(){
+        plus[i].classList.toggle("hidden");
+        minus[i].classList.toggle("hidden");
+        para[i].classList.toggle("hidden");
+    });
+}
