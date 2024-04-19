@@ -1,51 +1,108 @@
-<div>Learn Durandal</div>
- 
-Array Length <span data-bind="text:orderTypes().length"></span>
-<br/>
-Type Value : <span data-bind="text:type()"></span>
-<br/>
- 
-<input type="text" data-bind="value:type"/>
- 
-<button data-bind="click:addType()">Add</button>
- 
-<ul data-bind="foreach : orderTypes">
-<li> <span data-bind="text:$data"> </span> </li>
-</ul>
+<div class="jumbotron">
+<h1 class="font-weight-bold">Welcome to Registration Portal</h1>
+</div>
+<form>
+<div class="form-group">
+<label for="custId">ID</label>
+<input type="text" class="form-control" placeholder="Enter the ID" data-bind="value:id"/>
+</div>
+<div class="form-group">
+<label for="firstname">First Name</label>
+<input type="text" class="form-control" placeholder="Enter the First Name" data-bind="value:firstName"/>
+</div>
+<div class="form-group">
+<label for="lastname">Last Name</label>
+<input type="text" class="form-control" placeholder="Enter the Last Name" data-bind="value:lastName"/>
+</div>
+<div class="form-group">
+<label for="location">Location</label>
+<input type="text" class="form-control" placeholder="Enter your location"data-bind="value:location"/>
+</div>
+<div class="form-group">
+<label for="landowned">Number of lands Owned</label>
+<input type="number" class="form-control" placeholder="No of lands owned" data-bind="value:lands"/>
+</div>
+<div>
+<button type="button" class="btn btn-info" id="submitButton" data-bind="click:submitDetails">Submit</button>
+</div>
+<br />
+<hr />
+<br />
+<div>
+<table style="border:2px solid black">
+<thead>
+<tr>
+<td class="font-weight-bolder" style="border:2px solid black">ID</td>
+<td class="font-weight-bolder" style="border:2px solid black">First Name</td>
+<td class="font-weight-bolder" style="border:2px solid black">Last Name</td>
+<td class="font-weight-bolder" style="border:2px solid black">Location</td>
+<td class="font-weight-bolder" style="border:2px solid black">Number of land owned</td>
+</tr>
+</thead>
+<tbody data-bind="foreach:details">
+<tr>
+<td data-bind="text:id"></td>
+<td data-bind="text:firstName"></td>
+<td data-bind="text:lastName"></td>
+<td data-bind="text:location"></td>
+<td data-bind="text:lands"></td>
+</tr>
+</tbody>
+</table>
+</div>
+</form>
 
 ==========================================================
 
 define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config'],
     function (router, ko, app, https, session, config) {
- 
-        var orderTypes = ko.observableArray();
-        var type = ko.observable('Test');
+        var details = ko.observableArray();
+        var id = ko.observable('');
+        var firstName = ko.observable('');
+        var lastName = ko.observable('');
+        var location = ko.observable('');
+        var lands = ko.observable('');
  
         var vm = {
-            activate: activateM,
-            canActivate: canActivateM,
-            canDeactivate: canDeactivateM,
-            compositionComplete: compositionCompleteM,
+            activate: activate1,
+            canActivate: canActivate,
+            canDeactivate: canDeactivate,
+            compositionComplete: compositionComplete,
             orderTypes: orderTypes,
             type: type,
-            addType: addType
+            addType: addType,
+            details: details,
+            id: id,
+            firstName: firstName,
+            lastName: lastName,
+            location: location,
+            lands: lands,
+            submitDetails: submitDetails
         };
  
-        function canActivateM() {
+        function canActivate() {
             console.log('canActivate');
             return true;
         }
-        function activateM() {
-            orderTypes.push(type());
+        function activate1() {
             console.log('Activate');
+            console.log(orderTypes().length);
+            return getOrderTypes();
         }
  
-        function compositionCompleteM() {
+        function compositionComplete() {
             console.log('compositionComplete');
         }
-        function canDeactivateM() {
+        function canDeactivate() {
             console.log('canDeactivate');
             return true;
+        }
+ 
+        function getOrderTypes() {
+            orderTypes([]);
+            //orderTypes.push('Type1');
+            //orderTypes.push('Type2');
+            //orderTypes.push('Type3');
         }
  
         function addType() {
@@ -54,5 +111,24 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
             type('');
         }
  
+        function submitDetails() {
+            var newDetail = {
+                id: id(),
+                firstName: firstName(),
+                lastName: lastName(),
+                location: location(),
+                lands: lands(),
+            };
+            details.push(newDetail);
+            clearFields();
+        }
+ 
+        function clearFields() {
+            id('');
+            firstName('');
+            lastName('');
+            location('');
+            lands('');
+        }
         return vm;
     });
