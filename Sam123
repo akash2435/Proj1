@@ -1,97 +1,51 @@
-<div class="jumbotron">
-<h1 class="font-weight-bold">Welcome to Registration Portal</h1>
-</div>
-<form>
-<div class="form-group">
-<label for="custId">ID</label>
-<input type="text" class="form-control" placeholder="Enter the ID" data-bind="value:id"/>
-</div>
-<div class="form-group">
-<label for="firstname">First Name</label>
-<input type="text" class="form-control" placeholder="Enter the First Name" data-bind="value:firstName"/>
-</div>
-<div class="form-group">
-<label for="lastname">Last Name</label>
-<input type="text" class="form-control" placeholder="Enter the Last Name" data-bind="value:lastName"/>
-</div>
-<div class="form-group">
-<label for="location">Location</label>
-<input type="text" class="form-control" placeholder="Enter your location"data-bind="value:location"/>
-</div>
-<div class="form-group">
-<label for="landowned">Number of lands Owned</label>
-<input type="number" class="form-control" placeholder="No of lands owned" data-bind="value:lands"/>
-</div>
-<div>
-<button type="button" class="btn btn-info" id="submitButton" data-bind="click:addData">Submit</button>
-</div>
-<br />
-<hr />
-<br />
-<div>
-<table style="border:2px solid black">
-<thead>
-<tr>
-<td class="font-weight-bolder" style="border:2px solid black">ID</td>
-<td class="font-weight-bolder" style="border:2px solid black">First Name</td>
-<td class="font-weight-bolder" style="border:2px solid black">Last Name</td>
-<td class="font-weight-bolder" style="border:2px solid black">Location</td>
-<td class="font-weight-bolder" style="border:2px solid black">Number of land owned</td>
-</tr>
-</thead>
-<tbody data-bind="foreach:tableData">
-<tr>
-<td data-bind="text:id"></td>
-<td data-bind="text:firstName"></td>
-<td data-bind="text:lastName"></td>
-<td data-bind="text:location"></td>
-<td data-bind="text:lands"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</form>
+<div>Learn Durandal</div>
+ 
+Array Length <span data-bind="text:orderTypes().length"></span>
+<br/>
+Type Value : <span data-bind="text:type()"></span>
+<br/>
+ 
+<input type="text" data-bind="value:type"/>
+ 
+<button data-bind="click:addType()">Add</button>
+ 
+<ul data-bind="foreach : orderTypes">
+<li> <span data-bind="text:$data"> </span> </li>
+</ul>
 
-=========================================================================
+==========================================================
 
 define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config'],
     function (router, ko, app, https, session, config) {
+ 
         var orderTypes = ko.observableArray();
-        var type = ko.observable();
+        var type = ko.observable('Test');
+ 
         var vm = {
-            activate: activate1,
-            canActivate: canActivate,
-            canDeactivate: canDeactivate,
-            compositionComplete: compositionComplete,
+            activate: activateM,
+            canActivate: canActivateM,
+            canDeactivate: canDeactivateM,
+            compositionComplete: compositionCompleteM,
             orderTypes: orderTypes,
             type: type,
-            addType: addType,
-            /*Submit: Submit,*/
-            ViewModel: ViewModel
+            addType: addType
         };
-        function canActivate() {
+ 
+        function canActivateM() {
             console.log('canActivate');
             return true;
         }
-        function activate1() {
+        function activateM() {
+            orderTypes.push(type());
             console.log('Activate');
-            console.log(orderTypes().length);
-            return getOrderTypes();
         }
  
-        function compositionComplete() {
+        function compositionCompleteM() {
             console.log('compositionComplete');
         }
-        function canDeactivate() {
+        function canDeactivateM() {
             console.log('canDeactivate');
             return true;
-        }
- 
-        function getOrderTypes() {
-            orderTypes([]);
-            //orderTypes.push('Type1');
-            //orderTypes.push('Type2');
-            //orderTypes.push('Type3');
         }
  
         function addType() {
@@ -100,54 +54,5 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
             type('');
         }
  
-        function ViewModel() {
-            var self = this;
- 
-            self.id = ko.observable('');
-            self.firstName = ko.observable('');
-            self.lastName = ko.observable('');
-            self.location = ko.observable('');
-            self.lands = ko.observable('');
- 
-            self.tableData = ko.observableArray([]);
- 
-            self.addData = function () {
-                var Data = {
-                    id: self.id(),
-                    firstName: self.firstName(),
-                    lastName: self.lastName(),
-                    location: self.location(),
-                    lands: self.lands()
-                };
- 
-                self.tableData.push(Data);
- 
-                self.id('');
-                self.firstName('');
-                self.lastName('');
-                self.location('');
-                self.lands('');
-            };
-        }
-       /* ko.applyBindings(new ViewModel());*/
- 
-        //function Submit() {
-        //    alert('Registration Successful!');
-        //}
- 
-        //function SuccesMessage() {
-        //    var self = this;
-        //    self.handleClick = function () {
-        //        alert('Registration Successful!');
-        //    };
-        //}
-        //ko.applyBindings(new SuccesMessage());
         return vm;
     });
- 
-//define(['knockout', 'jquery'],
-//    function (ko, $) {
-//            $("#submitButton").click(function () {
-//                alert(Details Saved Successfully!);
-//            })
-//    });
