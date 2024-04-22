@@ -7,7 +7,7 @@
 <table>
 <tr>
 <td><label class="font-weight-bold">Frist Name</label></td>
-<td><input type="text" placeholder="Enter your Frist Name" /></td>
+<td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName, event: { keyup: submitBtn }"/></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Last Name</label></td>
@@ -48,7 +48,7 @@
 <td><input type="text" placeholder="Enter your State" /></td>
 </tr>
 <tr>
-<td><button class="btn btn-info" id="button1" type="submit">Submit</button></td>
+<td><button class="btn btn-info" id="button1" type="submit" data-bind="click:submitBtn">Submit</button></td>
 <td><button class="btn btn-danger" type="submit">Cancel</button></td>
 </tr>
 </table>
@@ -60,42 +60,82 @@
 define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config'],
     function (router, ko, app, https, session, config) {
  
-        var orderTypes = ko.observableArray();
-        var type = ko.observable('Test');
+        //var orderTypes = ko.observableArray();
+        //var type = ko.observable('Test');
  
         var vm = {
-            activate: activateM,
-            canActivate: canActivateM,
-            canDeactivate: canDeactivateM,
-            compositionComplete: compositionCompleteM,
-            orderTypes: orderTypes,
-            type: type,
-            addType: addType
+            //activate: activateM,
+            //canActivate: canActivateM,
+            //canDeactivate: canDeactivateM,
+            //compositionComplete: compositionCompleteM,
+            //orderTypes: orderTypes,
+            //type: type,
+            //addType: addType
+            //validateForm: validateForm,
+            //submitForm: submitForm
+            intakes:intakes,
         };
  
+        function intakes() {
+            this.firstName = ko.observable("");
  
-        function canActivateM() {
-            console.log('canActivate');
-            return true;
+            this.submitBtn = function () {
+                console.log(this.firstName());
+            };
         }
-        function activateM() {
-            //orderTypes.push(type());
-            console.log('Activate');
-        }
+
  
-        function compositionCompleteM() {
-            console.log('compositionComplete');
-        }
-        function canDeactivateM() {
-            console.log('canDeactivate');
-            return true;
-        }
+        //document.addEventListener('DOMContentLoaded', function () {
+        //    var form = document.getElementById('validform');
+        //    var submitBtn = document.getElementById('button1');
  
-        function addType() {
-            var newType = type();
-            orderTypes.push(newType);
-            type('');
-        }
+        //    submitBtn.addEventListener('click', function () {
+        //        if (validateForm(form)) {
+        //            submitForm(form);
+        //        }
+        //    });
+        //});
+ 
+        //function validateForm() {
+        //    var firstName = form.elements['firstName'].value.trim();
+ 
+        //    if (firstName === '') {
+        //        alert('Missing');
+        //        return false;
+        //    }
+        //}
+ 
+        //function submitForm(form) {
+        //    var firstName = form.elements['firstName'].value.trim();
+ 
+        //    alert('Success');
+ 
+        //    console.log("First Name: " + firstName);
+ 
+        //    form.reset();
+        //}
+        //function canActivateM() {
+        //    console.log('canActivate');
+        //    return true;
+        //}
+        //function activateM() {
+        //    //orderTypes.push(type());
+        //    console.log('Activate');
+        //}
+ 
+        //function compositionCompleteM() {
+        //    console.log('compositionComplete');
+        //}
+        //function canDeactivateM() {
+        //    console.log('canDeactivate');
+        //    return true;
+        //}
+ 
+        //function addType() {
+        //    var newType = type();
+        //    orderTypes.push(newType);
+        //    type('');
+        //}
  
         return vm;
     });
