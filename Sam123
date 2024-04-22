@@ -1,134 +1,23 @@
-<div class="jumbotron">
-<h1 class="font-weight-bold">Welcome to Registration Portal</h1>
-</div>
-<form>
-<div class="form-group">
-<label for="custId">ID</label>
-<input type="text" class="form-control" placeholder="Enter the ID" data-bind="value:id"/>
-</div>
-<div class="form-group">
-<label for="firstname">First Name</label>
-<input type="text" class="form-control" placeholder="Enter the First Name" data-bind="value:firstName"/>
-</div>
-<div class="form-group">
-<label for="lastname">Last Name</label>
-<input type="text" class="form-control" placeholder="Enter the Last Name" data-bind="value:lastName"/>
-</div>
-<div class="form-group">
-<label for="location">Location</label>
-<input type="text" class="form-control" placeholder="Enter your location"data-bind="value:location"/>
-</div>
-<div class="form-group">
-<label for="landowned">Number of lands Owned</label>
-<input type="number" class="form-control" placeholder="No of lands owned" data-bind="value:lands"/>
-</div>
-<div>
-<button type="button" class="btn btn-info" id="submitButton" data-bind="click:submitDetails">Submit</button>
-</div>
-<br />
-<hr />
-<br />
-<div>
-<table style="border:2px solid black">
-<thead>
-<tr>
-<td class="font-weight-bolder" style="border:2px solid black">ID</td>
-<td class="font-weight-bolder" style="border:2px solid black">First Name</td>
-<td class="font-weight-bolder" style="border:2px solid black">Last Name</td>
-<td class="font-weight-bolder" style="border:2px solid black">Location</td>
-<td class="font-weight-bolder" style="border:2px solid black">Number of land owned</td>
-</tr>
-</thead>
-<tbody data-bind="foreach:details">
-<tr>
-<td data-bind="text:id"></td>
-<td data-bind="text:firstName"></td>
-<td data-bind="text:lastName"></td>
-<td data-bind="text:location"></td>
-<td data-bind="text:lands"></td>
-</tr>
-</tbody>
-</table>
-</div>
-</form>
-
-==========================================================
-
-define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config'],
-    function (router, ko, app, https, session, config) {
-        var details = ko.observableArray();
-        var id = ko.observable('');
-        var firstName = ko.observable('');
-        var lastName = ko.observable('');
-        var location = ko.observable('');
-        var lands = ko.observable('');
- 
-        var vm = {
-            activate: activate1,
-            canActivate: canActivate,
-            canDeactivate: canDeactivate,
-            compositionComplete: compositionComplete,
-            orderTypes: orderTypes,
-            type: type,
-            addType: addType,
-            details: details,
-            id: id,
-            firstName: firstName,
-            lastName: lastName,
-            location: location,
-            lands: lands,
-            submitDetails: submitDetails
-        };
- 
-        function canActivate() {
-            console.log('canActivate');
-            return true;
-        }
-        function activate1() {
-            console.log('Activate');
-            console.log(orderTypes().length);
-            return getOrderTypes();
-        }
- 
-        function compositionComplete() {
-            console.log('compositionComplete');
-        }
-        function canDeactivate() {
-            console.log('canDeactivate');
-            return true;
-        }
- 
-        function getOrderTypes() {
-            orderTypes([]);
-            //orderTypes.push('Type1');
-            //orderTypes.push('Type2');
-            //orderTypes.push('Type3');
-        }
- 
-        function addType() {
-            var newType = type();
-            orderTypes.push(newType);
-            type('');
-        }
- 
-        function submitDetails() {
-            var newDetail = {
-                id: id(),
-                firstName: firstName(),
-                lastName: lastName(),
-                location: location(),
-                lands: lands(),
-            };
-            details.push(newDetail);
-            clearFields();
-        }
- 
-        function clearFields() {
-            id('');
-            firstName('');
-            lastName('');
-            location('');
-            lands('');
-        }
-        return vm;
-    });
+  <div class="container">
+    <h2>Gender Selection</h2>
+    <form>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="male" id="maleCheckbox">
+        <label class="form-check-label" for="maleCheckbox">
+          Male
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="female" id="femaleCheckbox">
+        <label class="form-check-label" for="femaleCheckbox">
+          Female
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="checkbox" value="other" id="otherCheckbox">
+        <label class="form-check-label" for="otherCheckbox">
+          Other
+        </label>
+      </div>
+    </form>
+  </div>
