@@ -3,27 +3,32 @@
 </div>
  
 <div>
-<form>
+<form data-bind="submit:submitForm">
 <table>
 <tr>
 <td><label class="font-weight-bold">Frist Name</label></td>
-<td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName, event: { keyup: submitBtn }"/></td>
+<td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName,event:{blur:fnameCheck}"/></td>
+<td><span style="color:red" data-bind="visible:fnameError">Please enter a valid Frist Name</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Last Name</label></td>
-<td><input type="text" placeholder="Enter your Last Name" /></td>
+<td><input type="text" placeholder="Enter your Last Name" data-bind="value:lastName,event:{blur:lnameCheck}"/></td>
+<td><span style="color:red" data-bind="visible:lnameError">Please enter a valid Last Name</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Email</label></td>
-<td><input type="email" placeholder="Enter your Email" /></td>
+<td><input type="email" placeholder="Enter your Email" data-bind="value:emailId,event:{blur:emailCheck}"/></td>
+<td><span style="color:red" data-bind="visible:emailIdError">Please enter an Email ID</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Phone Number</label></td>
-<td><input type="number" placeholder="Enter Phone Number" /></td>
+<td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber,event:{blur:phoneCheck}"/></td>
+<td><span style="color:red" data-bind="visible:phoneNumberError">Please enter a Phone Number</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Date of Birth</label></td>
-<td><input type="date" /></td>
+<td><input type="date" data-bind="value:dob,event:{blur:dobCheck}"/></td>
+<td><span style="color:red" data-bind="visible:dobError">Date of Birth is required</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Select Gender</label></td>
@@ -32,23 +37,26 @@
 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dropdown Button
 </button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-bind="value:gender,event:{blur:genderCheck}">
 <a class="dropdown-item">Male</a>
 <a class="dropdown-item">Female</a>
 </div>
 </div>
 </td>
+<td><span style="color:red" data-bind="visible:genderError">Please select your gender</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Country</label></td>
-<td><input type="text" placeholder="Enter your Country" /></td>
+<td><input type="text" placeholder="Enter your Country" data-bind="value:country,event:{blur:countryCheck}"/></td>
+<td><span style="color:red" data-bind="visible:countryError">Please enter a valid Country Name</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">State</label></td>
-<td><input type="text" placeholder="Enter your State" /></td>
+<td><input type="text" placeholder="Enter your State" data-bind="value:state,event:{blur:stateCheck}"/></td>
+<td><span style="color:red" data-bind="visible:stateError">Please enter a valid State Name</span></td>
 </tr>
 <tr>
-<td><button class="btn btn-info" id="button1" type="submit" data-bind="click:submitBtn">Submit</button></td>
+<td><button class="btn btn-info" id="button1" type="submit">Submit</button></td>
 <td><button class="btn btn-danger" type="submit">Cancel</button></td>
 </tr>
 </table>
@@ -59,9 +67,9 @@
 
 define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config'],
     function (router, ko, app, https, session, config) {
- 
         //var orderTypes = ko.observableArray();
         //var type = ko.observable('Test');
+
  
         var vm = {
             //activate: activateM,
@@ -73,16 +81,79 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
             //addType: addType
             //validateForm: validateForm,
             //submitForm: submitForm
-            intakes:intakes,
+            MyViewModel:MyViewModel,
         };
  
-        function intakes() {
-            this.firstName = ko.observable("");
+        function MyViewModel() {
+            var self = this;
  
-            this.submitBtn = function () {
-                console.log(this.firstName());
+            self.firstName = ko.observable('');
+            self.lastName = ko.observable('');
+            self.emailId = ko.observable('');
+            self.phoneNumber = ko.observable('');
+            self.dob = ko.observable('');
+            self.gender = ko.observable('');
+            self.country = ko.observable('');
+            self.state = ko.observable('');
+ 
+            self.fnameError = ko.observable(false);
+            self.lnameError = ko.observable(false);
+            self.emailIdError = ko.observable(false);
+            self.phoneNumberError = ko.observable(false);
+            self.dobError = ko.observable(false);
+            self.genderError = ko.observable(false);
+            self.countryError = ko.observable(false);
+            self.stateError = ko.observable(false);
+ 
+            self.fnameCheck = function () {
+                self.fnameError(!self.firstName());
+            };
+ 
+            self.lnameCheck = function () {
+                self.lnameError(!self.lastName());
+            };
+ 
+            self.emailCheck = function () {
+                self.emailIdError(!self.emailId());
+            };
+ 
+            self.phoneCheck = function () {
+                self.phoneNumberError(!self.phoneNumber());
+            };
+            self.dobCheck = function () {
+                self.dobError(!self.dob());
+            };
+ 
+            self.genderCheck = function () {
+                self.genderError(!self.gender());
+            };
+ 
+            self.countryCheck = function () {
+                self.countryError(!self.country());
+            };
+ 
+            self.stateCheck = function () {
+                self.stateError(!self.state());
+            };
+ 
+            self.submitForm = function () {
+                if (!self.firstName() || !self.lastName() || !self.emailId() || !self.phoneNumber() || !self.dob() || !self.gender() || !self.country() || !self.state()) {
+                    alert("Please fill-in all the fields");
+                }
+                else {
+                    alert("Info Stored Succesfully!");
+                }
             };
         }
+ 
+        
+        //function intakes() {
+        //    this.firstName = ko.observable("");
+ 
+        //    this.submitBtn = function () {
+        //        console.log(this.firstName());
+        //    };
+        //}
 
  
         //document.addEventListener('DOMContentLoaded', function () {
