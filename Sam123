@@ -1,34 +1,40 @@
+<!--<style>
+    span
+    {
+        display:none;
+    }
+</style>-->
 <div class="jumbotron">
 <h1 class="font-weight-bolder">Customer Details</h1>
 </div>
  
 <div>
-<form data-bind="submit:submitForm">
+<form>
 <table>
 <tr>
 <td><label class="font-weight-bold">Frist Name</label></td>
-<td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName,event:{blur:fnameCheck}"/></td>
-<td><span style="color:red" data-bind="visible:fnameError">Please enter a valid Frist Name</span></td>
+<td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName"/></td>
+<td><span style="color:red">Please enter a valid Frist Name</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Last Name</label></td>
-<td><input type="text" placeholder="Enter your Last Name" data-bind="value:lastName,event:{blur:lnameCheck}"/></td>
-<td><span style="color:red" data-bind="visible:lnameError">Please enter a valid Last Name</span></td>
+<td><input type="text" placeholder="Enter your Last Name" data-bind="value:lastName"/></td>
+<td><span style="color:red">Please enter a valid Last Name</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Email</label></td>
-<td><input type="email" placeholder="Enter your Email" data-bind="value:emailId,event:{blur:emailCheck}"/></td>
-<td><span style="color:red" data-bind="visible:emailIdError">Please enter an Email ID</span></td>
+<td><input type="email" placeholder="Enter your Email" data-bind="value:email"/></td>
+<td><span style="color:red">Please enter an Email ID</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Phone Number</label></td>
-<td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber,event:{blur:phoneCheck}"/></td>
-<td><span style="color:red" data-bind="visible:phoneNumberError">Please enter a Phone Number</span></td>
+<td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber"/></td>
+<td><span style="color:red">Please enter a Phone Number</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Date of Birth</label></td>
-<td><input type="date" data-bind="value:dob,event:{blur:dobCheck}"/></td>
-<td><span style="color:red" data-bind="visible:dobError">Date of Birth is required</span></td>
+<td><input type="date" data-bind="value:dob"/></td>
+<td><span style="color:red">Date of Birth is required</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Select Gender</label></td>
@@ -37,26 +43,26 @@
 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dropdown Button
 </button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-bind="value:gender,event:{blur:genderCheck}">
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-bind="value:gender">
 <a class="dropdown-item">Male</a>
 <a class="dropdown-item">Female</a>
 </div>
 </div>
 </td>
-<td><span style="color:red" data-bind="visible:genderError">Please select your gender</span></td>
+<td><span style="color:red" >Please select your gender</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Country</label></td>
-<td><input type="text" placeholder="Enter your Country" data-bind="value:country,event:{blur:countryCheck}"/></td>
-<td><span style="color:red" data-bind="visible:countryError">Please enter a valid Country Name</span></td>
+<td><input type="text" placeholder="Enter your Country" data-bind="value:country"/></td>
+<td><span style="color:red" >Please enter a valid Country Name</span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">State</label></td>
-<td><input type="text" placeholder="Enter your State" data-bind="value:state,event:{blur:stateCheck}"/></td>
-<td><span style="color:red" data-bind="visible:stateError">Please enter a valid State Name</span></td>
+<td><input type="text" placeholder="Enter your State" data-bind="value:state"/></td>
+<td><span style="color:red" >Please enter a valid State Name</span></td>
 </tr>
 <tr>
-<td><button class="btn btn-info" id="button1" type="submit">Submit</button></td>
+<td><button class="btn btn-info" id="button1" type="submit" data-bind="click:inps">Submit</button></td>
 <td><button class="btn btn-danger" type="submit">Cancel</button></td>
 </tr>
 </table>
@@ -69,84 +75,105 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
     function (router, ko, app, https, session, config) {
         //var orderTypes = ko.observableArray();
         //var type = ko.observable('Test');
-
+        var details = ko.observableArray();
+        var firstName = ko.observable('');
+        var lastName = ko.observable('');
+        var email = ko.observable('');
+        var dob = ko.observable('');
+        var gender = ko.observable('');
+        var phoneNumber = ko.observable('');
+        var country = ko.observable('');
+        var state = ko.observable('');
  
         var vm = {
-            //activate: activateM,
-            //canActivate: canActivateM,
-            //canDeactivate: canDeactivateM,
-            //compositionComplete: compositionCompleteM,
+            activate: activateM,
+            canActivate: canActivateM,
+            canDeactivate: canDeactivateM,
+            compositionComplete: compositionCompleteM,
+            firstName: firstName,
+            lastName: lastName,
+            email: email,
+            dob: dob,
+            gender: gender,
+            phoneNumber: phoneNumber,
+            country: country,
+            state: state,
+            details: details,
+            inps:inps,
             //orderTypes: orderTypes,
             //type: type,
-            //addType: addType
+            //addType: addType,
             //validateForm: validateForm,
             //submitForm: submitForm
-            MyViewModel:MyViewModel,
+            //MyViewModel: MyViewModel,
+            //submitt: submitt,
         };
  
-        function MyViewModel() {
-            var self = this;
+        //function MyViewModel() {
+        //    var self = this;
  
-            self.firstName = ko.observable('');
-            self.lastName = ko.observable('');
-            self.emailId = ko.observable('');
-            self.phoneNumber = ko.observable('');
-            self.dob = ko.observable('');
-            self.gender = ko.observable('');
-            self.country = ko.observable('');
-            self.state = ko.observable('');
+        //    self.firstName = ko.observable('');
+        //    self.lastName = ko.observable('');
+        //    self.emailId = ko.observable('');
+        //    self.phoneNumber = ko.observable('');
+        //    self.dob = ko.observable('');
+        //    self.gender = ko.observable('');
+        //    self.country = ko.observable('');
+        //    self.state = ko.observable('');
  
-            self.fnameError = ko.observable(false);
-            self.lnameError = ko.observable(false);
-            self.emailIdError = ko.observable(false);
-            self.phoneNumberError = ko.observable(false);
-            self.dobError = ko.observable(false);
-            self.genderError = ko.observable(false);
-            self.countryError = ko.observable(false);
-            self.stateError = ko.observable(false);
+        //    self.fnameError = ko.observable(false);
+        //    self.lnameError = ko.observable(false);
+        //    self.emailIdError = ko.observable(false);
+        //    self.phoneNumberError = ko.observable(false);
+        //    self.dobError = ko.observable(false);
+        //    self.genderError = ko.observable(false);
+        //    self.countryError = ko.observable(false);
+        //    self.stateError = ko.observable(false);
  
-            self.fnameCheck = function () {
-                self.fnameError(!self.firstName());
-            };
+        //    self.fnameCheck = function () {
+        //        self.fnameError(!self.firstName());
+        //    };
  
-            self.lnameCheck = function () {
-                self.lnameError(!self.lastName());
-            };
+        //    self.lnameCheck = function () {
+        //        self.lnameError(!self.lastName());
+        //    };
  
-            self.emailCheck = function () {
-                self.emailIdError(!self.emailId());
-            };
+        //    self.emailCheck = function () {
+        //        self.emailIdError(!self.emailId());
+        //    };
  
-            self.phoneCheck = function () {
-                self.phoneNumberError(!self.phoneNumber());
-            };
-            self.dobCheck = function () {
-                self.dobError(!self.dob());
-            };
+        //    self.phoneCheck = function () {
+        //        self.phoneNumberError(!self.phoneNumber());
+        //    };
+        //    self.dobCheck = function () {
+        //        self.dobError(!self.dob());
+        //    };
  
-            self.genderCheck = function () {
-                self.genderError(!self.gender());
-            };
+        //    self.genderCheck = function () {
+        //        self.genderError(!self.gender());
+        //    };
  
-            self.countryCheck = function () {
-                self.countryError(!self.country());
-            };
+        //    self.countryCheck = function () {
+        //        self.countryError(!self.country());
+        //    };
  
-            self.stateCheck = function () {
-                self.stateError(!self.state());
-            };
+        //    self.stateCheck = function () {
+        //        self.stateError(!self.state());
+        //    };
  
-            self.submitForm = function () {
-                if (!self.firstName() || !self.lastName() || !self.emailId() || !self.phoneNumber() || !self.dob() || !self.gender() || !self.country() || !self.state()) {
-                    alert("Please fill-in all the fields");
-                }
-                else {
-                    alert("Info Stored Succesfully!");
-                }
-            };
-        }
+        //    self.submitForm = function () {
+        //        if (!self.firstName() || !self.lastName() || !self.emailId() || !self.phoneNumber() || !self.dob() || !self.gender() || !self.country() || !self.state()) {
+        //            alert("Please fill-in all the fields");
+        //        }
+        //        else {
+        //            alert("Info Stored Succesfully!");
+        //        }
+        //    };
+        //}
  
-        
+        //function submitt() {
+        //    alert("Success!");
+        //}
         //function intakes() {
         //    this.firstName = ko.observable("");
  
@@ -185,22 +212,58 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
  
         //    form.reset();
         //}
-        //function canActivateM() {
-        //    console.log('canActivate');
-        //    return true;
-        //}
-        //function activateM() {
-        //    //orderTypes.push(type());
-        //    console.log('Activate');
-        //}
+        function canActivateM() {
+            console.log('canActivate');
+            return true;
+        }
+        function activateM() {
+            //orderTypes.push(type());
+            console.log('Activate');
+        }
  
-        //function compositionCompleteM() {
-        //    console.log('compositionComplete');
-        //}
-        //function canDeactivateM() {
-        //    console.log('canDeactivate');
-        //    return true;
-        //}
+        function compositionCompleteM() {
+            console.log('compositionComplete');
+        }
+        function canDeactivateM() {
+            console.log('canDeactivate');
+            return true;
+        }
+ 
+        function inps() {
+            var inputs = {
+                firstName: firstName(),
+                lastName: lastName(),
+                email: email(),
+                dob: dob(),
+                phoneNumber: phoneNumber(),
+                gender: gender(),
+                country: country(),
+                state: state(),
+            };
+            if (firstName === null|| lastName === '' || email === '' || dob === '' || phoneNumber === '' || gender === '' || country === '' || state === '') {
+                alert("Please Fill-in all the fields");
+            }
+            else {
+                alert("Submission successful!");
+                details.push(inputs);
+                console.log(inputs);
+                clearFields();
+            }
+            //details.push(inputs);
+            //console.log(inputs);
+            //clearFields();
+        }
+ 
+        function clearFields() {
+            firstName('');
+            lastName('');
+            email('');
+            dob('');
+            phoneNumber('');
+            gender('');
+            country('');
+            state('');
+        }
  
         //function addType() {
         //    var newType = type();
