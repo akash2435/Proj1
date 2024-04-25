@@ -14,27 +14,30 @@
 <tr>
 <td><label class="font-weight-bold">Frist Name</label></td>
 <td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName"/></td>
-<td><span style="color:red">Please enter a valid Frist Name</span></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:firstName"></span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Last Name</label></td>
 <td><input type="text" placeholder="Enter your Last Name" data-bind="value:lastName"/></td>
-<td><span style="color:red">Please enter a valid Last Name</span></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:lastName"></span></td>
 </tr>
 <tr>
 <td><label class="font-weight-bold">Email</label></td>
-<td><input type="email" placeholder="Enter your Email" data-bind="value:email"/></td>
-<td><span style="color:red">Please enter an Email ID</span></td>
+<td><input type="email" placeholder="Enter your Email" data-bind="value:email" /></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:email"></span></td>
+<!--<td><span style="color:red">Please enter an Email ID</span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">Phone Number</label></td>
-<td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber"/></td>
-<td><span style="color:red">Please enter a Phone Number</span></td>
+<td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber" /></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:phoneNumber"></span></td>
+<!--<td><span style="color:red">Please enter a Phone Number</span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">Date of Birth</label></td>
-<td><input type="date" data-bind="value:dob"/></td>
-<td><span style="color:red">Date of Birth is required</span></td>
+<td><input type="date" data-bind="value:dob" /></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:dob"></span></td>
+<!--<td><span style="color:red">Date of Birth is required</span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">Select Gender</label></td>
@@ -43,23 +46,27 @@
 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             Dropdown Button
 </button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" data-bind="value:gender">
-<a class="dropdown-item">Male</a>
-<a class="dropdown-item">Female</a>
+<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+<a class="dropdown-item" data-bind="click:function() {gender('Male')}">Male</a>
+<a class="dropdown-item" data-bind="click:function() {gender('Female')}">Female</a>
 </div>
 </div>
 </td>
-<td><span style="color:red" >Please select your gender</span></td>
+<td><span style="color:blue" data-bind="text:gender"></span></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:gender"></span></td>
+<!--<td><span style="color:red" >Please select your gender</span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">Country</label></td>
-<td><input type="text" placeholder="Enter your Country" data-bind="value:country"/></td>
-<td><span style="color:red" >Please enter a valid Country Name</span></td>
+<td><input type="text" placeholder="Enter your Country" data-bind="value:country" /></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:country"></span></td>
+<!--<td><span style="color:red" >Please enter a valid Country Name</span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">State</label></td>
-<td><input type="text" placeholder="Enter your State" data-bind="value:state"/></td>
-<td><span style="color:red" >Please enter a valid State Name</span></td>
+<td><input type="text" placeholder="Enter your State" data-bind="value:state" /></td>
+<td><span class="invalid-feedback" data-bind="validationMessage:state"></span></td>
+<!--<td><span style="color:red" >Please enter a valid State Name</span></td>-->
 </tr>
 <tr>
 <td><button class="btn btn-info" id="button1" type="submit" data-bind="click:inps">Submit</button></td>
@@ -71,19 +78,42 @@
 
 ===============================================
 
-define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config'],
+define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config','knockout.validation'],
     function (router, ko, app, https, session, config) {
+ 
+        ko.validation.init({
+            insertMessages: true,
+            decorateInputElement: true,
+            errorElementClass: 'is-invalid',
+            errorMessageClass: 'invalid-feedback',
+            parseInputAttributes:true
+        });
+ 
+        ko.validation.rules['myrule'] = {
+            validator: function (val) {
+                return /^[a-zA-Z]+$/.test(val);
+            },
+            message: 'Please enter only Alphabetic Characters'
+        };
+ 
+        ko.validation.rules['phonerule'] = {
+            validator: function (val) {
+                return /^\{10}$/.test(val);
+            },
+            message:'Please enter a valid phone number'
+        }
+ 
         //var orderTypes = ko.observableArray();
         //var type = ko.observable('Test');
         var details = ko.observableArray();
-        var firstName = ko.observable('');
-        var lastName = ko.observable('');
-        var email = ko.observable('');
-        var dob = ko.observable('');
-        var gender = ko.observable('');
-        var phoneNumber = ko.observable('');
-        var country = ko.observable('');
-        var state = ko.observable('');
+        var firstName = ko.observable('').extend({required:true, myrule:true});
+        var lastName = ko.observable('').extend({ required: true, myrule: true });
+        var email = ko.observable('').extend({ required: true, email: true });
+        var dob = ko.observable('').extend({ required: true});
+        var gender = ko.observable('').extend({ required: true });
+        var phoneNumber = ko.observable('').extend({ required: true, phonerule: true });
+        var country = ko.observable('').extend({ required: true });
+        var state = ko.observable('').extend({ required: true });
  
         var vm = {
             activate: activateM,
@@ -109,6 +139,7 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
             //submitt: submitt,
         };
  
+        ko.validation.group(vm);
         //function MyViewModel() {
         //    var self = this;
  
@@ -240,7 +271,7 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                 country: country(),
                 state: state(),
             };
-            if (firstName === null|| lastName === '' || email === '' || dob === '' || phoneNumber === '' || gender === '' || country === '' || state === '') {
+            if (inputs.firstName === '' || inputs.lastName === '' || inputs.email === '' || inputs.dob === '' || inputs.phoneNumber === '' || inputs.gender === '' || inputs.country === '' || inputs.state === '') {
                 alert("Please Fill-in all the fields");
             }
             else {
