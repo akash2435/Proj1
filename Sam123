@@ -420,3 +420,118 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
  
         return vm;
     });
+=========================================================================
+define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config', 'knockout.validation'],
+    function (router, ko, app, https, session, config) {
+
+        var vm = {
+            activate: activateM,
+            canActivate: canActivateM,
+            canDeactivate: canDeactivateM,
+            compositionComplete: compositionCompleteM,
+            firstName: ko.observable("").extend({
+                required: true,
+                pattern: {
+                    params: /^[A-Za-z\s]+$/,
+                    message: "Please enter a valid First Name"
+                },
+                minLength: {
+                    params: 3,
+                    message: "The First name should at least contain 3 characters"
+                }
+            }),
+            lastName: ko.observable("").extend({
+                required: true,
+                pattern: {
+                    params: /^[A-Za-z\s]+$/,
+                    message: "Please enter a valid Last Name"
+                },
+                minLength: {
+                    params: 3,
+                    message: "The Last Name should at least contain 3 characters"
+                }
+            }),
+            email: ko.observable("").extend({
+                required: true,
+                email: true
+            }),
+            phoneNumber: ko.observable("").extend({
+                required: true,
+                validation: {
+                    message: "Mobile number should be 10 digits",
+                    validator: function (value) {
+                        return /^\d{10}$/.test(value);
+                    }
+                }
+            }),
+            country: ko.observable("").extend({
+                required: true,
+                pattern: {
+                    params: /^[A-Za-z\s]+$/,
+                    message: "Please enter a valid Country Name"
+                },
+                minLength: {
+                    params: 3,
+                    message: "The Country Name should at least contain 3 characters"
+                }
+            }),
+            state: ko.observable("").extend({
+                required: true,
+                pattern: {
+                    params: /^[A-Za-z\s]+$/,
+                    message: "Please enter a valid State Name"
+                },
+                minLength: {
+                    params: 3,
+                    message: "The State Name should at least contain 3 characters"
+                }
+            }),
+            dob: ko.observable("").extend({
+                required: true,
+                message: "Please select the Date of Birth"
+            }),
+            gender: ko.observable("").extend({
+                required: true,
+                message: "Please select your Gender"
+            }),
+            handleSubmit: function () {
+                if (!this.firstName.isValid() || !this.lastName.isValid() || !this.dob.isValid() || !this.country.isValid() || !this.state.isValid() || !this.gender.isValid() || !this.phoneNumber.isValid()) {
+                    alert("Please fill-in all the Fields");
+                    return;
+                }
+                console.log('SUBMITTED FORM');
+                var details = {
+                    firstName: this.firstName(),
+                    lastName: this.lastName(),
+                    dob: this.dob(),
+                    country: this.country(),
+                    state: this.state(),
+                    gender: this.gender(),
+                    phoneNumber: this.phoneNumber(),
+                };
+                console.log(details);
+            }
+        };
+
+        ko.validation.group(vm);
+
+        function canActivateM() {
+            console.log('canActivate');
+            return true;
+        }
+
+        function activateM() {
+            console.log('Activate');
+        }
+
+        function compositionCompleteM() {
+            console.log('compositionComplete');
+        }
+
+        function canDeactivateM() {
+            console.log('canDeactivate');
+            return true;
+        }
+
+        return vm;
+    });
