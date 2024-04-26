@@ -247,7 +247,7 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
         }
         function canDeactivateM() {
             console.log('canDeactivate');
-            return true;
+            return true,
         }
  
         function validate() {
