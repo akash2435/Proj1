@@ -8,34 +8,32 @@
 <tr>
 <td><label class="font-weight-bold">First Name</label></td>
 <td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName"></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:firstName"></span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">Last Name</label></td>
 <td><input type="text" placeholder="Enter your Last Name" data-bind="value:lastName"/></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:lastName"></span></td>-->
 </tr>
 <tr>
 <td><label class="font-weight-bold">Email</label></td>
 <td><input type="email" placeholder="Enter your Email" data-bind="value:email" /></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:email"></span></td>-->
+
 </tr>
 <tr>
 <td><label class="font-weight-bold">Phone Number</label></td>
 <td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber" /></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:phoneNumber"></span></td>-->
+
 </tr>
 <tr>
 <td><label class="font-weight-bold">Date of Birth</label></td>
 <td><input type="date" data-bind="value:dob" /></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:dob"></span></td>-->
+
 </tr>
 <tr>
-<td><label class="font-weight-bold">Select Gender</label></td>
+<td><label class="font-weight-bold">Gender</label></td>
 <td>
 <div class="dropdown">
 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Dropdown Button
+                            Select Gender
 </button>
 <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
 <a class="dropdown-item" data-bind="click:function() {gender('Male')}">Male</a>
@@ -44,17 +42,17 @@
 </div>
 </td>
 <td><span style="color:blue" data-bind="text:gender"></span></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:gender"></span></td>-->
+
 </tr>
 <tr>
 <td><label class="font-weight-bold">Country</label></td>
 <td><input type="text" placeholder="Enter your Country" data-bind="value:country" /></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:country"></span></td>-->
+
 </tr>
 <tr>
 <td><label class="font-weight-bold">State</label></td>
 <td><input type="text" placeholder="Enter your State" data-bind="value:state" /></td>
-<!--<td><span class="invalid-feedback" data-bind="validationMessage:state"></span></td>-->
+
 </tr>
 <tr>
 <td><button class="btn btn-info" id="button1" type="submit">Submit</button></td>
@@ -66,369 +64,16 @@
 
 ===============================================
 
-define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config','knockout.validation'],
-    function (router, ko, app, https, session, config) {
- 
-        //ko.validation.init({
-        //    insertMessages: true,
-        //    decorateInputElement: true,
-        //    errorElementClass: 'is-invalid',
-        //    errorMessageClass: 'invalid-feedback',
-        //    parseInputAttributes:true
-        //});
- 
-        //ko.validation.rules['myrule'] = {
-        //    validator: function (val) {
-        //        return /^[a-zA-Z]+$/.test(val);
-        //    },
-        //    message: 'Please enter only Alphabetic Characters'
-        //};
- 
-        //ko.validation.rules['phonerule'] = {
-        //    validator: function (val) {
-        //        return /^\d{10}$/.test(val);
-        //    },
-        //    message:'Please enter a valid phone number'
-        //}
- 
-        ////var orderTypes = ko.observableArray();
-        ////var type = ko.observable('Test');
-        //var details = ko.observableArray();
-        //var firstName = ko.observable('').extend({required:true, myrule:true});
-        //var lastName = ko.observable('').extend({ required: true, myrule: true });
-        //var email = ko.observable('').extend({ required: true, email: true });
-        //var dob = ko.observable('').extend({ required: true});
-        //var gender = ko.observable('').extend({ required: true });
-        //var phoneNumber = ko.observable('').extend({ required: true, phonerule: true });
-        //var country = ko.observable('').extend({ required: true });
-        //var state = ko.observable('').extend({ required: true });
- 
-        var vm = {
-            activate: activateM,
-            canActivate: canActivateM,
-            canDeactivate: canDeactivateM,
-            compositionComplete: compositionCompleteM,
-            firstName: firstName,
-            lastName: lastName,
-            email: email,
-            dob: dob,
-            gender: gender,
-            phoneNumber: phoneNumber,
-            country: country,
-            state: state,
-            validate:validate,
-            //details: details,
-            //inps: inps,
-            //firstNameHasFocus:ko.observable(true),
-            //orderTypes: orderTypes,
-            //type: type,
-            //addType: addType,
-            //validateForm: validateForm,
-            //submitForm: submitForm
-            //MyViewModel: MyViewModel,
-            //submitt: submitt,
-        };
- 
-        ko.validation.group(vm);
-        //function MyViewModel() {
-        //    var self = this;
- 
-        //    self.firstName = ko.observable('');
-        //    self.lastName = ko.observable('');
-        //    self.emailId = ko.observable('');
-        //    self.phoneNumber = ko.observable('');
-        //    self.dob = ko.observable('');
-        //    self.gender = ko.observable('');
-        //    self.country = ko.observable('');
-        //    self.state = ko.observable('');
- 
-        //    self.fnameError = ko.observable(false);
-        //    self.lnameError = ko.observable(false);
-        //    self.emailIdError = ko.observable(false);
-        //    self.phoneNumberError = ko.observable(false);
-        //    self.dobError = ko.observable(false);
-        //    self.genderError = ko.observable(false);
-        //    self.countryError = ko.observable(false);
-        //    self.stateError = ko.observable(false);
- 
-        //    self.fnameCheck = function () {
-        //        self.fnameError(!self.firstName());
-        //    };
- 
-        //    self.lnameCheck = function () {
-        //        self.lnameError(!self.lastName());
-        //    };
- 
-        //    self.emailCheck = function () {
-        //        self.emailIdError(!self.emailId());
-        //    };
- 
-        //    self.phoneCheck = function () {
-        //        self.phoneNumberError(!self.phoneNumber());
-        //    };
-        //    self.dobCheck = function () {
-        //        self.dobError(!self.dob());
-        //    };
- 
-        //    self.genderCheck = function () {
-        //        self.genderError(!self.gender());
-        //    };
- 
-        //    self.countryCheck = function () {
-        //        self.countryError(!self.country());
-        //    };
- 
-        //    self.stateCheck = function () {
-        //        self.stateError(!self.state());
-        //    };
- 
-        //    self.submitForm = function () {
-        //        if (!self.firstName() || !self.lastName() || !self.emailId() || !self.phoneNumber() || !self.dob() || !self.gender() || !self.country() || !self.state()) {
-        //            alert("Please fill-in all the fields");
-        //        }
-        //        else {
-        //            alert("Info Stored Succesfully!");
-        //        }
-        //    };
-        //}
- 
-        //function submitt() {
-        //    alert("Success!");
-        //}
-        //function intakes() {
-        //    this.firstName = ko.observable("");
- 
-        //    this.submitBtn = function () {
-        //        console.log(this.firstName());
-        //    };
-        //}
-
- 
-        //document.addEventListener('DOMContentLoaded', function () {
-        //    var form = document.getElementById('validform');
-        //    var submitBtn = document.getElementById('button1');
- 
-        //    submitBtn.addEventListener('click', function () {
-        //        if (validateForm(form)) {
-        //            submitForm(form);
-        //        }
-        //    });
-        //});
- 
-        //function validateForm() {
-        //    var firstName = form.elements['firstName'].value.trim();
- 
-        //    if (firstName === '') {
-        //        alert('Missing');
-        //        return false;
-        //    }
-        //}
- 
-        //function submitForm(form) {
-        //    var firstName = form.elements['firstName'].value.trim();
- 
-        //    alert('Success');
- 
-        //    console.log("First Name: " + firstName);
- 
-        //    form.reset();
-        //}
-        function canActivateM() {
-            console.log('canActivate');
-            return true;
-        }
-        function activateM() {
-            //orderTypes.push(type());
-            console.log('Activate');
-        }
- 
-        function compositionCompleteM() {
-            console.log('compositionComplete');
-        }
-        function canDeactivateM() {
-            console.log('canDeactivate');
-            return true,
-        }
- 
-        function validate() {
-            var self = this;
- 
-            var firstNamePattern = /^[A-Za-z\s]+$/;
-            self.firstName = ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: firstNamePattern,
-                    message: "Please enter a valid First Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The First name should atleast contain 3 characters"
-                }
-            });
- 
-            var lastNamePattern = /^[A-Za-z\s]+$/;
-            self.lastName = ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: lastNamePattern,
-                    message: "Please enter a valid Last Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The Last Name should atleast contain 3 characters"
-                }
-            });
- 
-            self.email = ko.observable("").extend({
-                required: true,
-                email: true;
-            });
- 
-            var phoneNumberPattern = /^[0-9]+$/;
-            self.phoneNumber = ko.observable("").extend({
-                required: true,
-                validation: {
-                    message: "Mobile number should be 10 digits"
-                    validator: function (value) {
-                        return /^\d{10}$/.test(value);
-                    },
-                }
-            });
- 
-            var countryPattern = /^[A-Za-z\s]+$/;
-            self.country = ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: countryPattern,
-                    message: "Please enter a valid Country Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The Country Name should atleast contain 3 characters"
-                }
-            });
- 
-            var statePattern = /^[A-Za-z\s]+$/;
-            self.state = ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: statePattern,
-                    message: "Please enter a valid State Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The State Name should atleast contain 3 characters"
-                }
-            });
- 
-            self.dob = ko.observable("").extend({
-                required: true,
-                message: "Please select the Date of Birth",
-            });
- 
-            self.gender = ko.observable("").extend({
-                required: true,
-                message: "Please select your Gender",
-            });
- 
-            self.handleSubmit = function () {
-                if (!self.firstName.isValid() || !self.lastName.isValid() || !self.dob.isValid() || !self.country.isValid() || !self.state.isValid() || !self.gender.isValid() || !!self.phoneNumber.isValid()) {
-                    alert("Please fill-in all the Fields");
-                    return;
-                }
-                console.log('SUBMITTED FORM');
-                var details = {
-                    firstName: self.firstName(),
-                    lastName: self.lastName(),
-                    dob: self.dob(),
-                    country: self.country(),
-                    state: self.state(),
-                    gender: self.gender(),
-                    phoneNumber: self.phoneNumber(),
-                }
-                console.log(details);
-            };
-            self.errors = ko.validation.group(self);
-        }
- 
-        //var firstNamePattern = /^[A-Za-z\s]+$/;
-        //self.firstname = ko.observable("").extend({
-        //    required: true,
-        //    pattern: {
-        //        params: firstNamePattern,
-        //        message: "Please enter a valid first name"
-        //    },
-        //    minLength: {
-        //        params: 3,
-        //        message: "The first name should contain atleast 3 characters"
-        //    }
-        //});
- 
-        //function inps() {
-        //    vm.errors.showAllMessages();
-        //    if (vm.errors().length === 0) {
-        //        var inputs = {
-        //            firstName: vm.firstName(),
-        //            lastName: vm.lastName(),
-        //            email: vm.email(),
-        //            dob: vm.dob(),
-        //            phoneNumber:vm.phoneNumber(),
-        //            gender: vm.gender(),
-        //            country: vm.country(),
-        //            state: vm.state(),
-        //        };
-        //        alert("Success");
-        //        console.log(inputs);
-        //        clearFields();
-        //    }
-        //    else
-        //    {
-        //        alert("Fill-in all the fields");
-        //    }
-            //if (inputs.firstName === '' || inputs.lastName === '' || inputs.email === '' || inputs.dob === '' || inputs.phoneNumber === '' || inputs.gender === '' || inputs.country === '' || inputs.state === '') {
-            //    alert("Please Fill-in all the fields");
-            //}
-            //else {
-            //    alert("Submission successful!");
-            //    details.push(inputs);
-            //    console.log(inputs);
-            //    clearFields();
-            //}
- 
-            //details.push(inputs);
-            //console.log(inputs);
-            //clearFields();
-        //}
- 
-        //function clearFields() {
-        //    vm.firstName('');
-        //    vm.lastName('');
-        //    vm.email('');
-        //    vm.dob('');
-        //    vm.phoneNumber('');
-        //    vm.gender('');
-        //    vm.country('');
-        //    vm.state('');
-        //    vm.firstNameHasFocus(true);
-        //}
- 
-        //function addType() {
-        //    var newType = type();
-        //    orderTypes.push(newType);
-        //    type('');
-        //}
- 
-        return vm;
-    });
-=========================================================================
 define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config', 'knockout.validation'],
     function (router, ko, app, https, session, config) {
-
+ 
         var vm = {
             activate: activateM,
             canActivate: canActivateM,
             canDeactivate: canDeactivateM,
             compositionComplete: compositionCompleteM,
+ 
+            /*First Name Validation Function*/
             firstName: ko.observable("").extend({
                 required: true,
                 pattern: {
@@ -440,6 +85,8 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                     message: "The First name should at least contain 3 characters"
                 }
             }),
+ 
+            /*Last Name Validation Function*/
             lastName: ko.observable("").extend({
                 required: true,
                 pattern: {
@@ -447,14 +94,18 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                     message: "Please enter a valid Last Name"
                 },
                 minLength: {
-                    params: 3,
-                    message: "The Last Name should at least contain 3 characters"
+                    params: 1,
+                    message: "The Last Name should at least contain a single characters"
                 }
             }),
+ 
+            /*Email Validation Function*/
             email: ko.observable("").extend({
                 required: true,
                 email: true
             }),
+ 
+            /*Phone-Number Validation Function*/
             phoneNumber: ko.observable("").extend({
                 required: true,
                 validation: {
@@ -464,6 +115,8 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                     }
                 }
             }),
+ 
+            /*Country Validation Function*/
             country: ko.observable("").extend({
                 required: true,
                 pattern: {
@@ -475,6 +128,8 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                     message: "The Country Name should at least contain 3 characters"
                 }
             }),
+ 
+            /*State Validation Function*/
             state: ko.observable("").extend({
                 required: true,
                 pattern: {
@@ -486,14 +141,20 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                     message: "The State Name should at least contain 3 characters"
                 }
             }),
+ 
+            /*Date of Birth Function*/
             dob: ko.observable("").extend({
                 required: true,
                 message: "Please select the Date of Birth"
             }),
+ 
+           /*Gender Validation Function*/
             gender: ko.observable("").extend({
                 required: true,
                 message: "Please select your Gender"
             }),
+ 
+            /*Form Logic Function*/
             handleSubmit: function () {
                 if (!this.firstName.isValid() || !this.lastName.isValid() || !this.dob.isValid() || !this.country.isValid() || !this.state.isValid() || !this.gender.isValid() || !this.phoneNumber.isValid()) {
                     alert("Please fill-in all the Fields");
@@ -509,29 +170,29 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                     gender: this.gender(),
                     phoneNumber: this.phoneNumber(),
                 };
+                alert("Details Submitted Successfully!");
                 console.log(details);
-            }
+            }  
         };
-
         ko.validation.group(vm);
-
+ 
         function canActivateM() {
             console.log('canActivate');
             return true;
         }
-
+ 
         function activateM() {
             console.log('Activate');
         }
-
+ 
         function compositionCompleteM() {
             console.log('compositionComplete');
         }
-
+ 
         function canDeactivateM() {
             console.log('canDeactivate');
             return true;
         }
-
+ 
         return vm;
     });
