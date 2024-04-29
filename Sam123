@@ -148,7 +148,7 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
                 message: "Please select the Date of Birth"
             }),
  
-           /*Gender Validation Function*/
+            /*Gender Validation Function*/
             gender: ko.observable("").extend({
                 required: true,
                 message: "Please select your Gender"
@@ -156,10 +156,40 @@ define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/se
  
             /*Form Logic Function*/
             handleSubmit: function () {
-                if (!this.firstName.isValid() || !this.lastName.isValid() || !this.dob.isValid() || !this.country.isValid() || !this.state.isValid() || !this.gender.isValid() || !this.phoneNumber.isValid()) {
-                    alert("Please fill-in all the Fields");
+                var missingFields = [];
+
+                if (!this.firstName.isValid()) {
+                    missingFields.push("First Name");
+                }
+                if (!this.lastName.isValid()) {
+                    missingFields.push("Last Name");
+                }
+                if (!this.email.isValid()) {
+                    missingFields.push("Email");
+                }
+                if (!this.phoneNumber.isValid()) {
+                    missingFields.push("Phone Number");
+                }
+                if (!this.dob.isValid()) {
+                    missingFields.push("Date of Birth");
+                }
+                if (!this.gender.isValid()) {
+                    missingFields.push("Gender");
+                }
+                if (!this.country.isValid()) {
+                    missingFields.push("Country");
+                }
+                if (!this.state.isValid()) {
+                    missingFields.push("State");
+                }
+
+                if (missingFields.length > 0) {
+                    var message = "Please fill in the following fields: " + missingFields.join(", ");
+                    alert(message);
                     return;
                 }
+
+                // Proceed with form submission if all fields are valid
                 console.log('SUBMITTED FORM');
                 var details = {
                     firstName: this.firstName(),
