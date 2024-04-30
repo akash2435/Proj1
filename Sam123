@@ -1,65 +1,75 @@
-<div class="jumbotron">
-<h1 class="font-weight-bolder">Customer Details</h1>
-</div>
- 
-<div>
-<form data-bind="submit:handleSubmit">
-<table>
-<tr>
-<td><label class="font-weight-bold">First Name</label></td>
-<td><input type="text" placeholder="Enter your Frist Name" data-bind="value:firstName"></td>
-</tr>
-<tr>
-<td><label class="font-weight-bold">Last Name</label></td>
-<td><input type="text" placeholder="Enter your Last Name" data-bind="value:lastName"/></td>
-</tr>
-<tr>
-<td><label class="font-weight-bold">Email</label></td>
-<td><input type="email" placeholder="Enter your Email" data-bind="value:email" /></td>
+<div class="container">
+  <div class="jumbotron">
+    <h1 class="font-weight-bolder">Customer Details</h1>
+  </div>
 
-</tr>
-<tr>
-<td><label class="font-weight-bold">Phone Number</label></td>
-<td><input type="number" placeholder="Enter Phone Number" data-bind="value:phoneNumber" /></td>
-
-</tr>
-<tr>
-<td><label class="font-weight-bold">Date of Birth</label></td>
-<td><input type="date" data-bind="value:dob" /></td>
-
-</tr>
-<tr>
-<td><label class="font-weight-bold">Gender</label></td>
-<td>
-<div class="dropdown">
-<button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                            Select Gender
-</button>
-<div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-<a class="dropdown-item" data-bind="click:function() {gender('Male')}">Male</a>
-<a class="dropdown-item" data-bind="click:function() {gender('Female')}">Female</a>
-</div>
-</div>
-</td>
-<td><span style="color:blue" data-bind="text:gender"></span></td>
-
-</tr>
-<tr>
-<td><label class="font-weight-bold">Country</label></td>
-<td><input type="text" placeholder="Enter your Country" data-bind="value:country" /></td>
-
-</tr>
-<tr>
-<td><label class="font-weight-bold">State</label></td>
-<td><input type="text" placeholder="Enter your State" data-bind="value:state" /></td>
-
-</tr>
-<tr>
-<td><button class="btn btn-info" id="button1" type="submit">Submit</button></td>
-<td><button class="btn btn-danger" type="submit">Cancel</button></td>
-</tr>
-</table>
-</form>
+  <div class="row">
+    <div class="col-md-6">
+      <form data-bind="submit: handleSubmit">
+        <div class="form-group row">
+          <label for="firstName" class="col-sm-4 col-form-label font-weight-bold">First Name</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="firstName" placeholder="Enter your First Name" data-bind="value: firstName">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="lastName" class="col-sm-4 col-form-label font-weight-bold">Last Name</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="lastName" placeholder="Enter your Last Name" data-bind="value: lastName">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="email" class="col-sm-4 col-form-label font-weight-bold">Email</label>
+          <div class="col-sm-8">
+            <input type="email" class="form-control" id="email" placeholder="Enter your Email" data-bind="value: email">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="phoneNumber" class="col-sm-4 col-form-label font-weight-bold">Phone Number</label>
+          <div class="col-sm-8">
+            <input type="number" class="form-control" id="phoneNumber" placeholder="Enter Phone Number" data-bind="value: phoneNumber">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="dob" class="col-sm-4 col-form-label font-weight-bold">Date of Birth</label>
+          <div class="col-sm-8">
+            <input type="date" class="form-control" id="dob" data-bind="value: dob">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="gender" class="col-sm-4 col-form-label font-weight-bold">Gender</label>
+          <div class="col-sm-8">
+            <div class="dropdown">
+              <button class="btn btn-secondary dropdown-toggle" type="button" id="genderDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bind="text: gender() || 'Select Gender'">
+              </button>
+              <div class="dropdown-menu" aria-labelledby="genderDropdown">
+                <a class="dropdown-item" href="#" data-bind="click: function() { gender('Male') }">Male</a>
+                <a class="dropdown-item" href="#" data-bind="click: function() { gender('Female') }">Female</a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="country" class="col-sm-4 col-form-label font-weight-bold">Country</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="country" placeholder="Enter your Country" data-bind="value: country">
+          </div>
+        </div>
+        <div class="form-group row">
+          <label for="state" class="col-sm-4 col-form-label font-weight-bold">State</label>
+          <div class="col-sm-8">
+            <input type="text" class="form-control" id="state" placeholder="Enter your State" data-bind="value: state">
+          </div>
+        </div>
+        <div class="form-group row">
+          <div class="col-sm-12">
+            <button type="submit" class="btn btn-info">Submit</button>
+            <button type="reset" class="btn btn-danger">Cancel</button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
 </div>
 
 ===============================================
