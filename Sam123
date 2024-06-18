@@ -1,238 +1,60 @@
-<div class="container">
-  <div class="jumbotron">
-    <h1 class="font-weight-bolder">Customer Details</h1>
-  </div>
+using EmployeeManagementModel;
+using Microsoft.AspNetCore.Components;
+using System.Collections.Generic;
+using System.Net.Http;
+using System.Threading.Tasks;
+using System.Net.Http.Json;
 
-  <div class="row">
-    <div class="col-md-6">
-      <form data-bind="submit: handleSubmit">
-        <div class="form-group row">
-          <label for="firstName" class="col-sm-4 col-form-label font-weight-bold">First Name</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="firstName" placeholder="Enter your First Name" data-bind="value: firstName">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="lastName" class="col-sm-4 col-form-label font-weight-bold">Last Name</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="lastName" placeholder="Enter your Last Name" data-bind="value: lastName">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="email" class="col-sm-4 col-form-label font-weight-bold">Email</label>
-          <div class="col-sm-8">
-            <input type="email" class="form-control" id="email" placeholder="Enter your Email" data-bind="value: email">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="phoneNumber" class="col-sm-4 col-form-label font-weight-bold">Phone Number</label>
-          <div class="col-sm-8">
-            <input type="number" class="form-control" id="phoneNumber" placeholder="Enter Phone Number" data-bind="value: phoneNumber">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="dob" class="col-sm-4 col-form-label font-weight-bold">Date of Birth</label>
-          <div class="col-sm-8">
-            <input type="date" class="form-control" id="dob" data-bind="value: dob">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="gender" class="col-sm-4 col-form-label font-weight-bold">Gender</label>
-          <div class="col-sm-8">
-            <div class="dropdown">
-              <button class="btn btn-secondary dropdown-toggle" type="button" id="genderDropdown" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" data-bind="text: gender() || 'Select Gender'">
-              </button>
-              <div class="dropdown-menu" aria-labelledby="genderDropdown">
-                <a class="dropdown-item" href="#" data-bind="click: function() { gender('Male') }">Male</a>
-                <a class="dropdown-item" href="#" data-bind="click: function() { gender('Female') }">Female</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="country" class="col-sm-4 col-form-label font-weight-bold">Country</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="country" placeholder="Enter your Country" data-bind="value: country">
-          </div>
-        </div>
-        <div class="form-group row">
-          <label for="state" class="col-sm-4 col-form-label font-weight-bold">State</label>
-          <div class="col-sm-8">
-            <input type="text" class="form-control" id="state" placeholder="Enter your State" data-bind="value: state">
-          </div>
-        </div>
-        <div class="form-group row">
-          <div class="col-sm-12">
-            <button type="submit" class="btn btn-info">Submit</button>
-            <button type="reset" class="btn btn-danger">Cancel</button>
-          </div>
-        </div>
-      </form>
-    </div>
-  </div>
-</div>
-
-===============================================
-
-define(['plugins/router', 'knockout', 'durandal/app', 'plugins/http', 'global/session', 'config', 'knockout.validation'],
-    function (router, ko, app, https, session, config) {
- 
-        var vm = {
-            activate: activateM,
-            canActivate: canActivateM,
-            canDeactivate: canDeactivateM,
-            compositionComplete: compositionCompleteM,
- 
-            /*First Name Validation Function*/
-            firstName: ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: /^[A-Za-z\s]+$/,
-                    message: "Please enter a valid First Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The First name should at least contain 3 characters"
-                }
-            }),
- 
-            /*Last Name Validation Function*/
-            lastName: ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: /^[A-Za-z\s]+$/,
-                    message: "Please enter a valid Last Name"
-                },
-                minLength: {
-                    params: 1,
-                    message: "The Last Name should at least contain a single characters"
-                }
-            }),
- 
-            /*Email Validation Function*/
-            email: ko.observable("").extend({
-                required: true,
-                email: true
-            }),
- 
-            /*Phone-Number Validation Function*/
-            phoneNumber: ko.observable("").extend({
-                required: true,
-                validation: {
-                    message: "Mobile number should be 10 digits",
-                    validator: function (value) {
-                        return /^\d{10}$/.test(value);
-                    }
-                }
-            }),
- 
-            /*Country Validation Function*/
-            country: ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: /^[A-Za-z\s]+$/,
-                    message: "Please enter a valid Country Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The Country Name should at least contain 3 characters"
-                }
-            }),
- 
-            /*State Validation Function*/
-            state: ko.observable("").extend({
-                required: true,
-                pattern: {
-                    params: /^[A-Za-z\s]+$/,
-                    message: "Please enter a valid State Name"
-                },
-                minLength: {
-                    params: 3,
-                    message: "The State Name should at least contain 3 characters"
-                }
-            }),
- 
-            /*Date of Birth Function*/
-            dob: ko.observable("").extend({
-                required: true,
-                message: "Please select the Date of Birth"
-            }),
- 
-            /*Gender Validation Function*/
-            gender: ko.observable("").extend({
-                required: true,
-                message: "Please select your Gender"
-            }),
- 
-            /*Form Logic Function*/
-            handleSubmit: function () {
-                var missingFields = [];
-
-                if (!this.firstName.isValid()) {
-                    missingFields.push("First Name");
-                }
-                if (!this.lastName.isValid()) {
-                    missingFields.push("Last Name");
-                }
-                if (!this.email.isValid()) {
-                    missingFields.push("Email");
-                }
-                if (!this.phoneNumber.isValid()) {
-                    missingFields.push("Phone Number");
-                }
-                if (!this.dob.isValid()) {
-                    missingFields.push("Date of Birth");
-                }
-                if (!this.gender.isValid()) {
-                    missingFields.push("Gender");
-                }
-                if (!this.country.isValid()) {
-                    missingFields.push("Country");
-                }
-                if (!this.state.isValid()) {
-                    missingFields.push("State");
-                }
-
-                if (missingFields.length > 0) {
-                    var message = "Please fill in the following fields: " + missingFields.join(", ");
-                    alert(message);
-                    return;
-                }
-
-                // Proceed with form submission if all fields are valid
-                console.log('SUBMITTED FORM');
-                var details = {
-                    firstName: this.firstName(),
-                    lastName: this.lastName(),
-                    dob: this.dob(),
-                    country: this.country(),
-                    state: this.state(),
-                    gender: this.gender(),
-                    phoneNumber: this.phoneNumber(),
-                };
-                alert("Details Submitted Successfully!");
-                console.log(details);
-            }  
-        };
-        ko.validation.group(vm);
- 
-        function canActivateM() {
-            console.log('canActivate');
-            return true;
+namespace BlazorServerr.Services
+{
+    public class EmployeeService : IEmployeeService
+    {
+        private readonly HttpClient httpClient;
+        public EmployeeService(HttpClient httpClient)
+        {
+            this.httpClient = httpClient;
         }
- 
-        function activateM() {
-            console.log('Activate');
+
+        public async Task<Employee> CreateEmployee(Employee newEmployee)
+        {
+            return await httpClient.PostAsJsonAsync<Employee>("api/employees", newEmployee);
+           // return await httpClient.PostAsJsonAsync<Employee>("api/employees", newEmployee);
         }
- 
-        function compositionCompleteM() {
-            console.log('compositionComplete');
+
+        public async Task DeleteEmployee(int id)
+        {
+             await httpClient.DeleteAsync($"api/employee/{id}");
         }
- 
-        function canDeactivateM() {
-            console.log('canDeactivate');
-            return true;
+
+        public async Task<Employee> GetEmployee(int id)
+        {
+            return await httpClient.GetFromJsonAsync<Employee>($"api/Employee/{id}");
         }
- 
-        return vm;
-    });
+
+        public async Task<IEnumerable<Employee>> GetEmployees()
+        {
+            return await httpClient.GetFromJsonAsync<Employee[]>("api/Employee");
+        }
+
+        public  async Task<Employee> UpdateEmployee(Employee updatedEmployee)
+        {
+            return await httpClient.PutAsJsonAsync<Employee>("api/employees", updatedEmployee);
+            //return await httpClient.PutJsonAsync<Employee>("api/Employee", updatedEmployee);
+        }
+    }
+}
+====================================================================================================
+
+using EmployeeManagementModel;
+
+namespace BlazorServerr.Services
+{
+    public interface IEmployeeService
+    {
+        Task<IEnumerable<Employee>> GetEmployees();
+        Task<Employee> GetEmployee(int id);
+        Task<Employee> UpdateEmployee(Employee updatedEmployee);
+        Task<Employee> CreateEmployee(Employee newEmployee);
+        Task DeleteEmployee(int id);
+    }
+}
