@@ -1,49 +1,48 @@
-[HttpPost]
-[Route("login")]
-public async Task<IActionResult> Login([FromBody] LoginModel loginModel)
-{
-    var user = await _userManager.FindByNameAsync(loginModel.Username);
+Here’s a breakdown of the major differences between **Azure Maps**, **Bing Maps**, and **Google Maps** in terms of functionality, services, and use cases:
 
-    if (user == null)
-    {
-        return Unauthorized(new Response { Status = "Error", Message = "Invalid username or password." });
-    }
+### 1. **Azure Maps**
+   - **Platform**: Part of Microsoft's Azure cloud ecosystem.
+   - **Target Audience**: Developers building solutions on the Azure cloud with integration to other Azure services.
+   - **Key Features**:
+     - **Native Azure integration**: Works seamlessly with other Azure services like Azure IoT, Cognitive Services, and Power BI.
+     - **Geospatial Analytics**: Provides APIs for spatial operations like geofencing, proximity, routing, and weather data.
+     - **Security & Compliance**: Strong focus on enterprise-level security, role-based access control, and compliance features (GDPR, etc.).
+     - **Cost**: Generally more cost-effective for Azure customers since it leverages existing Azure billing.
+     - **Customization**: Provides developer tools and REST APIs for custom map solutions.
+   - **Strengths**:
+     - Best suited for businesses and enterprises using Azure cloud.
+     - Great for real-time location-based services and IoT applications.
 
-    // Check if the entered password is correct
-    var isPasswordValid = await _userManager.CheckPasswordAsync(user, loginModel.Password);
+### 2. **Bing Maps**
+   - **Platform**: Developed by Microsoft, often used in conjunction with Microsoft products.
+   - **Target Audience**: General users, businesses using Microsoft services, or anyone looking for an alternative to Google Maps.
+   - **Key Features**:
+     - **Routing & Traffic**: Offers traffic data, route optimization, distance matrix, and fleet management tools.
+     - **Geocoding & Search**: Allows reverse geocoding, point of interest searches, and place lookups.
+     - **Bird's Eye View**: Unique to Bing Maps, offering a high-resolution angled aerial view of locations.
+     - **Integration**: Works well with Office 365, Power BI, and other Microsoft tools.
+   - **Strengths**:
+     - Useful for users already in the Microsoft ecosystem.
+     - Unique visual tools like the Bird's Eye view.
+   - **Customization**: Limited compared to Azure Maps and Google Maps in terms of developer tools but good for web-based map embedding.
 
-    if (!isPasswordValid)
-    {
-        return Unauthorized(new Response { Status = "Error", Message = "Invalid username or password." });
-    }
+### 3. **Google Maps**
+   - **Platform**: Google’s mapping platform and API, widely used and recognized globally.
+   - **Target Audience**: Broad range, from individual developers to enterprises.
+   - **Key Features**:
+     - **Global Coverage**: One of the most comprehensive datasets in terms of road networks, transit data, businesses, landmarks, and more.
+     - **Real-Time Data**: Provides real-time traffic, transit, and live business information.
+     - **Street View**: Extensive street-level photography covering a large portion of the globe.
+     - **APIs & SDKs**: A robust set of tools for web, mobile, and desktop applications including geolocation, geocoding, route optimization, and distance calculations.
+     - **Machine Learning & Data Enrichment**: Leveraging Google’s AI for features like predictive traffic, user suggestions, and place data accuracy.
+   - **Strengths**:
+     - Widest global reach and data accuracy.
+     - Extensive features and third-party integrations.
+     - Offers rich data such as Street View, detailed local business info, and real-time navigation.
 
-    if (user.TwoFactorEnabled)
-    {
-        // Handle two-factor authentication if enabled
-        // ... (code for sending OTP to email)
+### Key Differences:
+- **Azure Maps** is highly integrated with the Azure cloud and is focused on enterprise solutions, particularly in IoT and geospatial analytics.
+- **Bing Maps** is simpler, often integrated with Microsoft's broader suite of tools like Office and Power BI, and offers unique visual tools like Bird's Eye View.
+- **Google Maps** has the largest global coverage and real-time data capabilities, making it suitable for a broad range of applications, from consumer-facing apps to enterprise solutions.
 
-        return StatusCode(StatusCodes.Status200OK,
-            new Response { Status = "Success", Message = $"We have sent an OTP to your Email {user.Email}" });
-    }
-
-    // Generate JWT token if authentication is successful
-    var authClaims = new List<Claim>
-    {
-        new Claim(ClaimTypes.Name, user.UserName),
-        new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-    };
-
-    var userRoles = await _userManager.GetRolesAsync(user);
-    foreach (var role in userRoles)
-    {
-        authClaims.Add(new Claim(ClaimTypes.Role, role));
-    }
-
-    var jwtToken = GetToken(authClaims);
-
-    return Ok(new
-    {
-        token = new JwtSecurityTokenHandler().WriteToken(jwtToken),
-        expiration = jwtToken.ValidTo
-    });
-}
+The choice of platform depends on your specific use case, such as cloud integration, global coverage, or the need for real-time traffic data and extensive place data.
