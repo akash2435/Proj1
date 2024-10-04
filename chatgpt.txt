@@ -1,2 +1,193 @@
-AIzaSyDDFAioefcFdVsrPlxFYJ1UYaBVCjz1N_A
-5478e1d9955b7fa4 mapid
+@page "/map"
+@inject IJSRuntime JS
+@implements IAsyncDisposable
+
+<div>
+    <input id="searchInput" type="text" placeholder="Search places..." />
+    <div class="map-controls">
+        <button @onclick="ToggleMapType">Toggle Satellite View</button>
+        <button @onclick="ShowStreetView">Show Street View</button>
+        <button @onclick="HideStreetView">Hide Street View</button>
+        <button @onclick="ClearShapes">Clear Shape & Marker</button>
+    </div>
+    <div id="map" style="height: 500px; width: 100%;"></div>
+    <div id="streetView" style="height: 500px; width: 100%;"></div>
+</div>
+
+@code {
+    private DotNetObjectReference<GoogleMap> dotNetRef;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dotNetRef = DotNetObjectReference.Create(this);
+            await JS.InvokeVoidAsync("googleMapsInterop.initialize", "map", 40.730610, -73.935242, dotNetRef);
+        }
+    }
+
+    [JSInvokable]
+    public Task OnShapeDrawn(object shapeInfo)
+    {
+        Console.WriteLine($"Shape drawn: {shapeInfo}");
+        return Task.CompletedTask;
+    }
+
+    private async Task ToggleMapType()
+    {
+        await JS.InvokeVoidAsync("googleMapsInterop.toggleMapType");
+    }
+
+    private async Task ShowStreetView()
+    {
+        await JS.InvokeVoidAsync("googleMapsInterop.showStreetView", 40.730610, -73.935242);  // Example coordinates
+    }
+
+    private async Task HideStreetView()
+    {
+        await JS.InvokeVoidAsync("googleMapsInterop.hideStreetView");
+    }
+
+    private async Task ClearShapes()
+    {
+        await JS.InvokeVoidAsync("googleMapsInterop.clearShapes");
+    }
+
+    public async ValueTask DisposeAsync()
+    {
+        if (dotNetRef != null)
+        {
+            dotNetRef.Dispose();
+        }
+    }
+}
+==========================================================================
+window.googleMapsInterop = {
+    map: null,
+    currentShape: null,
+    currentMarker: null,  // Store the current marker
+    streetViewService: null,  // For Street View
+    streetViewPanorama: null,  // Street View Panorama
+
+    initialize: function (mapElementId, centerLat, centerLng, dotNetHelper) {
+        // Initialize the map
+        this.map = new google.maps.Map(document.getElementById(mapElementId), {
+            center: { lat: centerLat, lng: centerLng },
+            zoom: 12,
+            mapTypeId: google.maps.MapTypeId.ROADMAP
+        });
+
+        // Enable autocomplete for the search box
+        const input = document.getElementById('searchInput');
+        const autocomplete = new google.maps.places.Autocomplete(input);
+        autocomplete.bindTo('bounds', this.map);
+
+        // Listen for the place selection from autocomplete
+        autocomplete.addListener('place_changed', function () {
+            const place = autocomplete.getPlace();
+            if (!place.geometry) {
+                console.log("Autocomplete returned place with no geometry");
+                return;
+            }
+
+            // If a marker already exists, remove it
+            if (googleMapsInterop.currentMarker) {
+                googleMapsInterop.currentMarker.setMap(null);
+            }
+
+            // Create a marker at the searched location
+            googleMapsInterop.currentMarker = new google.maps.Marker({
+                map: googleMapsInterop.map,
+                position: place.geometry.location
+            });
+
+            // Set map view to the selected location
+            if (place.geometry.viewport) {
+                googleMapsInterop.map.fitBounds(place.geometry.viewport);
+            } else {
+                googleMapsInterop.map.setCenter(place.geometry.location);
+                googleMapsInterop.map.setZoom(15);
+            }
+        });
+
+        // Setup the Drawing Manager
+        var drawingManager = new google.maps.drawing.DrawingManager({
+            drawingMode: google.maps.drawing.OverlayType.MARKER,
+            drawingControl: true,
+            drawingControlOptions: {
+                position: google.maps.ControlPosition.TOP_CENTER,
+                drawingModes: ['circle', 'polygon']  // Allow drawing circles and polygons
+            }
+        });
+
+        drawingManager.setMap(this.map);  // Attach drawing tools to the map
+
+        // Handle when an overlay (shape) is completed
+        google.maps.event.addListener(drawingManager, 'overlaycomplete', function (event) {
+            // Clear any existing shape before drawing a new one
+            if (googleMapsInterop.currentShape) {
+                googleMapsInterop.currentShape.setMap(null);  // Remove the previous shape from the map
+            }
+
+            // Store the newly drawn shape
+            googleMapsInterop.currentShape = event.overlay;
+
+            // Notify Blazor via .NET interop
+            if (event.type == google.maps.drawing.OverlayType.POLYGON) {
+                var shapeInfo = {
+                    type: 'polygon',
+                    path: event.overlay.getPath().getArray().map(x => ({ lat: x.lat(), lng: x.lng() }))
+                };
+                dotNetHelper.invokeMethodAsync('OnShapeDrawn', shapeInfo);
+            } else if (event.type == google.maps.drawing.OverlayType.CIRCLE) {
+                var shapeInfo = {
+                    type: 'circle',
+                    center: { lat: event.overlay.getCenter().lat(), lng: event.overlay.getCenter().lng() },
+                    radius: event.overlay.getRadius()
+                };
+                dotNetHelper.invokeMethodAsync('OnShapeDrawn', shapeInfo);
+            }
+        });
+
+        // Initialize Street View Service
+        this.streetViewService = new google.maps.StreetViewService();
+        this.streetViewPanorama = new google.maps.StreetViewPanorama(document.getElementById('streetView'), {
+            position: { lat: centerLat, lng: centerLng },
+            pov: { heading: 165, pitch: 0 },
+            zoom: 1
+        });
+
+        // Link the Street View to the map
+        this.map.setStreetView(this.streetViewPanorama);
+    },
+
+    // Clear the current shape and marker
+    clearShapes: function () {
+        if (this.currentShape) {
+            this.currentShape.setMap(null);  // Remove the shape from the map
+            this.currentShape = null;  // Clear the reference
+        }
+
+        if (this.currentMarker) {
+            this.currentMarker.setMap(null);  // Remove the marker from the map
+            this.currentMarker = null;  // Clear the marker
+        }
+    },
+
+    // Toggle between satellite and roadmap views
+    toggleMapType: function () {
+        var currentMapType = this.map.getMapTypeId();
+        this.map.setMapTypeId(currentMapType === 'roadmap' ? 'satellite' : 'roadmap');
+    },
+
+    // Move Street View to a specific location
+    showStreetView: function (lat, lng) {
+        this.streetViewPanorama.setPosition({ lat: lat, lng: lng });
+        this.streetViewPanorama.setVisible(true);
+    },
+
+    // Hide Street View
+    hideStreetView: function () {
+        this.streetViewPanorama.setVisible(false);
+    }
+};
