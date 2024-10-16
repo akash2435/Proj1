@@ -1,3 +1,4 @@
+https://cloud.google.com/free?utm_source=PMAX&utm_medium=display&utm_campaign=FY24-H2-apac-gcp-DR-campaign-IN&utm_content=in-en&gad_source=1&gclid=EAIaIQobChMI9cGm4v6SiQMV0iyDAx1W2gXyEAAYASAAEgJtE_D_BwE&gclsrc=aw.ds
 @page "/map"
 @inject IJSRuntime JS
 @implements IAsyncDisposable
