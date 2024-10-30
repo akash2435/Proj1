@@ -1,1 +1,83 @@
-Empty
+ function renderOktaSignin() {
+     oktaSignIn.renderEl({
+         el: '#okta-login-container'
+     }).then(function (tokens) {
+         oktaSignIn.authClient.tokenManager.setTokens(tokens.tokens);
+         oktaLogin(tokens.tokens.idToken.claims.preferred_username, tokens.tokens.idToken, tokens.tokens.accessToken, oktaSignIn);
+     }).catch(function (err) {
+         console.error(err);
+         //$('#okta-login-container').html('<p class="text-danger">Failed to load OKTA</p>');
+     });
+
+
+     console.log('okta widget display : ' + document.getElementById('okta-sign-in').style.display);
+     setTimeout(function () {
+         console.log('check okta widget after 2 seconds');
+         //var loginContainer = document.getElementById('okta-sign-in');
+         if (document.getElementById('okta-sign-in').style.display == 'none') {
+             console.log('retry widget');
+
+             //oktaSignIn = new OktaSignIn(oktaConfig);
+
+             oktaSignIn.renderEl({
+                 el: '#okta-login-container'
+             }).then(function (tokens) {
+                 oktaSignIn.authClient.tokenManager.setTokens(tokens.tokens);
+                 oktaLogin(tokens.tokens.idToken.claims.preferred_username, tokens.tokens.idToken, tokens.tokens.accessToken, oktaSignIn);
+             }).catch(function (err) {
+                 console.error(err);
+                 //loginError("Failed to load the Okta Widget!");
+                // console.error(err);
+             });
+            $("#mdLoading").modal('hide');
+         }
+         else {
+             console.log('okta widget display : ' + document.getElementById('okta-sign-in').style.display);
+         }
+     }, 2000);
+ }
+
+ function Openpopup() {
+     //configOKTA();
+     oktaSignIn.remove();
+     renderOktaSignin();
+     $('#showpopup').modal('show');
+
+     //setTimeout(function () {
+     //    const loginContainer = document.getElementById('okta-login-container');
+
+     //    if (loginContainer == null) {
+     //        loginError("Failed");
+     //    }
+     //}, 2000);
+
+
+     //$('#okta-login-container').remove();
+     //$('.modal-body').append('<div id="okta-login-container"></div>');
+
+
+     //renderOKTAWidget();
+     //checkOktaLoginContainer();
+
+
+     //if (!oktaConfig) {
+     //    configOKTA();
+     //}
+
+     //$('#showpopup').on('hidden.bs.modal', function () {
+     //    if (oktaConfig) {
+     //        oktaConfig.remove();
+     //        oktaConfig = null;
+     //    }
+     //});
+
+
+     //setTimeout(function () {
+     //    if (!document.getElementById('okta-login-container') || !$('#okta-login-container').html()) {
+     //        vm.oktaNotRenderedError('Failed to load the Container. Please try again!');
+     //    }
+     //    else {
+     //        vm.oktaNotRenderedError('');
+     //    }
+     //},500);
+ }
