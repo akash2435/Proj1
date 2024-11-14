@@ -1,1 +1,45 @@
-Empty
+        [HttpGet]
+        public UserTeamProfile GetTeamProfileByUserId()
+        {
+            var response = Factory.UserService.GetTeamProfileByUserId(this.User.Identity.GetUserGuid());
+            var baseUri = new Uri(Url.Request.Headers.Referrer.AbsoluteUri);
+
+            if (response.IsTeamAccount)
+            {
+                if (!string.IsNullOrEmpty(response.Photo))
+                {
+                    string photoPath = ConfigurationManager.AppSettings["UserPhotos"];
+                    response.PhotoUrl = new Uri(baseUri,
+                            Path.Combine(photoPath,
+                                string.Concat(response.Photo, "?t=", DateTime.Now.Ticks.ToString())))
+                        .ToString();
+                }
+            }
+
+            if (string.IsNullOrEmpty(response.Photo))
+                response.PhotoUrl = new Uri(baseUri, ConfigurationManager.AppSettings["DefaultImage"]).ToString();
+
+
+            return response;
+        }
+
+        private UserTeamProfile GetManagerTeamProfile(Guid ManagerId)
+        {
+            var response = Factory.UserService.GetTeamProfileByUserId(ManagerId);
+            if (response.IsTeamAccount)
+            {
+                var baseUri = new Uri(Url.Request.Headers.Referrer.AbsoluteUri);
+                if (string.IsNullOrEmpty(response.Photo))
+                    response.PhotoUrl = new Uri(baseUri, ConfigurationManager.AppSettings["DefaultImage"]).ToString();
+                else
+                {
+                    string photoPath = ConfigurationManager.AppSettings["UserPhotos"];
+                    response.PhotoUrl = new Uri(baseUri,
+                            Path.Combine(photoPath,
+                                string.Concat(response.Photo, "?t=", DateTime.Now.Ticks.ToString())))
+                        .ToString();
+                }
+            }
+
+            return response;
+        }
