@@ -1,78 +1,211 @@
-<style type="text/css">
-    .right.tooltip {
-        width: 650px !important;
-        height: auto !important;
-        top: -40px !important;
-    }
-    .gps-tooltip {
-        display: block;
-        width: 15px;
-    }
-    .tooltip-inner {
-        max-width: 650px;
-        height: auto !important;
-        /*color: #000;
-        background-color: yellow !important;*/
-        text-align: left;
-    }
+define(['durandal/app', 'knockout', 'changePasswordModel', 'global/session', 'alertNotification', 'shell', 'services/security', 'plugins/http', 'config', 'passwordMeter'],
+    function (app, ko, model, session, alerter, shell, security, https, config, passwordMeter)
+    {
+        var passwordModel = new model.PasswordModel();
 
-    .tooltip-arrow {
-        top: 55px !important;
-    }
+        var passwordChange = ko.observable(false);
+        var enableRoute = ko.observable(false);
+        var pluginFocus = ko.observable(false);
+        //Do not remove this as this is used for shared View _changePassword.html for 1st Change Password
+        //Fix For Bug : 79144
+        var isFirstTimeLogin = ko.observable(true);
 
-    .tooltip.in {
-        opacity: 1;
-    }
+        pluginFocus.subscribe(function (newValue)
+        {
+            if (newValue == true)
+            {
+                setPlugins();
+            }
+        });
 
-    @media only screen and (max-width : 1024px) and (max-height : 768px) and (orientation : landscape) {
-        .tooltip-inner {
-            max-width: 420px;
+        function activate()
+        {
+            //add any startup statement
+            getUserId();
         }
-    }
-</style>
 
-<div class="row">
-    <div class="mb-3 col-lg-4 col-md-5 col-sm-6 col-12">
-        <label for="currPassword">Current Password</label>
-        <input id="currPassword" name="currPassword" maxlength="128" type="password" placeholder="Current Password" data-bind="textInput:passwordModel.currentPassword" class="form-control" />
-    </div>
-</div>
+        function canDeactivate()
+        {
+            return enableRoute();
+        }
 
-<div class="row">
-    <div class="mb-3 col-lg-4 col-md-5 col-sm-6 col-12">
-        <label for="newPassword">New Password</label>
-        <div class="row">
-            <div class="col-lg-11 col-md-11 col-12">
-                <input id="newPassword" name="newPassword" maxlength="128" type="password" placeholder="New Password" data-bind="textInput:passwordModel.newPassword" class="form-control" />
-            </div>
-            <div class="col-lg-1 col-md-1 text-start px-0 d-none d-lg-block">
-                <span data-bind="hasFocus:pluginFocus">
-                    <span data-bs-toggle="tooltip" class="gps-tooltip" data-bs-placement="right" data-bind="event:{mouseover:enableTooltip}" data-bs-html="true" title="<ul><li>We recommend that users avoid using common/dictionary words as their password/passphrase.  It is <b>BEST</b> to use randomized characters (such as V3ry$3cur3!).</li><li>We recommend that users avoid passwords that are generic or could be easily guessed, such as spouse names, children’s names, contain the word ‘password’, or contain part of the user’s login ID/username.</li><li>We recommend that users choose <b>COMPLEX</b> passwords.  ‘Complex’ is defined as a mix of upper and lower case letters, numbers and special characters (such as !@#$%).</li><li>We recommend that users make their passwords <b>AT LEAST</b> 8 characters, but using an even longer password/passphrase is more secure.</li><li>We recommend that users change their passwords every <b>90</b> days and make them unique to other sites.</li></ul>">
-                        <i class="fa fa-info-circle"></i>
-                    </span>
-                </span>
-            </div>
-        </div>
-        <div id="maxPasswordLength" style="display:none; color: red;">Max length of 128 chars. has been reached. Additional characters will be truncated.</div>
-    </div>
-    <div class="mb-3 col-lg-4 col-md-5 col-sm-6 col-12">
-        <label for="confirmPassword">New Password Confirmation</label>
-        <input id="confirmPassword" name="confirmPassword" maxlength="128" type="password" placeholder="New Password Confirmation" data-bind="textInput:passwordModel.confirmPassword" class="form-control" />
-    </div>
-</div>
+        function getUserId()
+        {
+            https.get()
+        }
 
-<div class="row d-none  mt-3 mt-md-0">
-    <div class="col-12 col-sm-12 text-info text-start">
-        <ul><li><b>Good passwords</b>: Long, randomized characters, complex (a mix of upper/lower case letters, numbers and special characters), unique for each site, and changed every 90 days.</li><li><b>Bad passwords</b>: Generic, easily guessed passwords, and/or passwords consisting of common/dictionary words, family names, birthdays, your username/ID.</li></ul>
-    </div>
-</div>
+        function cancelPwdChange()
+        {
+            passwordModel.reset();
+            resetPasswordMeter();
+        }
 
-<div class="row mb-3 mt-3">
-    <div class="col-lg-8 col-md-10 col-sm-12 col-12 text-center">
-        <!-- ko if: isFirstTimeLogin() -->
-        <button type="submit" class="btn btn-primary" data-bind="click: cancelPwdChangeGoToLogin"><i class="fa fa-close"></i> CANCEL </button>
-        <!-- /ko -->
-        <button type="submit" class="btn btn-primary" data-bind="click: cancelPwdChange"><i class="fa fa-close"></i> CLEAR </button>
-        <button type="submit" class="btn btn-primary" data-bind="click: updatePassword, disable:passwordChange"><i class="fa fa-save"></i> SAVE </button>
-    </div>
-</div>
+        function resetPasswordMeter()
+        {
+            $('#newPassword').keyup();
+            $('#newPassword').trigger('blur');
+        }
+
+        function cancelPwdChangeGoToLogin()
+        {
+            passwordModel.reset();
+            resetPasswordMeter();
+            enableRoute(true);
+            logoutCurrentSession();
+        }
+
+        function logoutCurrentSession()
+        {
+            session.hasLoggedOut(true);
+            shell.logout();
+            $("#mdLoading").modal('hide');
+            session.isAjaxPost(false);
+            $("div.modal-backdrop.fade.out").removeClass("out");
+            $("div.modal-backdrop.fade").addClass("in");
+        }
+
+        function updatePassword()
+        {
+
+            if (!passwordModel.isValid())
+            {
+                passwordModel.errors.showAllMessages();
+                return;
+            }
+            ChangePassword();
+        }
+
+        function ChangePassword()
+        {
+            var request = {
+                "OldPassword": passwordModel.currentPassword(),
+                "NewPassword": passwordModel.newPassword(),
+                "ConfirmPassword": passwordModel.confirmPassword(),
+                "UserId": session.userId
+            };
+            security.changePassword(ko.toJSON(request))
+                .then(function (data)
+                {
+                    if (data != undefined && data != null && data.HasErrors == false)
+                    {
+                        alerter.success('Saved Successfully. Relogin with new password');
+                    }
+                    else
+                    {
+                        var msgSuccess = "";
+                        var msgError = "";
+
+                        for (var i = 0; i < data.Messages.length; i++)
+                        {
+                            if (data.Messages[i].Message != "" && data.Messages[i].Level == 500)
+                            {
+                                if (msgError.trim().indexOf(data.Messages[i].Message) == -1)
+                                {
+                                    msgError = msgError + data.Messages[i].Message + "\n";
+                                }
+                            }
+                            else
+                            {
+                                msgSuccess = msgSuccess + data.Messages[i].Message + "\n";
+                            }
+                        }
+                        alerter.warning('Saved Successfully.Relogin with new password' + ' But, ' + msgError);
+                    }
+                    passwordModel.reset();
+                    console.log('Relogin user with new password');
+                    enableRoute(true);
+                    setTimeout(function () { logoutCurrentSession(); }, 8000);
+                })
+                .fail(function (data)
+                {
+                    var message = toErrorString(data);
+                    alerter.error(message);
+                    passwordModel.reset();
+                    //logoutCurrentSession();
+                });
+        }
+
+        function toErrorString(data)
+        {
+            var errors, items;
+            if (data.responseJSON.ModelState)
+            {
+
+                for (var key in data.responseJSON.ModelState)
+                {
+                    items = data.responseJSON.ModelState[key];
+                    if (items.length)
+                    {
+                        errors = items.join(",");
+                    }
+                }
+            }
+
+            if (errors)
+                return errors;
+
+            if (data && data.responseJSON && data.responseJSON.Message)
+            {
+                errors = data.responseJSON.Message;
+                return errors;
+            }
+
+            if (errors === undefined)
+            {
+                errors = "An error occurred when trying to process your request";
+            }
+
+            return errors;
+        }
+
+        function compositionComplete()
+        {
+            console.log('compositionComplete  called');
+            session.validateInput();
+            setPlugins();
+
+            $('#newPassword').password({
+                shortPass: 'The password is too short',
+                badPass: 'Weak; Try combining upper & lower case letters, numbers & special characters',
+                goodPass: 'Medium; Try combining upper & lower case letters, numbers & special characters',
+                strongPass: 'Strong password',
+                containsUsername: 'The password contains the username',
+                enterPass: 'Type your password',
+                showPercent: false,
+                showText: true, // shows the text tips
+                animate: true, // whether or not to animate the progress bar on input blur/focus
+                animateSpeed: 'fast', // the above animation speed
+                username: false, // select the username field (selector or jQuery instance) for better password checks
+                usernamePartialMatch: true, // whether to check for username partials
+                minimumLength: 8 // minimum password length (below this threshold, the score is 0)
+            });
+        }
+
+        function bindingComplete()
+        {
+            console.log('bindingComplete called');
+            setPlugins();
+        }
+        function setPlugins()
+        {
+            $('[data-toggle="tooltip"]').tooltip();
+            
+        }
+        var vm = {
+            activate: activate,
+            canDeactivate: canDeactivate,
+            passwordModel: passwordModel,
+            updatePassword: updatePassword,
+            cancelPwdChange: cancelPwdChange,
+            passwordChange: passwordChange,
+            pluginFocus: pluginFocus,
+            enableTooltip: setPlugins,
+            compositionComplete: compositionComplete,
+            bindingComplete: bindingComplete,
+            isFirstTimeLogin: isFirstTimeLogin,
+            cancelPwdChangeGoToLogin: cancelPwdChangeGoToLogin,
+        };
+
+        return vm;
+
+    });
