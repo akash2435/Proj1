@@ -1,1 +1,46 @@
-Empty
+        [HttpGet]
+        public UserImageResponse GetUserImages(Guid UserId)
+        {
+            UserId = this.User.Identity.GetUserGuid();
+            string photoPath = ConfigurationManager.AppSettings["UserPhotos"];
+            string logoPath = ConfigurationManager.AppSettings["CompanyLogos"];
+
+            var baseUri = new Uri(Url.Request.Headers.Referrer.AbsoluteUri);
+            string defaultImageUrl = new Uri(baseUri, ConfigurationManager.AppSettings["DefaultImage"]).ToString();
+
+            UserImageResponse resp = Factory.UserService.GetUserImagesByUserId(UserId);
+
+            resp.PhotoFileName = resp.PhotoFileName ?? string.Empty;
+            resp.AgentLogoFileName = resp.AgentLogoFileName ?? string.Empty;
+
+            resp.PhotoUrl = string.IsNullOrEmpty(resp.PhotoFileName)
+                ? defaultImageUrl
+                : new Uri(baseUri, Path.Combine(photoPath, resp.PhotoFileName)).ToString();
+
+            resp.LogoUrl = string.IsNullOrEmpty(resp.AgentLogoFileName)
+                ? defaultImageUrl
+                : new Uri(baseUri, Path.Combine(logoPath, resp.AgentLogoFileName)).ToString();
+
+            return resp;
+        }
+
+        private UserImageResponse GetManagerImages(Guid ManagerId)
+        {
+            string photoPath = ConfigurationManager.AppSettings["UserPhotos"];
+            string logoPath = ConfigurationManager.AppSettings["CompanyLogos"];
+
+            var baseUri = new Uri(Url.Request.Headers.Referrer.AbsoluteUri);
+            string defaultImageUrl = new Uri(baseUri, ConfigurationManager.AppSettings["DefaultImage"]).ToString();
+
+            UserImageResponse resp = Factory.UserService.GetUserImagesByUserId(ManagerId);
+
+            resp.PhotoUrl = string.IsNullOrEmpty(resp.PhotoFileName)
+                ? defaultImageUrl
+                : new Uri(baseUri, Path.Combine(photoPath, resp.PhotoFileName)).ToString();
+
+            resp.LogoUrl = string.IsNullOrEmpty(resp.AgentLogoFileName)
+                ? defaultImageUrl
+                : new Uri(baseUri, Path.Combine(logoPath, resp.AgentLogoFileName)).ToString();
+
+            return resp;
+        }
