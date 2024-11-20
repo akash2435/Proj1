@@ -1,1 +1,71 @@
-Empty
+<div id="carouselIndicators" data-bind="css:{'bannerImageHeight':!session.useOktaAuthentication(),'OKTA_bannerImageHeight':session.useOktaAuthentication()}" class="carousel slide d-none d-md-block" data-bs-ride="carousel" aria-label="CTIC Sildes">
+    <ol class="carousel-indicators">
+        <li data-bs-target="#carouselIndicators" data-bs-slide-to="0" class="active"></li>
+        <li data-bs-target="#carouselIndicators" data-bs-slide-to="1"></li>
+        <li data-bs-target="#carouselIndicators" data-bs-slide-to="2"></li>
+        <li data-bs-target="#carouselIndicators" data-bs-slide-to="3"></li>
+    </ol>
+
+    <div class="carousel-inner" aria-live="off">
+        <div class="carousel-item Carousel1 active" role="group" aria-label="Silde 1 of 4" data-bind="css:{'carousel-item-height':session.useOktaAuthentication() === false,'OKTA-carousel-item-height':session.useOktaAuthentication()}">
+            <!--<img class="d-block w-100 img-fluid" src="Content/Images/Banners/CTIC1.jpg" alt="First slide">-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6 col-12">
+                        <div class="carousel-caption">
+                            Service
+                            <p class="carousel-subText">The experience and dedication of our full-service, nationwide network of professionals assure you of an expert title search and examination and an accurate, timely closing. We earn our reputation with every deal we close for you.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="carousel-item Carousel2" role="group" aria-label="Silde 2 of 4" data-bind="css:{'carousel-item-height':session.useOktaAuthentication() === false,'OKTA-carousel-item-height':session.useOktaAuthentication()}">
+            <!--<img class="d-block w-100 img-fluid" src="Content/Images/Banners/CTIC2.jpg" alt="Second slide">-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6 col-12">
+                        <div class="carousel-caption">
+                            Strength & Security
+                            <p class="carousel-subText">
+                                With our statutory premium reserves of over $1 Billion*, which is the highest in the title insurance industry, we have been the “gold standard” of the title industry for over 165 years.
+                            </p>
+                            <p class="carousel-subText">*As a member of the FNF family of companies.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item Carousel3" role="group" aria-label="Silde 3 of 4" data-bind="css:{'carousel-item-height':session.useOktaAuthentication() === false,'OKTA-carousel-item-height':session.useOktaAuthentication()}">
+            <!--<img class="d-block w-100 img-fluid" src="Content/Images/Banners/CTIC3.jpg" alt="Third slide">-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6 col-12">
+                        <div class="carousel-caption">
+                            Trust
+                            <p class="carousel-subText">
+                                Home buyers and sellers trust our passionate commitment to helping consumers understand the steps, fees and requirements of real estate transactions. Our open process and availability to answer all questions provide the clarity needed about what is often ones largest and most valuable purchase.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="carousel-item Carousel4" role="group" aria-label="Slide 4 of 4" data-bind="css:{'carousel-item-height':session.useOktaAuthentication() === false,'OKTA-carousel-item-height':session.useOktaAuthentication()}">
+            <!--<img class="d-block w-100 img-fluid" src="Content/Images/Banners/CTIC4.jpg" alt="Forth slide">-->
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-7 col-md-6 col-12 ">
+                        <div class="carousel-caption">
+                            From Residential to Commercial Property
+                            <p class="carousel-subText">
+                                WHEREVER YOUR NEXT DEAL TAKES YOU, WE'VE GOT YOU COVERED.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
