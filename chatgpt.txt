@@ -1,1 +1,1 @@
-Empty
+GET https://localhost:5001/api/property/geocode?address=1600+Amphitheatre+Parkway,+Mountain+View,+CA
