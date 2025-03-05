@@ -1,1 +1,2 @@
-Empty 
+dotnet add package Microsoft.AspNetCore.Components.WebAssembly.Authentication
+dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
