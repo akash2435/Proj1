@@ -4,7 +4,7 @@
 
 <AuthorizeView>
     <Authorized>
-        <p>Welcome, @context.User?.FindFirst("name")?.Value!</p>
+        <p>Welcome, @context.User.Identity?.Name!</p>
         <button @onclick="Logout">Logout</button>
     </Authorized>
     <NotAuthorized>
