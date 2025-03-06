@@ -1,16 +1,9 @@
-@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
-
-<AuthorizeView>
-    <Authorized>
-        <p>Welcome, @context.User.Identity.Name!</p>
-        <button @onclick="Logout">Logout</button>
-    </Authorized>
-    <NotAuthorized>
-        <button @onclick="Login">Login</button>
-    </NotAuthorized>
-</AuthorizeView>
-
-@code {
-    private async Task Login() => await AuthenticationService.Login();
-    private async Task Logout() => await AuthenticationService.Logout();
+{
+  "Okta": {
+    "Authority": "https://your-okta-domain/oauth2/default",
+    "ClientId": "your-client-id",
+    "PostLogoutRedirectUri": "https://localhost:5001",
+    "RedirectUri": "https://localhost:5001/authentication/login-callback",
+    "SilentRefreshUri": "https://localhost:5001/authentication/silent-refresh"
+  }
 }
