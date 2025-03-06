@@ -1,21 +1,16 @@
-using Microsoft.AspNetCore.Components.Web;
-using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 
-var builder = WebAssemblyHostBuilder.CreateDefault(args);
+<AuthorizeView>
+    <Authorized>
+        <p>Welcome, @context.User.Identity.Name!</p>
+        <button @onclick="Logout">Logout</button>
+    </Authorized>
+    <NotAuthorized>
+        <button @onclick="Login">Login</button>
+    </NotAuthorized>
+</AuthorizeView>
 
-builder.Services.AddOidcAuthentication(options =>
-{
-    options.ProviderOptions.Authority = "https://your-okta-domain/oauth2/default";
-    options.ProviderOptions.ClientId = "your-client-id";
-    options.ProviderOptions.ResponseType = "code";
-    options.ProviderOptions.DefaultScopes.Add("openid");
-    options.ProviderOptions.DefaultScopes.Add("profile");
-    options.ProviderOptions.DefaultScopes.Add("email");
-
-    // Enable silent refresh (via hidden iframe)
-    options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:5001";
-    options.ProviderOptions.RedirectUri = "https://localhost:5001/authentication/login-callback";
-});
-
-await builder.Build().RunAsync();
+@code {
+    private async Task Login() => await AuthenticationService.Login();
+    private async Task Logout() => await AuthenticationService.Logout();
+}
