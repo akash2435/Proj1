@@ -1,4 +1,20 @@
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject IAccessTokenProvider AccessTokenProvider
+
+<AuthorizeView>
+    <Authorized>
+        <p>Welcome, @context.User.Identity.Name!</p>
+        <button @onclick="Logout">Logout</button>
+    </Authorized>
+    <NotAuthorized>
+        <button @onclick="Login">Login</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+    private async Task Login() => await AuthenticationService.Login();
+    private async Task Logout() => await AuthenticationService.Logout();
+}
 
 @code {
     protected override async Task OnAfterRenderAsync(bool firstRender)
