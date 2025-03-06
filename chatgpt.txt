@@ -1,18 +1,21 @@
-using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 
 builder.Services.AddOidcAuthentication(options =>
 {
-    options.ProviderOptions.Authority = "https://your-okta-domain.okta.com/oauth2/default";
+    options.ProviderOptions.Authority = "https://your-okta-domain/oauth2/default";
     options.ProviderOptions.ClientId = "your-client-id";
     options.ProviderOptions.ResponseType = "code";
     options.ProviderOptions.DefaultScopes.Add("openid");
     options.ProviderOptions.DefaultScopes.Add("profile");
     options.ProviderOptions.DefaultScopes.Add("email");
-    options.ProviderOptions.DefaultScopes.Add("offline_access"); // Enables refresh tokens
-    options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:5001/";
+
+    // Enable silent refresh (via hidden iframe)
+    options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:5001";
+    options.ProviderOptions.RedirectUri = "https://localhost:5001/authentication/login-callback";
 });
 
 await builder.Build().RunAsync();
