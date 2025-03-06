@@ -1,16 +1,20 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Silent Authentication</title>
-</head>
-<body>
-    <script>
-        window.onload = function () {
-            if (window.opener) {
-                window.opener.postMessage('okta-silent-refresh', '*');
-                window.close();
-            }
-        };
-    </script>
-</body>
-</html>
+@inject IAccessTokenProvider AccessTokenProvider
+
+@code {
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await RefreshAccessToken();
+        }
+    }
+
+    private async Task RefreshAccessToken()
+    {
+        var tokenResult = await AccessTokenProvider.RequestAccessToken();
+        if (!tokenResult.TryGetToken(out var token))
+        {
+            await AuthenticationService.Login();
+        }
+    }
+}
