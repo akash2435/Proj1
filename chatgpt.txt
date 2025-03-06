@@ -1,9 +1,16 @@
-{
-  "Okta": {
-    "Authority": "https://your-okta-domain/oauth2/default",
-    "ClientId": "your-client-id",
-    "PostLogoutRedirectUri": "https://localhost:5001",
-    "RedirectUri": "https://localhost:5001/authentication/login-callback",
-    "SilentRefreshUri": "https://localhost:5001/authentication/silent-refresh"
-  }
-}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Silent Authentication</title>
+</head>
+<body>
+    <script>
+        window.onload = function () {
+            if (window.opener) {
+                window.opener.postMessage('okta-silent-refresh', '*');
+                window.close();
+            }
+        };
+    </script>
+</body>
+</html>
