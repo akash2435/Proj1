@@ -1,2 +1,18 @@
-dotnet add package Microsoft.AspNetCore.Components.WebAssembly.Authentication
-dotnet add package Microsoft.AspNetCore.Authentication.JwtBearer
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
+using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
+
+var builder = WebAssemblyHostBuilder.CreateDefault(args);
+
+builder.Services.AddOidcAuthentication(options =>
+{
+    options.ProviderOptions.Authority = "https://your-okta-domain.okta.com/oauth2/default";
+    options.ProviderOptions.ClientId = "your-client-id";
+    options.ProviderOptions.ResponseType = "code";
+    options.ProviderOptions.DefaultScopes.Add("openid");
+    options.ProviderOptions.DefaultScopes.Add("profile");
+    options.ProviderOptions.DefaultScopes.Add("email");
+    options.ProviderOptions.DefaultScopes.Add("offline_access"); // Enables refresh tokens
+    options.ProviderOptions.PostLogoutRedirectUri = "https://localhost:5001/";
+});
+
+await builder.Build().RunAsync();
