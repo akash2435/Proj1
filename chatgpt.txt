@@ -1,1 +1,143 @@
-Empty
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Closed</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+        }
+        .animated-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+        }
+        .circle, .triangle, .gear {
+            position: absolute;
+            opacity: 0.5;
+        }
+        .circle {
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 122, 204, 0.4), rgba(0, 122, 204, 0.1));
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        .triangle {
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid rgba(0, 122, 204, 0.3);
+            animation: rotate 8s infinite linear;
+        }
+        .gear {
+            font-size: 50px;
+            color: rgba(0, 122, 204, 0.5);
+            animation: spin 6s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-30px); }
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        @keyframes spin {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
+        .container {
+            display: flex;
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 800px;
+            position: relative;
+            z-index: 2;
+        }
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .text-container {
+            flex: 1;
+            padding: 20px;
+            text-align: left;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #007acc;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 15px;
+            color: #555;
+        }
+        .contact {
+            color: #007acc;
+            font-weight: bold;
+        }
+        .phone-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007acc;
+            animation: scaleEffect 1.5s infinite alternate;
+        }
+        @keyframes scaleEffect {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="circle" style="width: 100px; height: 100px; top: 10%; left: 15%;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 30%; right: 10%;"></div>
+        <div class="circle" style="width: 80px; height: 80px; bottom: 20%; left: 40%;"></div>
+        <div class="triangle" style="top: 50%; left: 20%;"></div>
+        <div class="triangle" style="top: 70%; right: 30%;"></div>
+        <div class="gear" style="top: 10%; left: 10%;">⚙️</div>
+        <div class="gear" style="top: 25%; left: 50%;">⚙️</div>
+        <div class="gear" style="bottom: 10%; right: 15%;">⚙️</div>
+        <div class="gear" style="bottom: 30%; left: 70%;">⚙️</div>
+        <div class="gear" style="top: 60%; right: 20%;">⚙️</div>
+        <div class="gear" style="top: 40%; left: 30%;">⚙️</div>
+        <div class="gear" style="bottom: 50%; right: 10%;">⚙️</div>
+        <div class="gear" style="bottom: 20%; left: 60%;">⚙️</div>
+        <div class="gear" style="top: 15%; right: 25%;">⚙️</div>
+    </div>
+    <div class="container">
+        <div class="image-container">
+            <img src="https://via.placeholder.com/300" alt="Website Closed">
+        </div>
+        <div class="text-container">
+            <h1>This Website is No Longer Available</h1>
+            <p>We appreciate your support. For inquiries, contact <span class="contact">support@example.com</span>.</p>
+            <p class="phone-number">📞 +1-234-567-8900</p>
+        </div>
+    </div>
+</body>
+</html>
