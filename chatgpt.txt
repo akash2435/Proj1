@@ -1,1 +1,138 @@
-Empty
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Website Closed</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            color: #333;
+            overflow: hidden;
+        }
+        .animated-bg {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            top: 0;
+            left: 0;
+        }
+        .circle {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.4;
+            background: radial-gradient(circle, rgba(0, 122, 204, 0.4), rgba(0, 122, 204, 0.1));
+            animation: float 10s infinite ease-in-out alternate;
+        }
+        @keyframes float {
+            0% {
+                transform: translateY(0);
+            }
+            100% {
+                transform: translateY(-30px);
+            }
+        }
+        .triangle {
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-left: 40px solid transparent;
+            border-right: 40px solid transparent;
+            border-bottom: 70px solid rgba(0, 122, 204, 0.3);
+            opacity: 0.5;
+            animation: rotate 8s infinite linear;
+        }
+        @keyframes rotate {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .gear {
+            position: absolute;
+            font-size: 50px;
+            color: rgba(0, 122, 204, 0.5);
+            animation: spin 6s infinite linear;
+        }
+        @keyframes spin {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(360deg);
+            }
+        }
+        .container {
+            background: rgba(255, 255, 255, 0.95);
+            padding: 50px;
+            border-radius: 12px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            z-index: 2;
+        }
+        h1 {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 15px;
+            color: #007acc;
+        }
+        p {
+            font-size: 18px;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .phone-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007acc;
+            animation: scaleUpDown 1.5s infinite alternate;
+        }
+        @keyframes scaleUpDown {
+            0% {
+                transform: scale(1);
+            }
+            100% {
+                transform: scale(1.2);
+            }
+        }
+        .contact {
+            color: #007acc;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg">
+        <div class="circle" style="width: 100px; height: 100px; top: 10%; left: 15%; animation-duration: 12s;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 30%; right: 10%; animation-duration: 10s;"></div>
+        <div class="circle" style="width: 80px; height: 80px; bottom: 20%; left: 40%; animation-duration: 15s;"></div>
+        <div class="triangle" style="top: 50%; left: 20%; animation-duration: 8s;"></div>
+        <div class="triangle" style="top: 70%; right: 30%; animation-duration: 6s;"></div>
+        <div class="gear" style="top: 10%; left: 10%; animation-duration: 6s;">⚙️</div>
+        <div class="gear" style="top: 25%; left: 50%; animation-duration: 6s;">⚙️</div>
+        <div class="gear" style="bottom: 10%; right: 15%; animation-duration: 8s;">⚙️</div>
+        <div class="gear" style="bottom: 30%; left: 70%; animation-duration: 7s;">⚙️</div>
+        <div class="gear" style="top: 60%; right: 20%; animation-duration: 9s;">⚙️</div>
+        <div class="gear" style="top: 15%; right: 15%; animation-duration: 7s;">⚙️</div>
+        <div class="gear" style="bottom: 50%; left: 10%; animation-duration: 6s;">⚙️</div>
+        <div class="gear" style="bottom: 40%; right: 40%; animation-duration: 10s;">⚙️</div>
+    </div>
+    <div class="container">
+        <h1>This Website is No Longer Available</h1>
+        <p>We appreciate your support. For inquiries, contact <span class="contact">support@example.com</span>.</p>
+        <p class="phone-number">📞 +1 (234) 567-8901</p>
+    </div>
+</body>
+</html>
