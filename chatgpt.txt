@@ -16,6 +16,7 @@
             text-align: center;
             color: #333;
             overflow: hidden;
+            padding: 20px;
         }
         .animated-bg {
             position: absolute;
@@ -61,8 +62,9 @@
         }
         .container {
             display: flex;
+            flex-wrap: wrap;
             background: rgba(255, 255, 255, 0.95);
-            padding: 50px;
+            padding: 40px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             width: 90%;
@@ -71,38 +73,35 @@
             z-index: 2;
         }
         .image-container {
-            flex: 1;
+            flex: 1 1 300px;
             display: flex;
             justify-content: center;
             align-items: center;
+            margin-bottom: 20px;
         }
         .image-container img {
             max-width: 100%;
+            height: auto;
             border-radius: 10px;
         }
         .text-container {
-            flex: 1;
+            flex: 1 1 300px;
             padding: 20px;
-            text-align: center;
         }
         h1 {
-            font-size: 32px;
+            font-size: 28px;
             font-weight: bold;
             margin-bottom: 15px;
             color: #d9534f;
         }
         p {
-            font-size: 18px;
+            font-size: 16px;
             font-weight: bold;
             margin-bottom: 15px;
             color: #555;
         }
-        .contact {
-            color: #007acc;
-            font-weight: bold;
-        }
         .phone-number {
-            font-size: 20px;
+            font-size: 18px;
             font-weight: bold;
             color: #007acc;
             animation: scaleEffect 1.5s infinite alternate;
@@ -110,6 +109,18 @@
         @keyframes scaleEffect {
             0% { transform: scale(1); }
             100% { transform: scale(1.1); }
+        }
+        @media (max-width: 600px) {
+            .container {
+                flex-direction: column;
+                padding: 20px;
+            }
+            h1 {
+                font-size: 24px;
+            }
+            p, .phone-number {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -120,22 +131,16 @@
         <div class="circle" style="width: 80px; height: 80px; bottom: 20%; left: 40%;"></div>
         <div class="triangle" style="top: 50%; left: 20%;"></div>
         <div class="triangle" style="top: 70%; right: 30%;"></div>
-        <div class="gear" style="top: 10%; left: 10%;">⚙️</div>
-        <div class="gear" style="top: 25%; left: 50%;">⚙️</div>
-        <div class="gear" style="bottom: 10%; right: 15%;">⚙️</div>
-        <div class="gear" style="bottom: 30%; left: 70%;">⚙️</div>
-        <div class="gear" style="top: 60%; right: 20%;">⚙️</div>
-        <div class="gear" style="top: 40%; left: 30%;">⚙️</div>
-        <div class="gear" style="bottom: 50%; right: 10%;">⚙️</div>
-        <div class="gear" style="bottom: 20%; left: 60%;">⚙️</div>
-        <div class="gear" style="top: 15%; right: 25%;">⚙️</div>
+        <div class="gear" style="top: 10%; left: 10%">⚙️</div>
+        <div class="gear" style="top: 25%; left: 50%">⚙️</div>
+        <div class="gear" style="bottom: 10%; right: 15%">⚙️</div>
     </div>
     <div class="container">
         <div class="image-container">
             <img src="Three_cartoon_characters_fixing_webpage.jpg" alt="Website Closed">
         </div>
         <div class="text-container">
-            <h1>The  LLA Delivery System has been retired.  </h1>
+            <h1>The LLA Delivery System has been retired.</h1>
             <p>For an alternative solution, please call the FNF Service Desk at</p>
             <p class="phone-number">(888) 435-7313</p>
         </div>
