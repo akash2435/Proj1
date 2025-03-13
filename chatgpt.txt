@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Service Unavailable</title>
+    <title>FNTG CLOSED</title>
     <style>
         body {
             display: flex;
@@ -11,7 +11,7 @@
             align-items: center;
             height: 100vh;
             margin: 0;
-            background: linear-gradient(to bottom, #ffecd2, #fcb69f);
+            background: linear-gradient(to bottom, #e3f2fd, #ffffff);
             font-family: 'Arial', sans-serif;
             text-align: center;
             color: #333;
@@ -25,109 +25,120 @@
             top: 0;
             left: 0;
         }
-        .circle, .square, .triangle {
+        .circle, .triangle, .gear {
             position: absolute;
-            opacity: 0.4;
-            animation: float 10s infinite ease-in-out alternate;
+            opacity: 0.5;
         }
         .circle {
             border-radius: 50%;
-            background: radial-gradient(circle, rgba(255, 87, 34, 0.4), rgba(255, 87, 34, 0.1));
-        }
-        .square {
-            background: rgba(255, 87, 34, 0.3);
+            background: radial-gradient(circle, rgba(0, 122, 204, 0.4), rgba(0, 122, 204, 0.1));
+            animation: float 10s infinite ease-in-out alternate;
         }
         .triangle {
             width: 0;
             height: 0;
             border-left: 40px solid transparent;
             border-right: 40px solid transparent;
-            border-bottom: 70px solid rgba(255, 87, 34, 0.3);
-        }
-        @keyframes float {
-            0% {
-                transform: translateY(0);
-            }
-            100% {
-                transform: translateY(-30px);
-            }
+            border-bottom: 70px solid rgba(0, 122, 204, 0.3);
+            animation: rotate 8s infinite linear;
         }
         .gear {
-            position: absolute;
             font-size: 50px;
-            color: rgba(255, 87, 34, 0.5);
+            color: rgba(0, 122, 204, 0.5);
             animation: spin 6s infinite linear;
         }
+        @keyframes float {
+            0% { transform: translateY(0); }
+            100% { transform: translateY(-30px); }
+        }
+        @keyframes rotate {
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
+        }
         @keyframes spin {
-            from {
-                transform: rotate(0deg);
-            }
-            to {
-                transform: rotate(360deg);
-            }
+            from { transform: rotate(0deg); }
+            to { transform: rotate(360deg); }
         }
         .container {
+            display: flex;
             background: rgba(255, 255, 255, 0.95);
             padding: 50px;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
             width: 90%;
-            max-width: 500px;
+            max-width: 800px;
             position: relative;
             z-index: 2;
         }
+        .image-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .image-container img {
+            max-width: 100%;
+            border-radius: 10px;
+        }
+        .text-container {
+            flex: 1;
+            padding: 20px;
+            text-align: center;
+        }
         h1 {
-            font-size: 24px;
+            font-size: 32px;
             font-weight: bold;
             margin-bottom: 15px;
             color: #d9534f;
         }
         p {
-            font-size: 16px;
-            font-weight: bolder;
-            margin-bottom: 10px;
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 15px;
             color: #555;
         }
-        .phone-number {
-            font-size: 22px;
-            font-weight: bold;
-            color: #ff5722;
-            animation: scaleUpDown 1.5s infinite alternate;
-        }
-        @keyframes scaleUpDown {
-            0% {
-                transform: scale(1);
-            }
-            100% {
-                transform: scale(1.2);
-            }
-        }
         .contact {
-            color: #ff5722;
+            color: #007acc;
             font-weight: bold;
+        }
+        .phone-number {
+            font-size: 20px;
+            font-weight: bold;
+            color: #007acc;
+            animation: scaleEffect 1.5s infinite alternate;
+        }
+        @keyframes scaleEffect {
+            0% { transform: scale(1); }
+            100% { transform: scale(1.1); }
         }
     </style>
 </head>
 <body>
     <div class="animated-bg">
-        <div class="circle" style="width: 100px; height: 100px; top: 10%; left: 15%; animation-duration: 12s;"></div>
-        <div class="circle" style="width: 150px; height: 150px; top: 30%; right: 10%; animation-duration: 10s;"></div>
-        <div class="circle" style="width: 80px; height: 80px; bottom: 20%; left: 40%; animation-duration: 15s;"></div>
-        <div class="square" style="width: 100px; height: 100px; top: 50%; left: 20%; animation-duration: 8s;"></div>
-        <div class="square" style="width: 150px; height: 150px; top: 70%; right: 30%; animation-duration: 6s;"></div>
-        <div class="triangle" style="top: 10%; left: 10%; animation-duration: 6s;"></div>
-        <div class="triangle" style="top: 25%; left: 50%; animation-duration: 6s;"></div>
-        <div class="gear" style="bottom: 10%; right: 15%; animation-duration: 8s;">⚙️</div>
-        <div class="gear" style="bottom: 30%; left: 70%; animation-duration: 7s;">⚙️</div>
-        <div class="gear" style="top: 60%; right: 20%; animation-duration: 9s;">⚙️</div>
-        <div class="gear" style="top: 15%; right: 15%; animation-duration: 7s;">⚙️</div>
-        <div class="gear" style="bottom: 50%; left: 10%; animation-duration: 6s;">⚙️</div>
-        <div class="gear" style="bottom: 40%; right: 40%; animation-duration: 10s;">⚙️</div>
+        <div class="circle" style="width: 100px; height: 100px; top: 10%; left: 15%;"></div>
+        <div class="circle" style="width: 150px; height: 150px; top: 30%; right: 10%;"></div>
+        <div class="circle" style="width: 80px; height: 80px; bottom: 20%; left: 40%;"></div>
+        <div class="triangle" style="top: 50%; left: 20%;"></div>
+        <div class="triangle" style="top: 70%; right: 30%;"></div>
+        <div class="gear" style="top: 10%; left: 10%;">⚙️</div>
+        <div class="gear" style="top: 25%; left: 50%;">⚙️</div>
+        <div class="gear" style="bottom: 10%; right: 15%;">⚙️</div>
+        <div class="gear" style="bottom: 30%; left: 70%;">⚙️</div>
+        <div class="gear" style="top: 60%; right: 20%;">⚙️</div>
+        <div class="gear" style="top: 40%; left: 30%;">⚙️</div>
+        <div class="gear" style="bottom: 50%; right: 10%;">⚙️</div>
+        <div class="gear" style="bottom: 20%; left: 60%;">⚙️</div>
+        <div class="gear" style="top: 15%; right: 25%;">⚙️</div>
     </div>
     <div class="container">
-        <h1>Service Unavailable</h1>
-        <p>For assistance, please call our support team at</p>
-        <p class="phone-number">(111) 222-3333</p>
+        <div class="image-container">
+            <img src="Three_cartoon_characters_fixing_webpage.jpg" alt="Website Closed">
+        </div>
+        <div class="text-container">
+            <h1>The  LLA Delivery System has been retired.  </h1>
+            <p>For an alternative solution, please call the FNF Service Desk at</p>
+            <p class="phone-number">(888) 435-7313</p>
+        </div>
     </div>
 </body>
 </html>
