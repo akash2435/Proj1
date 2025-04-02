@@ -1,1 +1,83 @@
-Empty
+<body>
+    <div class="report-container">
+        <h1>Property Report</h1>
+        <div id="report"></div>
+    </div>
+
+    <script>
+        const properties = [
+            {
+                "title": "Luxury Villa",
+                "owner": "John Doe",
+                "address": "456 Palm Street, Miami, FL",
+                "price": "$850,000",
+                "size": "3200 sqft",
+                "bedrooms": 4,
+                "bathrooms": 3,
+                "description": "A luxurious villa with ocean views, modern interiors, and a spacious garden.",
+                "calculatedResult": "Estimated ROI: 8%",
+                "deedTaxBreakdown": {"State Tax": "$2,500", "Federal Tax": "$1,500"},
+                "mortgage": {"Bank": "ABC Financial", "Loan Amount": "$500,000"},
+                "mortgageTaxBreakdown": {"Mortgage Tax": "$3,000", "Processing Fee": "$500"},
+                "assessmentFee": "$250 per year",
+                "releases": {"Status": "No current releases recorded"},
+                "powerOfAttorney": {"Granted To": "Jane Smith", "Date": "2022-12-01"},
+                "additionalQuestionBlock": ["No pending legal disputes", "All permits up to date", "No zoning violations", "No HOA restrictions", "Clear ownership history"],
+                "deedQuestion": ["Title is free from liens", "No encumbrances found", "No disputes on the deed", "Ownership verified", "Proper legal documentation available"],
+                "mortgageTerms": ["Fixed rate mortgage at 4.5%", "30-year term", "Monthly EMI calculated", "No prepayment penalty", "Refinancing options available"],
+                "assumptions": ["Standard market appreciation 3% annually", "Interest rate stability", "Property taxes remain consistent", "No major economic downturns", "Steady rental market"],
+                "recordingNotes": ["Documents recorded with county clerk", "Digital records available", "Title insurance included", "Notarized and verified", "Public access permitted"],
+                "taxNotes": ["Annual property tax: $5,000", "Tax assessments verified", "No overdue property taxes", "Homestead exemption applied", "State tax incentives available"]
+            }
+        ];
+
+        function formatBillStyle(data) {
+            return Object.entries(data).map(([key, value]) => `
+                <div class='bill-style'>
+                    <span>${key}</span>
+                    <span><strong>${value}</strong></span>
+                </div>
+            `).join('');
+        }
+
+        function formatBulletPoints(items) {
+            return `<ul>` + items.map(item => `<li>${item}</li>`).join('') + `</ul>`;
+        }
+
+        function generateReport(properties) {
+            let html = '';
+            properties.forEach(property => {
+                html += `
+                    <div class="property">
+                        <h3>${property.title}</h3>
+                        <p><strong>Owner:</strong> ${property.owner}</p>
+                        <p><strong>Address:</strong> ${property.address}</p>
+                        <p><strong>Price:</strong> ${property.price}</p>
+                        <p><strong>Size:</strong> ${property.size}</p>
+                        <p><strong>Bedrooms:</strong> ${property.bedrooms}</p>
+                        <p><strong>Bathrooms:</strong> ${property.bathrooms}</p>
+                        <p><strong>Description:</strong> ${property.description}</p>
+
+                        <div class="grid-container">
+                            <div class="grid-item"><h4>Deed Tax Breakdown</h4>${formatBillStyle(property.deedTaxBreakdown)}</div>
+                            <div class="grid-item"><h4>Mortgage</h4>${formatBillStyle(property.mortgage)}</div>
+                            <div class="grid-item"><h4>Mortgage Tax Breakdown</h4>${formatBillStyle(property.mortgageTaxBreakdown)}</div>
+                            <div class="grid-item"><h4>Releases</h4>${formatBillStyle(property.releases)}</div>
+                            <div class="grid-item"><h4>Power of Attorney</h4>${formatBillStyle(property.powerOfAttorney)}</div>
+                        </div>
+
+                        <div class="full-width"><h4>Additional Questions</h4>${formatBulletPoints(property.additionalQuestionBlock)}</div>
+                        <div class="full-width"><h4>Deed Questions</h4>${formatBulletPoints(property.deedQuestion)}</div>
+                        <div class="full-width"><h4>Mortgage Terms</h4>${formatBulletPoints(property.mortgageTerms)}</div>
+                        <div class="full-width"><h4>Assumptions</h4>${formatBulletPoints(property.assumptions)}</div>
+                        <div class="full-width"><h4>Recording Notes</h4>${formatBulletPoints(property.recordingNotes)}</div>
+                        <div class="full-width"><h4>Tax Notes</h4>${formatBulletPoints(property.taxNotes)}</div>
+                    </div>
+                `;
+            });
+            document.getElementById("report").innerHTML = html;
+        }
+
+        generateReport(properties);
+    </script>
+</body>
