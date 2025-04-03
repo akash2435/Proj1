@@ -3,119 +3,52 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>Property Report</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            display: flex;
+        }
+        .blue-section {
+            background-color: #003366; /* Dark blue color */
+            color: white;
+            width: 30%;
+            padding: 20px;
+        }
+        .white-section {
+            background-color: white;
+            width: 70%;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1>PSi</h1>
-            <h2>GLOBAL</h2>
+        <div class="blue-section">
+            <h2>PSI GLOBAL</h2>
+            <p>Property Report Requested on 23/05/2018</p>
+            <p>Bushfire prone: No, this property is not affected.</p>
+            <p>Planning Summary Zone: Special Use Zone</p>
         </div>
-    
-        <div class="report">
-            <h3>Property Report</h3>
-            <p>Requested on 23/05/2018</p>
-            <h4>Bushfire prone:</h4>
-            <p>No, this property is not affected.</p>
-        
-            <h4>Planning Summary Zone:</h4>
-            <ul>
-                <li><a href="#">SPECIAL USE ZONE (SUZ)</a></li>
-                <li><a href="#">SPECIAL USE ZONE - SCHEDULE 6 (SUZ6)</a></li>
-            </ul>
-        
-            <h4>Overlay:</h4>
-            <ul>
-                <li><a href="#">DESIGN AND DEVELOPMENT OVERLAY (DDO)</a></li>
-                <li><a href="#">DESIGN AND DEVELOPMENT OVERLAY - SCHEDULE 1 (DDO1)</a></li>
-            </ul>
-        
-            <p><a href="#">Click to order written Planning Advice</a></p>
-        
-            <h4>ADDRESS</h4>
-            <p>12 Hardware Road,<br>Mount Waverley 3149</p>
-        
-            <h4>COUNCIL</h4>
+        <div class="white-section">
+            <h3>Address</h3>
+            <p>12 Hardware Road, Mount Waverley 3149</p>
+            <h3>Council</h3>
             <p>Monash City</p>
-        
-            <h4>LOT AND PLAN</h4>
+            <h3>Lot and Plan</h3>
             <p>Lot 407 LP 74660</p>
-        
-            <h4>WATER AUTHORITY</h4>
+            <h3>Water Authority</h3>
             <p>Yarra Valley Water Ltd</p>
-        
-            <h4>POWER DISTRIBUTOR</h4>
+            <h3>Power Distributor</h3>
             <p>United Energy</p>
-        
-            <h4>SOURCE</h4>
+            <h3>Source</h3>
             <p>Landvic</p>
-        
-            <p>To order critical information about your property, please visit:</p>
-            <p><a href="http://www.psiglobal.com.au">www.psiglobal.com.au</a></p>
-            
-            <p>Planning scheme data last updated on 16 May 2018.</p>
-            <p>Disclaimer: The content contained in this document is based on information provided by local government and other sources and is provided for informational purposes only. PSI Global does not guarantee and assumes no representation or warranty, as to the accuracy of information. PSI Global accepts no liability for any loss, damage or injury by any person as a result of any inaccuracy in this information.</p>
-            
-            <p>Page 1 of 1</p>
+            <p>To order critical information about your property, please visit <a href="http://www.psiglobal.com.au">www.psiglobal.com.au</a></p>
         </div>
     </div>
 </body>
 </html>
-body {
-    font-family: Arial, sans-serif;
-    margin: 0;
-    padding: 20px;
-    background-color: #f0f0f0;
-}
-
-.container {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
-}
-
-.header {
-    background-color: #00A1D6;
-    color: white;
-    padding: 10px;
-    text-align: center;
-}
-
-.header h1 {
-    margin: 0;
-    font-size: 36px;
-}
-
-.header h2 {
-    margin: 0;
-    font-size: 24px;
-}
-
-h3, h4 {
-    color: #333;
-}
-
-ul {
-    list-style-type: none;
-    padding: 0;
-}
-
-ul li {
-    margin: 5px 0;
-}
-
-a {
-    color: #00A1D6;
-    text-decoration: none;
-}
-
-a:hover {
-    text-decoration: underline;
-}
-
-p {
-    margin: 5px 0;
-}
