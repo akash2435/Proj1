@@ -1,1 +1,123 @@
-Empty
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Results</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 20px; }
+        .container { border: 2px solid #000; padding: 20px; }
+        h1, h2, h3 { text-align: center; }
+        .details, .breakdown { display: flex; justify-content: space-between; flex-wrap: wrap; border: 1px solid #ddd; padding: 10px; margin: 10px 0; }
+        .details div, .breakdown > div { border: 1px solid #999; padding: 10px; flex: 1; margin: 0 5px; }
+        .deed, .mortgage { margin-top: 20px; }
+        .tax-breakdown, .mortgage-tax { border: 1px solid #999; padding: 10px; margin: 10px 0; }
+    </style>
+</head>
+<body>
+    <div class="container" id="report"></div>
+
+    <script>
+        const jsonData = {
+            "title": "Calculator Results",
+            "location": "ALAMEDA COUNTY, CA",
+            "details": [
+                {
+                    "title": "US Postal Service Delivery",
+                    "content": [
+                        "Almeda County Clerk-Recorder",
+                        "1100 Madison St, 1st Floor",
+                        "Oakland, CA 94607",
+                        "PHONE: 510-272-6352",
+                        "FAX: "
+                    ]
+                },
+                {
+                    "title": "Courier Delivery",
+                    "content": ["Same as above"]
+                },
+                {
+                    "title": "Payment Info",
+                    "content": [
+                        "Make checks payable to: Alameda County Recorder",
+                        "Cashier's Check / Money Order required from buyers with previous history to add."
+                    ]
+                }
+            ],
+            "breakdown": {
+                "deed": {
+                    "title": "DEED",
+                    "amount": "$546,999.00",
+                    "days": "5",
+                    "fee": "$26.00",
+                    "tax": "$600.60"
+                },
+                "mortgage": {
+                    "title": "MORTGAGE",
+                    "amount": "$213,999.00",
+                    "days": "3",
+                    "feesTaxes": "$10.00"
+                }
+            },
+            "taxBreakdown": {
+                "deedTax": {
+                    "title": "DEED TAX BREAKDOWN",
+                    "stateTax": "$0.00",
+                    "countyTax": "$600.60",
+                    "cityTax": "$0.00"
+                },
+                "mortgageTax": {
+                    "title": "MORTGAGE TAX BREAKDOWN",
+                    "message": "No tax is due for this transaction."
+                }
+            }
+        };
+
+        function generateHTML(json) {
+            let html = `<h1>${json.title}</h1><h2>${json.location}</h2>`;
+
+            html += `<div class="details">`;
+            json.details.forEach(detail => {
+                html += `<div><h3>${detail.title}</h3>`;
+                detail.content.forEach(line => {
+                    html += `<p>${line}</p>`;
+                });
+                html += `</div>`;
+            });
+            html += `</div>`;
+
+            html += `<div class="breakdown">
+                        <div class="deed">
+                            <h3>${json.breakdown.deed.title}</h3>
+                            <p>Deed Amount: <strong>${json.breakdown.deed.amount}</strong></p>
+                            <p>Days: <strong>${json.breakdown.deed.days}</strong></p>
+                            <p>Deed Fee: <strong>${json.breakdown.deed.fee}</strong></p>
+                            <p>Deed Tax: <strong>${json.breakdown.deed.tax}</strong></p>
+                        </div>
+                        <div class="mortgage">
+                            <h3>${json.breakdown.mortgage.title}</h3>
+                            <p>New Mortgage Amount: <strong>${json.breakdown.mortgage.amount}</strong></p>
+                            <p>Days: <strong>${json.breakdown.mortgage.days}</strong></p>
+                            <p>Mortgage Fees & Taxes: <strong>${json.breakdown.mortgage.feesTaxes}</strong></p>
+                        </div>
+                    </div>`;
+
+            html += `<div class="tax-breakdown">
+                        <h3>${json.taxBreakdown.deedTax.title}</h3>
+                        <p>State Tax: <strong>${json.taxBreakdown.deedTax.stateTax}</strong></p>
+                        <p>County Tax: <strong>${json.taxBreakdown.deedTax.countyTax}</strong></p>
+                        <p>City Tax: <strong>${json.taxBreakdown.deedTax.cityTax}</strong></p>
+                    </div>`;
+
+            html += `<div class="mortgage-tax">
+                        <h3>${json.taxBreakdown.mortgageTax.title}</h3>
+                        <p>${json.taxBreakdown.mortgageTax.message}</p>
+                    </div>`;
+
+            document.getElementById("report").innerHTML = html;
+        }
+
+        generateHTML(jsonData);
+    </script>
+</body>
+</html>
