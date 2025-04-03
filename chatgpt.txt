@@ -3,100 +3,110 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="styles.css">
     <title>Calculator Results</title>
+    <style>
+      body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.container {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    max-width: 800px;
+    width: 100%;
+}
+
+h1, h2 {
+    text-align: center;
+    color: #0073e6;
+}
+
+.details, .breakdown, .tax-section {
+    display: flex;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.card {
+    background: #fff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1;
+    min-width: 250px;
+    text-align: center;
+}
+
+.deed { background-color: #ffeded; }
+.mortgage { background-color: #e8f4ff; }
+
+.tax-section .card {
+    background-color: #f9f9f9;
+}
+    </style>
 </head>
 <body>
     <div class="container">
-        <h1>CALCULATOR RESULTS</h1>
-        <h2>ALAMEDA COUNTY, CA</h2>
+        <h1>Calculator Results</h1>
+        <h2>Alameda County, CA</h2>
         
         <div class="details">
-            <div>
+            <div class="card">
                 <h3>US Postal Service Delivery</h3>
-                <p>Almeda County Clerk-Recorder</p>
+                <p><strong>Alameda County Clerk-Recorder</strong></p>
                 <p>1100 Madison St, 1st Floor</p>
                 <p>Oakland, CA 94607</p>
-                <p>PHONE: 510-272-6352</p>
-                <p>FAX: </p>
+                <p><strong>Phone:</strong> 510-272-6352</p>
             </div>
-            <div>
+            <div class="card">
                 <h3>Courier Delivery</h3>
                 <p>Same as above</p>
             </div>
-            <div>
-                <p>Make checks payable to: Alameda County Recorder</p>
+            <div class="card">
+                <p><strong>Make checks payable to:</strong> Alameda County Recorder</p>
                 <p>Cashier's Check / Money Order required from buyers with previous history to add.</p>
             </div>
         </div>
 
         <div class="breakdown">
-            <div class="deed">
-                <h3>DEED</h3>
+            <div class="card deed">
+                <h3>Deed</h3>
                 <p>Deed Amount: <strong>$546,999.00</strong></p>
                 <p>Days: <strong>5</strong></p>
                 <p>Deed Fee: <strong>$26.00</strong></p>
                 <p>Deed Tax: <strong>$600.60</strong></p>
             </div>
-            <div class="mortgage">
-                <h3>MORTGAGE</h3>
+            <div class="card mortgage">
+                <h3>Mortgage</h3>
                 <p>New Mortgage Amount: <strong>$213,999.00</strong></p>
                 <p>Days: <strong>3</strong></p>
                 <p>Mortgage Fees & Taxes: <strong>$10.00</strong></p>
             </div>
         </div>
-        
-        <div class="tax-breakdown">
-            <h3>DEED TAX BREAKDOWN</h3>
-            <p>State Tax: <strong>$0.00</strong></p>
-            <p>County Tax: <strong>$600.60</strong></p>
-            <p>City Tax: <strong>$0.00</strong></p>
+
+        <div class="tax-section">
+            <div class="card">
+                <h3>Deed Tax Breakdown</h3>
+                <p>State Tax: <strong>$0.00</strong></p>
+                <p>County Tax: <strong>$600.60</strong></p>
+                <p>City Tax: <strong>$0.00</strong></p>
+            </div>
+            <div class="card">
+                <h3>Mortgage Tax Breakdown</h3>
+                <p>No tax is due for this transaction.</p>
+            </div>
         </div>
-        
-        <div class="mortgage-tax">
-            <h3>MORTGAGE TAX BREAKDOWN</h3>
-            <p>No tax is due for this transaction.</p>
-        </div>
-        
     </div>
 </body>
 </html>
-body {
-    font-family: Arial, sans-serif;
-    margin: 20px;
-}
 
-.container {
-    border: 2px solid #000;
-    padding: 20px;
-}
 
-h1, h2, h3 {
-    text-align: center;
-}
 
-.details, .breakdown {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
-    border: 1px solid #ddd;
-    padding: 10px;
-    margin: 10px 0;
-}
-
-.details div, .breakdown > div {
-    border: 1px solid #999;
-    padding: 10px;
-    flex: 1;
-    margin: 0 5px;
-}
-
-.deed, .mortgage {
-    margin-top: 20px;
-}
-
-.tax-breakdown, .mortgage-tax {
-    border: 1px solid #999;
-    padding: 10px;
-    margin: 10px 0;
-}
