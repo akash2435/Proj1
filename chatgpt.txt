@@ -1,1 +1,89 @@
-Empty
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculator Results</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Calculator Results</h1>
+        <p><strong>Estimated Closing Date:</strong> 04-03-2023</p>
+        <h2>ALAMEDA COUNTY, CA</h2>
+
+        <div class="delivery">
+            <div class="us-postal">
+                <h3>US Postal Better Delivery</h3>
+                <p>Alameda County Clerk-Recorder</p>
+                <p>1000 Midholm St, 1st Floor</p>
+                <p>Oakland, CA 94607</p>
+                <p><strong>PHONE:</strong> 510-670-7275</p>
+                <p><strong>FAX:</strong></p>
+            </div>
+            <div class="courier">
+                <h3>Courier Delivery</h3>
+                <p>Alameda County Clerk-Recorder</p>
+                <p>1000 Midholm St, 1st Floor</p>
+                <p>Oakland, CA 94607</p>
+                <p><strong>FAX:</strong></p>
+            </div>
+        </div>
+
+        <h2>DEED</h2>
+        <p><strong>Deed Amount:</strong> $545,999.00</p>
+        <p><strong>Penalty:</strong> $26.00</p>
+        <p><strong>Deed Fee:</strong> $600.00</p>
+
+        <h3>DEED TAX BREAKDOWN</h3>
+        <p><strong>State Tax:</strong> $0.00</p>
+        <p><strong>County Tax:</strong> $600.60</p>
+        <p><strong>City Tax:</strong> $0.00</p>
+
+        <h2>MORTGAGE</h2>
+        <p><strong>Mortgage Amount:</strong> $213,999.00</p>
+        <p><strong>Mortgage Fees & Taxes:</strong> $0.00</p>
+        <p>Your mortgage closing costs for Alameda, CA:</p>
+
+        <h3>MORTGAGE TAX BREAKDOWN</h3>
+        <p>No tax is due for this transaction.</p>
+    </div>
+</body>
+</html>
+body {
+    font-family: Arial, sans-serif;
+    margin: 20px;
+}
+
+.container {
+    border: 1px solid #ccc;
+    padding: 20px;
+    max-width: 600px;
+}
+
+h1 {
+    text-align: center;
+    color: #2E8BFF;
+}
+
+h2, h3 {
+    color: #333;
+}
+
+.delivery {
+    display: flex;
+    justify-content: space-between;
+    margin: 20px 0;
+}
+
+.us-postal, .courier {
+    width: 45%;
+}
+
+p {
+    margin: 5px 0;
+}
+
+strong {
+    font-weight: bold;
+}
