@@ -1,1 +1,85 @@
-Empty
+import React, { useState } from 'react';
+import jsPDF from 'jspdf';
+import './UserFile.css'; // Don't forget to create this CSS file
+
+const UserForm = () => {
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    address: '',
+    phone: '',
+    about: '',
+  });
+
+  const handleChange = (e) => {
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+  };
+
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+    doc.setFontSize(16);
+    doc.text('User Information Preview', 20, 20);
+
+    let y = 40;
+    Object.entries(formData).forEach(([key, value]) => {
+      doc.setFontSize(12);
+      doc.text(`${key.charAt(0).toUpperCase() + key.slice(1)}: ${value}`, 20, y);
+      y += 10;
+    });
+
+    doc.save('user-info.pdf');
+  };
+
+  return (
+    <div className="form-container">
+      <h2>User Information Form</h2>
+      <div className="form-fields">
+        <input
+          name="name"
+          placeholder="Full Name"
+          value={formData.name}
+          onChange={handleChange}
+        />
+        <input
+          name="email"
+          placeholder="Email Address"
+          value={formData.email}
+          onChange={handleChange}
+        />
+        <input
+          name="phone"
+          placeholder="Phone Number"
+          value={formData.phone}
+          onChange={handleChange}
+        />
+        <input
+          name="address"
+          placeholder="Home Address"
+          value={formData.address}
+          onChange={handleChange}
+        />
+        <textarea
+          name="about"
+          placeholder="Tell us about yourself"
+          value={formData.about}
+          onChange={handleChange}
+        />
+      </div>
+
+      <h3>Preview</h3>
+      <div className="preview">
+        <p><strong>Name:</strong> {formData.name}</p>
+        <p><strong>Email:</strong> {formData.email}</p>
+        <p><strong>Phone:</strong> {formData.phone}</p>
+        <p><strong>Address:</strong> {formData.address}</p>
+        <p><strong>About:</strong> {formData.about}</p>
+      </div>
+
+      <button className="download-btn" onClick={downloadPDF}>
+        Download as PDF
+      </button>
+    </div>
+  );
+};
+
+export default UserForm;
