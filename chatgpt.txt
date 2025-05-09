@@ -1,1 +1,10 @@
-Empty
+-- Create login for the machine account
+CREATE LOGIN [FNFGLOBAL\FNFIDVPRE22052$] FROM WINDOWS;
+
+-- Grant access to the target database
+USE [GPS_v2];
+CREATE USER [FNFGLOBAL\FNFIDVPRE22052$] FOR LOGIN [FNFGLOBAL\FNFIDVPRE22052$];
+
+-- Assign necessary roles (adjust if needed)
+EXEC sp_addrolemember 'db_datareader', [FNFGLOBAL\FNFIDVPRE22052$];
+EXEC sp_addrolemember 'db_datawriter', [FNFGLOBAL\FNFIDVPRE22052$];
