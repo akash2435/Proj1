@@ -1,2 +1,1 @@
- <add name="GPS_v2ConnectionString" connectionString="Data Source=LSQLSDB-D103.fnfglobal.local\WBLS02, 1432;Initial Catalog=GPS_v2;Persist Security Info=True;Integrated Security=SSPI;Encrypt=yes;TrustServerCertificate=True;"
-   providerName="System.Data.SqlClient" />
+Empty
