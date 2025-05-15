@@ -1,10 +1,2 @@
-Attempting to gather dependency information for package 'Microsoft.EntityFrameworkCore.3.1.32' with respect to project 'TaskManager', targeting '.NETFramework,Version=v4.8'
-Resolving actions to uninstall package 'Microsoft.EntityFrameworkCore.3.1.32'
-uninstall-package : Unable to uninstall 'Microsoft.EntityFrameworkCore.3.1.32' because 'Microsoft.EntityFrameworkCore.Relational.3.1.32' depends on it.
-At line:1 char:1
-+ uninstall-package Microsoft.EntityFrameworkCore
-+ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    + CategoryInfo          : NotSpecified: (:) [Uninstall-Package], Exception
-    + FullyQualifiedErrorId : NuGetCmdletUnhandledException,NuGet.PackageManagement.PowerShellCmdlets.UninstallPackageCommand
- 
-Time Elapsed: 00:00:00.2531950
+Both Entity Framework Core and Entity Framework 6 are installed. The Entity Framework Core tools are running. Use 'EntityFramework6\Enable-Migrations' for Entity Framework 6.
+Enable-Migrations is obsolete. Use Add-Migration to start using Migrations.
