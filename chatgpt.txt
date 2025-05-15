@@ -1,1 +1,23 @@
-Empty
+Action Plan:  
+1. Complete the assigned task on agreed/estimated time. 
+2. Should be proactive in providing status of the task.
+3. Should be able to work on simple task.
+4.Create a project with the below requirements and features :
+
+Requirements:
+1.	Frontend:
+•	HTML: Create the structure of the web pages.
+•	CSS: Style the web pages to make them visually appealing.
+•	JavaScript: Add interactivity to the web pages.
+•	ASP.NET MVC: Use ASP.NET MVC to manage the frontend, including views, controllers, and models.
+2.	Backend:
+•	.NET: Use ASP.NET Core to build the backend services.
+•	C#: Implement the business logic and data access layers.
+3.	Database:
+•	Create a database: Design and implement a SQL database to store tasks.
+•	Access the database: Use Entity Framework Core or any data access technique to interact with the database.
+
+Features:
+1.	Task Creation: Users should be able to create new tasks with details like title, description, due date, and priority.
+2.	Task Management: Users should be able to view, edit, and delete tasks.
+3.	Task Filtering: Users should be able to filter tasks based on status (e.g., pending, completed) and priority.
