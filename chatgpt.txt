@@ -1,3 +1,1 @@
-Week 1 : Project Setup and Frontend Development: Set up the ASP.NET MVC project, design the database schema, and develop the basic frontend structure and layout using HTML, CSS, and JavaScript.
-Week 2 : Backend Development and Finalization: Implement backend services and task filtering. Complete testing, debugging, and make final adjustments to ensure the application is stable and fully functional.
-
+Empty
