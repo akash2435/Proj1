@@ -1,1 +1,27 @@
-Empty
+PM> Enable-Migrations
+Both Entity Framework Core and Entity Framework 6 are installed. The Entity Framework Core tools are running. Use 'EntityFramework6\Enable-Migrations' for Entity Framework 6.
+Enable-Migrations is obsolete. Use Add-Migration to start using Migrations.
+PM> Add-Migration InitialCreate
+Both Entity Framework Core and Entity Framework 6 are installed. The Entity Framework Core tools are running. Use 'EntityFramework6\Add-Migration' for Entity Framework 6.
+Build started...
+Build succeeded.
+System.IO.FileNotFoundException: Could not load file or assembly 'ef, Version=9.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60' or one of its dependencies. The system cannot find the file specified.
+File name: 'ef, Version=9.0.5.0, Culture=neutral, PublicKeyToken=adb9793829ddae60'
+   at System.Reflection.RuntimeAssembly._nLoad(AssemblyName fileName, String codeBase, Evidence assemblySecurity, RuntimeAssembly locationHint, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   at System.Reflection.RuntimeAssembly.InternalLoadAssemblyName(AssemblyName assemblyRef, Evidence assemblySecurity, RuntimeAssembly reqAssembly, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean throwOnFileNotFound, Boolean forIntrospection, Boolean suppressSecurityChecks)
+   at System.Reflection.RuntimeAssembly.InternalLoad(String assemblyString, Evidence assemblySecurity, StackCrawlMark& stackMark, IntPtr pPrivHostBinder, Boolean forIntrospection)
+   at System.Reflection.RuntimeAssembly.InternalLoad(String assemblyString, Evidence assemblySecurity, StackCrawlMark& stackMark, Boolean forIntrospection)
+   at System.Reflection.Assembly.Load(String assemblyString)
+   at System.Runtime.Serialization.FormatterServices.LoadAssemblyFromString(String assemblyName)
+   at System.Reflection.MemberInfoSerializationHolder..ctor(SerializationInfo info, StreamingContext context)
+   at System.AppDomain.CreateInstanceAndUnwrap(String assemblyName, String typeName, Boolean ignoreCase, BindingFlags bindingAttr, Binder binder, Object[] args, CultureInfo culture, Object[] activationAttributes)
+   at Microsoft.EntityFrameworkCore.Tools.AppDomainOperationExecutor..ctor(String assembly, String startupAssembly, String project, String projectDir, String dataDirectory, String rootNamespace, String language, Boolean nullable, String[] remainingArguments, IOperationReportHandler reportHandler)
+   at Microsoft.EntityFrameworkCore.Tools.Commands.ProjectCommandBase.CreateExecutor(String[] remainingArguments)
+   at Microsoft.EntityFrameworkCore.Tools.Commands.MigrationsAddCommand.Execute(String[] args)
+   at Microsoft.DotNet.Cli.CommandLine.CommandLineApplication.Execute(String[] args)
+   at Microsoft.EntityFrameworkCore.Tools.Program.Main(String[] args)
+
+WRN: Assembly binding logging is turned OFF.
+To enable assembly bind failure logging, set the registry value [HKLM\Software\Microsoft\Fusion!EnableLog] (DWORD) to 1.
+Note: There is some performance penalty associated with assembly bind failure logging.
+To turn this feature off, remove the registry value [HKLM\Software\Microsoft\Fusion!EnableLog].
