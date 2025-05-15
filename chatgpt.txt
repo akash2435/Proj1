@@ -1,2 +1,21 @@
-Both Entity Framework Core and Entity Framework 6 are installed. The Entity Framework Core tools are running. Use 'EntityFramework6\Enable-Migrations' for Entity Framework 6.
-Enable-Migrations is obsolete. Use Add-Migration to start using Migrations.
+Both Entity Framework 6 and Entity Framework Core are installed. The Entity Framework 6 tools are running. Use 'EntityFrameworkCore\Enable-Migrations' for Entity Framework Core.
+Checking if the context targets an existing database...
+System.TypeInitializationException: The type initializer for 'System.Data.Entity.Internal.AppConfig' threw an exception. ---> System.Configuration.ConfigurationErrorsException: Configuration system failed to initialize ---> System.Configuration.ConfigurationErrorsException: Only one <configSections> element allowed per config file and if present must be the first child of the root <configuration> element. (C:\Users\6145142\source\repos\TaskManager\TaskManager\Web.config line 10)
+   at System.Configuration.ConfigurationSchemaErrors.ThrowIfErrors(Boolean ignoreLocal)
+   at System.Configuration.BaseConfigurationRecord.ThrowIfParseErrors(ConfigurationSchemaErrors schemaErrors)
+   at System.Configuration.ClientConfigurationSystem.EnsureInit(String configKey)
+   --- End of inner exception stack trace ---
+   at System.Configuration.ClientConfigurationSystem.EnsureInit(String configKey)
+   at System.Configuration.ClientConfigurationSystem.PrepareClientConfigSystem(String sectionName)
+   at System.Configuration.ClientConfigurationSystem.System.Configuration.Internal.IInternalConfigSystem.GetSection(String sectionName)
+   at System.Configuration.ConfigurationManager.GetSection(String sectionName)
+   at System.Configuration.ConfigurationManager.get_ConnectionStrings()
+   at System.Data.Entity.Internal.AppConfig..ctor()
+   at System.Data.Entity.Internal.AppConfig..cctor()
+   --- End of inner exception stack trace ---
+   at System.Data.Entity.Infrastructure.DependencyResolution.DbConfigurationManager.EnsureLoadedForAssembly(Assembly assemblyHint, Type contextTypeHint)
+   at System.Data.Entity.Infrastructure.Design.Executor.ScaffoldInitialCreateInternal(DbConnectionInfo connectionInfo, String contextTypeName, String contextAssemblyName, String migrationsNamespace, Boolean auto, String migrationsDir)
+   at System.Data.Entity.Infrastructure.Design.Executor.ScaffoldInitialCreate.<>c__DisplayClass0_0.<.ctor>b__0()
+   at System.Data.Entity.Infrastructure.Design.Executor.OperationBase.<>c__DisplayClass4_0`1.<Execute>b__0()
+   at System.Data.Entity.Infrastructure.Design.Executor.OperationBase.Execute(Action action)
+The type initializer for 'System.Data.Entity.Internal.AppConfig' threw an exception.
