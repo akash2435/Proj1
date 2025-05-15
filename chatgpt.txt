@@ -1,5 +1,1 @@
-PM> Update-Database
-Specify the '-Verbose' flag to view the SQL statements being applied to the target database.
-Applying explicit migrations: [202505150806043_InitialCreate].
-Applying explicit migration: 202505150806043_InitialCreate.
-Running Seed method.
+Empty
