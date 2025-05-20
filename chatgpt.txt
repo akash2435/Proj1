@@ -1,1 +1,28 @@
-Empty
+<form method="get" asp-action="Index" class="row g-3 mb-4">
+    <div class="col-md-3">
+        <label for="statusFilter" class="form-label">Filter by Status</label>
+        <select name="statusFilter" class="form-select">
+            <option value="">All</option>
+            @foreach (var status in ViewBag.StatusList as SelectList)
+            {
+                <option value="@status.Text" @(Request.Query["statusFilter"] == status.Text ? "selected" : "")>@status.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-3">
+        <label for="priorityFilter" class="form-label">Filter by Priority</label>
+        <select name="priorityFilter" class="form-select">
+            <option value="">All</option>
+            @foreach (var priority in ViewBag.PriorityList as SelectList)
+            {
+                <option value="@priority.Text" @(Request.Query["priorityFilter"] == priority.Text ? "selected" : "")>@priority.Text</option>
+            }
+        </select>
+    </div>
+
+    <div class="col-md-3 align-self-end">
+        <button type="submit" class="btn btn-primary">Apply Filter</button>
+        <a href="@Url.Action("Index", "TaskItems")" class="btn btn-secondary">Reset</a>
+    </div>
+</form>
