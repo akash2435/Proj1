@@ -1,94 +1,30 @@
-        [HttpGet("TaskItems/Filtered")]
-        public async Task<IActionResult> FilteredIndex(string status, string priority)
-        {
-            var tasks = _context.TaskItems.AsQueryable();
-
-            if (!string.IsNullOrEmpty(status))
-            {
-                tasks = tasks.Where(t => t.Status == status);
-            }
-
-            if (!string.IsNullOrEmpty(priority))
-            {
-                tasks = tasks.Where(t => t.Priority == priority);
-            }
-
-            // Pass filter values to the view
-            ViewData["CurrentStatus"] = status;
-            ViewData["CurrentPriority"] = priority;
-
-            return View("Index", await tasks.ToListAsync());
-        }
----------------------------------------------------------
-
-
-
-@model IEnumerable<TaskManagerApp.Models.TaskItem>
-
 @{
-    ViewData["Title"] = "Task List";
+    var currentStatus = ViewData["CurrentStatus"] as string;
+    var currentPriority = ViewData["CurrentPriority"] as string;
 }
 
+<form asp-controller="TaskItems" asp-action="FilteredIndex" method="get" class="mb-3">
+    <div class="row">
+        <div class="col-md-3">
+            <select name="status" class="form-select">
+                <option value="">-- Status --</option>
+                <option value="Pending" selected="@(currentStatus == "Pending")">Pending</option>
+                <option value="InProgress" selected="@(currentStatus == "InProgress")">In Progress</option>
+                <option value="Completed" selected="@(currentStatus == "Completed")">Completed</option>
+            </select>
+        </div>
 
+        <div class="col-md-3">
+            <select name="priority" class="form-select">
+                <option value="">-- Priority --</option>
+                <option value="High" selected="@(currentPriority == "High")">High</option>
+                <option value="Medium" selected="@(currentPriority == "Medium")">Medium</option>
+                <option value="Low" selected="@(currentPriority == "Low")">Low</option>
+            </select>
+        </div>
 
-<p>
-    <a asp-action="Create" class="btn btn-success mb-3">Create New Task</a>
-</p>
-
-<table class="table table-bordered table-hover">
-    <thead class="table-dark">
-        <tr>
-            <th>@Html.DisplayNameFor(model => model.Title)</th>
-            <th>@Html.DisplayNameFor(model => model.Description)</th>
-            <th>@Html.DisplayNameFor(model => model.Priority)</th>
-            <th>@Html.DisplayNameFor(model => model.Status)</th>
-            <th>@Html.DisplayNameFor(model => model.DueDate)</th>
-            <th>Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var item in Model)
-        {
-            <tr>
-                <td>@Html.DisplayFor(modelItem => item.Title)</td>
-                <td>@Html.DisplayFor(modelItem => item.Description)</td>
-                <td>
-                    <span class="badge bg-@GetPriorityClass(item.Priority)">@item.Priority</span>
-                </td>
-                <td>
-                    <span class="badge bg-@GetStatusClass(item.Status)">@item.Status</span>
-                </td>
-                <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
-                <td>
-                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
-                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Details</a>
-                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
-                </td>
-            </tr>
-        }
-    </tbody>
-</table>
-
-@functions {
-    public string GetPriorityClass(string priority)
-    {
-        return priority switch
-        {
-            "High" => "danger",
-            "Medium" => "warning",
-            "Low" => "success",
-            _ => "secondary"
-        };
-    }
-
-    public string GetStatusClass(string status)
-    {
-        return status switch
-        {
-            "Completed" => "success",
-            "InProgress" => "primary",
-            "Pending" => "secondary",
-            _ => "light"
-        };
-    }
-}
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+    </div>
+</form>
