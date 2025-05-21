@@ -1,20 +1,228 @@
-An unhandled exception occurred while processing the request.
-AmbiguousMatchException: The request matched multiple endpoints. Matches:
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
+using TaskManagerApp.Models;
 
-TaskManagement.Controllers.TaskItemsController.Index (TaskManagement)
-TaskManagement.Controllers.TaskItemsController.Index (TaskManagement)
-Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(Span<CandidateState> candidateState)
+namespace TaskManagerApp.Controllers
+{
+    public class TaskItemsController : Controller
+    {
+        private readonly ApplicationDbContext _context;
 
-Stack Query Cookies Headers Routing
-AmbiguousMatchException: The request matched multiple endpoints. Matches: TaskManagement.Controllers.TaskItemsController.Index (TaskManagement) TaskManagement.Controllers.TaskItemsController.Index (TaskManagement)
-Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(Span<CandidateState> candidateState)
-Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, Span<CandidateState> candidateState)
-Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, Span<CandidateState> candidateState)
-Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
-Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
-Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
-Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
-Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
-Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
+        public TaskItemsController(ApplicationDbContext context)
+        {
+            _context = context;
+        }
 
-Show raw exception details
+        // GET: TaskItems
+        public async Task<IActionResult> Index()
+        {
+            return View(await _context.TaskItems.ToListAsync());
+        }
+
+        // GET: TaskItems/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taskItem = await _context.TaskItems
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (taskItem == null)
+            {
+                return NotFound();
+            }
+
+            return View(taskItem);
+        }
+
+        // GET: TaskItems/Create
+        public IActionResult Create()
+        {
+            return View();
+        }
+
+        // POST: TaskItems/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("Id,Title,Description,Priority,Status,DueDate")] TaskItem taskItem)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(taskItem);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            return View(taskItem);
+        }
+
+        // GET: TaskItems/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taskItem = await _context.TaskItems.FindAsync(id);
+            if (taskItem == null)
+            {
+                return NotFound();
+            }
+            return View(taskItem);
+        }
+
+        // POST: TaskItems/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to.
+        // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,Description,Priority,Status,DueDate")] TaskItem taskItem)
+        {
+            if (id != taskItem.Id)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(taskItem);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!TaskItemExists(taskItem.Id))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            return View(taskItem);
+        }
+
+        // GET: TaskItems/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var taskItem = await _context.TaskItems
+                .FirstOrDefaultAsync(m => m.Id == id);
+            if (taskItem == null)
+            {
+                return NotFound();
+            }
+
+            return View(taskItem);
+        }
+
+        // POST: TaskItems/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var taskItem = await _context.TaskItems.FindAsync(id);
+            if (taskItem != null)
+            {
+                _context.TaskItems.Remove(taskItem);
+            }
+
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool TaskItemExists(int id)
+        {
+            return _context.TaskItems.Any(e => e.Id == id);
+        }
+    }
+}
+-------------------------------------------------------
+
+
+@model IEnumerable<TaskManagerApp.Models.TaskItem>
+
+@{
+    ViewData["Title"] = "Task List";
+}
+
+<h1 class="mb-4">Task List</h1>
+
+<p>
+    <a asp-action="Create" class="btn btn-success mb-3">Create New Task</a>
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.DueDate)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>
+                    <span class="badge bg-@GetPriorityClass(item.Priority)">@item.Priority</span>
+                </td>
+                <td>
+                    <span class="badge bg-@GetStatusClass(item.Status)">@item.Status</span>
+                </td>
+                <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+@functions {
+    public string GetPriorityClass(string priority)
+    {
+        return priority switch
+        {
+            "High" => "danger",
+            "Medium" => "warning",
+            "Low" => "success",
+            _ => "secondary"
+        };
+    }
+
+    public string GetStatusClass(string status)
+    {
+        return status switch
+        {
+            "Completed" => "success",
+            "InProgress" => "primary",
+            "Pending" => "secondary",
+            _ => "light"
+        };
+    }
+}
