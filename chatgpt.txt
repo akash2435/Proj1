@@ -1,56 +1,94 @@
+        [HttpGet("TaskItems/Filtered")]
+        public async Task<IActionResult> FilteredIndex(string status, string priority)
+        {
+            var tasks = _context.TaskItems.AsQueryable();
+
+            if (!string.IsNullOrEmpty(status))
+            {
+                tasks = tasks.Where(t => t.Status == status);
+            }
+
+            if (!string.IsNullOrEmpty(priority))
+            {
+                tasks = tasks.Where(t => t.Priority == priority);
+            }
+
+            // Pass filter values to the view
+            ViewData["CurrentStatus"] = status;
+            ViewData["CurrentPriority"] = priority;
+
+            return View("Index", await tasks.ToListAsync());
+        }
+---------------------------------------------------------
+
+
+
+@model IEnumerable<TaskManagerApp.Models.TaskItem>
+
 @{
-    var selectedStatus = ViewData["StatusFilter"] as string;
-    var selectedPriority = ViewData["PriorityFilter"] as string;
-    var statuses = new List<string> { "Pending", "Completed" };
-    var priorities = new List<string> { "High", "Medium", "Low" };
+    ViewData["Title"] = "Task List";
 }
 
-<form method="get" asp-controller="TaskItems" asp-action="Index">
-    <select name="statusFilter">
-        <option value="">-- Status --</option>
-        @foreach (var status in statuses)
+
+
+<p>
+    <a asp-action="Create" class="btn btn-success mb-3">Create New Task</a>
+</p>
+
+<table class="table table-bordered table-hover">
+    <thead class="table-dark">
+        <tr>
+            <th>@Html.DisplayNameFor(model => model.Title)</th>
+            <th>@Html.DisplayNameFor(model => model.Description)</th>
+            <th>@Html.DisplayNameFor(model => model.Priority)</th>
+            <th>@Html.DisplayNameFor(model => model.Status)</th>
+            <th>@Html.DisplayNameFor(model => model.DueDate)</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
         {
-            var isSelected = status == selectedStatus ? "selected" : "";
-            <text><option value="@status" @isSelected>@status</option></text>
+            <tr>
+                <td>@Html.DisplayFor(modelItem => item.Title)</td>
+                <td>@Html.DisplayFor(modelItem => item.Description)</td>
+                <td>
+                    <span class="badge bg-@GetPriorityClass(item.Priority)">@item.Priority</span>
+                </td>
+                <td>
+                    <span class="badge bg-@GetStatusClass(item.Status)">@item.Status</span>
+                </td>
+                <td>@item.DueDate.ToString("yyyy-MM-dd")</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id" class="btn btn-sm btn-primary">Edit</a>
+                    <a asp-action="Details" asp-route-id="@item.Id" class="btn btn-sm btn-info text-white">Details</a>
+                    <a asp-action="Delete" asp-route-id="@item.Id" class="btn btn-sm btn-danger">Delete</a>
+                </td>
+            </tr>
         }
-    </select>
+    </tbody>
+</table>
 
-    <select name="priorityFilter">
-        <option value="">-- Priority --</option>
-        @foreach (var priority in priorities)
-        {
-            var isSelected = priority == selectedPriority ? "selected" : "";
-            <text><option value="@priority" @isSelected>@priority</option></text>
-        }
-    </select>
-
-    <button type="submit">Filter</button>
-</form>
-
-
-
-
--------------------------------------------------------
-
-
-// GET: TaskItems
-public async Task<IActionResult> Index(string status, string priority)
-{
-    var query = _context.TaskItems.AsQueryable();
-
-    if (!string.IsNullOrEmpty(status))
+@functions {
+    public string GetPriorityClass(string priority)
     {
-        query = query.Where(t => t.Status == status);
+        return priority switch
+        {
+            "High" => "danger",
+            "Medium" => "warning",
+            "Low" => "success",
+            _ => "secondary"
+        };
     }
 
-    if (!string.IsNullOrEmpty(priority))
+    public string GetStatusClass(string status)
     {
-        query = query.Where(t => t.Priority == priority);
+        return status switch
+        {
+            "Completed" => "success",
+            "InProgress" => "primary",
+            "Pending" => "secondary",
+            _ => "light"
+        };
     }
-
-    // Pass filter values to the view
-    ViewData["CurrentStatus"] = status;
-    ViewData["CurrentPriority"] = priority;
-
-    return View(await query.ToListAsync());
 }
