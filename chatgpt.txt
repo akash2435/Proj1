@@ -1,29 +1,20 @@
-public async Task<IActionResult> Index(string statusFilter, string priorityFilter)
-{
-    var tasks = _context.Tasks.AsQueryable();
+An unhandled exception occurred while processing the request.
+AmbiguousMatchException: The request matched multiple endpoints. Matches:
 
-    if (!string.IsNullOrEmpty(statusFilter))
-        tasks = tasks.Where(t => t.Status == statusFilter);
+TaskManagement.Controllers.TaskItemsController.Index (TaskManagement)
+TaskManagement.Controllers.TaskItemsController.Index (TaskManagement)
+Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(Span<CandidateState> candidateState)
 
-    if (!string.IsNullOrEmpty(priorityFilter))
-        tasks = tasks.Where(t => t.Priority == priorityFilter);
+Stack Query Cookies Headers Routing
+AmbiguousMatchException: The request matched multiple endpoints. Matches: TaskManagement.Controllers.TaskItemsController.Index (TaskManagement) TaskManagement.Controllers.TaskItemsController.Index (TaskManagement)
+Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ReportAmbiguity(Span<CandidateState> candidateState)
+Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.ProcessFinalCandidates(HttpContext httpContext, Span<CandidateState> candidateState)
+Microsoft.AspNetCore.Routing.Matching.DefaultEndpointSelector.Select(HttpContext httpContext, Span<CandidateState> candidateState)
+Microsoft.AspNetCore.Routing.Matching.DfaMatcher.MatchAsync(HttpContext httpContext)
+Microsoft.AspNetCore.Routing.EndpointRoutingMiddleware.Invoke(HttpContext httpContext)
+Microsoft.AspNetCore.StaticFiles.StaticFileMiddleware.Invoke(HttpContext context)
+Microsoft.AspNetCore.HttpsPolicy.HttpsRedirectionMiddleware.Invoke(HttpContext context)
+Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+Microsoft.AspNetCore.Diagnostics.DeveloperExceptionPageMiddlewareImpl.Invoke(HttpContext context)
 
-    return View(await tasks.ToListAsync());
-}
-
-<form method="get">
-    <select name="statusFilter">
-        <option value="">-- Status --</option>
-        <option value="Pending">Pending</option>
-        <option value="Completed">Completed</option>
-    </select>
-
-    <select name="priorityFilter">
-        <option value="">-- Priority --</option>
-        <option value="High">High</option>
-        <option value="Medium">Medium</option>
-        <option value="Low">Low</option>
-    </select>
-
-    <button type="submit">Filter</button>
-</form>
+Show raw exception details
