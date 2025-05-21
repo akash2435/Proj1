@@ -1,60 +1,106 @@
-@model IEnumerable<TaskItem>
+@model TaskItem
 
 @{
-    ViewData["Title"] = "Task List";
+    ViewData["Title"] = "Create Task";
 }
 
-<h2 class="mb-4">Task List</h2>
+<h2>Create New Task</h2>
 
-<form method="get" class="mb-4 row g-2">
-    <div class="col-md-3">
-        <select name="status" class="form-select">
-            <option value="">-- Filter by Status --</option>
-            <option value="Pending">Pending</option>
-            <option value="Completed">Completed</option>
+<form asp-action="Create" method="post" class="mt-3">
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label">Due Date</label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Priority" class="form-label">Priority</label>
+        <select asp-for="Priority" class="form-select">
+            <option value="">-- Select --</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
         </select>
+        <span asp-validation-for="Priority" class="text-danger"></span>
     </div>
-    <div class="col-md-3">
-        <select name="priority" class="form-select">
-            <option value="">-- Filter by Priority --</option>
-            <option value="Low">Low</option>
-            <option value="Medium">Medium</option>
-            <option value="High">High</option>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" class="form-select">
+            <option value="">-- Select --</option>
+            <option>Pending</option>
+            <option>Completed</option>
         </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
     </div>
-    <div class="col-md-2">
-        <button type="submit" class="btn btn-primary">Apply Filters</button>
-    </div>
-    <div class="col-md-2">
-        <a href="/Task/Create" class="btn btn-success">Create New Task</a>
-    </div>
+
+    <button type="submit" class="btn btn-primary">Create</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
 </form>
+--------------------------------------
 
-<table class="table table-bordered table-striped">
-    <thead class="table-light">
-        <tr>
-            <th>Title</th>
-            <th>Description</th>
-            <th>Due Date</th>
-            <th>Priority</th>
-            <th>Status</th>
-            <th style="width: 150px;">Actions</th>
-        </tr>
-    </thead>
-    <tbody>
-    @foreach (var task in Model)
-    {
-        <tr>
-            <td>@task.Title</td>
-            <td>@task.Description</td>
-            <td>@task.DueDate.ToShortDateString()</td>
-            <td>@task.Priority</td>
-            <td>@task.Status</td>
-            <td>
-                <a class="btn btn-sm btn-warning" href="/Task/Edit/@task.Id">Edit</a>
-                <a class="btn btn-sm btn-danger" href="/Task/Delete/@task.Id">Delete</a>
-            </td>
-        </tr>
-    }
-    </tbody>
-</table>
+@model TaskItem
+
+@{
+    ViewData["Title"] = "Edit Task";
+}
+
+<h2>Edit Task</h2>
+
+<form asp-action="Edit" method="post" class="mt-3">
+    <input type="hidden" asp-for="Id" />
+
+    <div class="mb-3">
+        <label asp-for="Title" class="form-label">Title</label>
+        <input asp-for="Title" class="form-control" />
+        <span asp-validation-for="Title" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Description" class="form-label">Description</label>
+        <textarea asp-for="Description" class="form-control"></textarea>
+        <span asp-validation-for="Description" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="DueDate" class="form-label">Due Date</label>
+        <input asp-for="DueDate" type="date" class="form-control" />
+        <span asp-validation-for="DueDate" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Priority" class="form-label">Priority</label>
+        <select asp-for="Priority" class="form-select">
+            <option value="">-- Select --</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>High</option>
+        </select>
+        <span asp-validation-for="Priority" class="text-danger"></span>
+    </div>
+
+    <div class="mb-3">
+        <label asp-for="Status" class="form-label">Status</label>
+        <select asp-for="Status" class="form-select">
+            <option value="">-- Select --</option>
+            <option>Pending</option>
+            <option>Completed</option>
+        </select>
+        <span asp-validation-for="Status" class="text-danger"></span>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Update</button>
+    <a asp-action="Index" class="btn btn-secondary">Cancel</a>
+</form>
