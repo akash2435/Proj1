@@ -1,1 +1,29 @@
-Empty
+public async Task<IActionResult> Index(string statusFilter, string priorityFilter)
+{
+    var tasks = _context.Tasks.AsQueryable();
+
+    if (!string.IsNullOrEmpty(statusFilter))
+        tasks = tasks.Where(t => t.Status == statusFilter);
+
+    if (!string.IsNullOrEmpty(priorityFilter))
+        tasks = tasks.Where(t => t.Priority == priorityFilter);
+
+    return View(await tasks.ToListAsync());
+}
+
+<form method="get">
+    <select name="statusFilter">
+        <option value="">-- Status --</option>
+        <option value="Pending">Pending</option>
+        <option value="Completed">Completed</option>
+    </select>
+
+    <select name="priorityFilter">
+        <option value="">-- Priority --</option>
+        <option value="High">High</option>
+        <option value="Medium">Medium</option>
+        <option value="Low">Low</option>
+    </select>
+
+    <button type="submit">Filter</button>
+</form>
