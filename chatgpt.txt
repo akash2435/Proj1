@@ -1,19 +1,28 @@
+@{
+    var selectedStatus = ViewData["StatusFilter"] as string;
+    var selectedPriority = ViewData["PriorityFilter"] as string;
+}
+
 <form method="get">
     <select name="statusFilter">
         <option value="">-- Status --</option>
-        <option value="Pending" @(ViewData["StatusFilter"] as string == "Pending" ? "selected" : "")>Pending</option>
-        <option value="Completed" @(ViewData["StatusFilter"] as string == "Completed" ? "selected" : "")>Completed</option>
+        @foreach (var status in new[] { "Pending", "Completed" })
+        {
+            <option value="@status" @(status == selectedStatus ? "selected" : "")>@status</option>
+        }
     </select>
 
     <select name="priorityFilter">
         <option value="">-- Priority --</option>
-        <option value="High" @(ViewData["PriorityFilter"] as string == "High" ? "selected" : "")>High</option>
-        <option value="Medium" @(ViewData["PriorityFilter"] as string == "Medium" ? "selected" : "")>Medium</option>
-        <option value="Low" @(ViewData["PriorityFilter"] as string == "Low" ? "selected" : "")>Low</option>
+        @foreach (var priority in new[] { "High", "Medium", "Low" })
+        {
+            <option value="@priority" @(priority == selectedPriority ? "selected" : "")>@priority</option>
+        }
     </select>
 
     <button type="submit">Filter</button>
 </form>
+
 
 
 -------------------------------------------------------
