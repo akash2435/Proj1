@@ -1,27 +1,20 @@
-<form asp-controller="TaskItems" asp-action="Index" method="get" class="row g-3 mb-4">
-    <div class="col-md-4">
-        <label for="status" class="form-label">Filter by Status</label>
-        <select name="status" class="form-select">
-            <option value="">-- All --</option>
-            <option value="Pending" selected="@(ViewData["CurrentStatus"]?.ToString() == "Pending")">Pending</option>
-            <option value="InProgress" selected="@(ViewData["CurrentStatus"]?.ToString() == "InProgress")">InProgress</option>
-            <option value="Completed" selected="@(ViewData["CurrentStatus"]?.ToString() == "Completed")">Completed</option>
-        </select>
-    </div>
-    <div class="col-md-4">
-        <label for="priority" class="form-label">Filter by Priority</label>
-        <select name="priority" class="form-select">
-            <option value="">-- All --</option>
-            <option value="Low" selected="@(ViewData["CurrentPriority"]?.ToString() == "Low")">Low</option>
-            <option value="Medium" selected="@(ViewData["CurrentPriority"]?.ToString() == "Medium")">Medium</option>
-            <option value="High" selected="@(ViewData["CurrentPriority"]?.ToString() == "High")">High</option>
-        </select>
-    </div>
-    <div class="col-md-4 align-self-end">
-        <button type="submit" class="btn btn-primary">Filter</button>
-        <a asp-action="Index" class="btn btn-secondary">Reset</a>
-    </div>
+<form method="get">
+    <select name="statusFilter">
+        <option value="">-- Status --</option>
+        <option value="Pending" @(ViewData["StatusFilter"] as string == "Pending" ? "selected" : "")>Pending</option>
+        <option value="Completed" @(ViewData["StatusFilter"] as string == "Completed" ? "selected" : "")>Completed</option>
+    </select>
+
+    <select name="priorityFilter">
+        <option value="">-- Priority --</option>
+        <option value="High" @(ViewData["PriorityFilter"] as string == "High" ? "selected" : "")>High</option>
+        <option value="Medium" @(ViewData["PriorityFilter"] as string == "Medium" ? "selected" : "")>Medium</option>
+        <option value="Low" @(ViewData["PriorityFilter"] as string == "Low" ? "selected" : "")>Low</option>
+    </select>
+
+    <button type="submit">Filter</button>
 </form>
+
 
 -------------------------------------------------------
 
