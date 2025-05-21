@@ -1,27 +1,32 @@
 @{
     var selectedStatus = ViewData["StatusFilter"] as string;
     var selectedPriority = ViewData["PriorityFilter"] as string;
+    var statuses = new List<string> { "Pending", "Completed" };
+    var priorities = new List<string> { "High", "Medium", "Low" };
 }
 
-<form method="get">
+<form method="get" asp-controller="TaskItems" asp-action="Index">
     <select name="statusFilter">
         <option value="">-- Status --</option>
-        @foreach (var status in new[] { "Pending", "Completed" })
+        @foreach (var status in statuses)
         {
-            <option value="@status" @(status == selectedStatus ? "selected" : "")>@status</option>
+            var isSelected = status == selectedStatus ? "selected" : "";
+            <text><option value="@status" @isSelected>@status</option></text>
         }
     </select>
 
     <select name="priorityFilter">
         <option value="">-- Priority --</option>
-        @foreach (var priority in new[] { "High", "Medium", "Low" })
+        @foreach (var priority in priorities)
         {
-            <option value="@priority" @(priority == selectedPriority ? "selected" : "")>@priority</option>
+            var isSelected = priority == selectedPriority ? "selected" : "";
+            <text><option value="@priority" @isSelected>@priority</option></text>
         }
     </select>
 
     <button type="submit">Filter</button>
 </form>
+
 
 
 
