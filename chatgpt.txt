@@ -1,1 +1,180 @@
-Empty
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - TaskApp</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/TaskApp.styles.css" asp-append-version="true" />
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container-fluid">
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">TaskApp</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                @* <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between"> *@
+                @*     <ul class="navbar-nav flex-grow-1"> *@
+                @*         <li class="nav-item"> *@
+                @*             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a> *@
+                @*         </li> *@
+                @*         <li class="nav-item"> *@
+                @*             <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+                @*         </li> *@
+                @*     </ul> *@
+                @* </div> *@
+            </div>
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    @* <footer class="border-top footer text-muted"> *@
+    @*     <div class="container"> *@
+    @*         &copy; 2025 - TaskApp - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a> *@
+    @*     </div> *@
+    @* </footer> *@
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/site.js"></script>
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
+----------------------------------------------------------------------------------
+        public async Task<IActionResult> Delete(int id)
+        {
+            var task = await _context.TaskItems.FindAsync(id);
+            if(task != null)
+            {
+                _context.TaskItems.Remove(task);
+                await _context.SaveChangesAsync();
+            }
+            return RedirectToAction(nameof(Index));
+        }
+-------------------------------------------------------------------------------------
+@* @model IEnumerable<TaskItem> *@
+
+@* <form method="get"> *@
+@*     <select name="status"> *@
+@*         <option value="">--STATUS--</option> *@
+@*         <option value="Pending">PENDING</option> *@
+@*         <option value="Completed">COMPLETED</option> *@
+@*     </select> *@
+
+@*     <select name="priority"> *@
+@*         <option value="">--PRIORITY--</option> *@
+@*         <option value="low">LOW</option> *@
+@*         <option value="medium">MEDIUM</option> *@
+@*         <option value="high">HIGH</option> *@
+@*     </select> *@
+
+@*     <button type="submit">Filter</button> *@
+@*     <button asp-controller="Task" asp-action="Index">Clear</button> *@
+@* </form> *@
+
+@* <table> *@
+@*     <thead> *@
+@*         <tr> *@
+@*             <th>Title</th> *@
+@*             <th>Description</th> *@
+@*             <th>Due Date</th> *@
+@*             <th>Priority</th> *@
+@*             <th>Status</th> *@
+@*             <th>Action</th> *@
+@*         </tr> *@
+@*     </thead> *@
+
+@*     <tbody> *@
+@*         @foreach(var task in Model) *@
+@*         { *@
+@*             <tr> *@
+@*                 <td>@task.Title</td> *@
+@*                 <td>@task.Description</td> *@
+@*                 <td>@task.DueDate</td> *@
+@*                 <td>@task.Priority</td> *@
+@*                 <td>@task.Status</td> *@
+@*                 <td> *@
+@*                     <a href="/Task/Edit/@task.Id">EDIT</a> *@
+@*                     <a href="/Task/Delete/@task.Id">DELETE</a> *@
+@*                 </td> *@
+@*             </tr> *@
+@*         } *@
+@*     </tbody> *@
+@* </table> *@
+@* <a href="/Task/Create">Create New Task</a> *@
+
+@model IEnumerable<TaskItem>
+
+@{
+    ViewData["Title"] = "Task List";
+}
+
+<h2 class="mb-4">Task List</h2>
+<div class="col-md-2">
+    <a href="/Task/Create" class="btn btn-success">Create New Task</a>
+</div>
+
+<br />
+
+<form method="get" class="mb-4 row g-2">
+    <div class="col-md-3">
+        <select name="status" class="form-select">
+            <option value="">-- Filter by Status --</option>
+            <option value="Pending">Pending</option>
+            <option value="Completed">Completed</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <select name="priority" class="form-select">
+            <option value="">-- Filter by Priority --</option>
+            <option value="Low">Low</option>
+            <option value="Medium">Medium</option>
+            <option value="High">High</option>
+        </select>
+    </div>
+    <div class="col-md-2">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+    </div>
+    <div class="col-md-2">
+        <button asp-controller="Task" asp-action="Index" class="btn btn-secondary">Clear</button>
+    </div>
+</form>
+
+<table class="table table-bordered table-striped">
+    <thead class="table-light">
+        <tr>
+            <th>Title</th>
+            <th>Description</th>
+            <th>Due Date</th>
+            <th>Priority</th>
+            <th>Status</th>
+            <th style="width: 190px;">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var task in Model)
+        {
+            <tr>
+                <td>@task.Title</td>
+                <td>@task.Description</td>
+                <td>@task.DueDate.ToShortDateString()</td>
+                <td>@task.Priority</td>
+                <td>@task.Status</td>
+                <td>
+                    <a class="btn btn-sm btn-warning" href="/Task/Edit/@task.Id">Edit</a>
+                    <a class="btn btn-sm btn-danger" href="/Task/Delete/@task.Id">Delete</a>
+                    <a  class="btn btn-sm btn-info text-white" href="/Task/Details/@task.Id">Details</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
