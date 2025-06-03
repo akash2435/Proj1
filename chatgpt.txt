@@ -1,2 +1,1 @@
-Need to retrieve the new users registrations list from DB and display it on a view in Client Portal. This list need to be displayed only to the user roles which are not customers.
-This will give him opportunity to know end to end flow from UI to DB.
+Empty
