@@ -1,1 +1,46 @@
-Empty
+using GPSCP.Models.Membership;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using System.Data.Entity;
+using GPSCP.Data;
+using NLog;
+
+namespace GPSCP.Repository.Membership
+{
+    public class AspNetUserRepository : RepositoryBase<AspNetUser>
+    {
+        private static readonly Logger Log = LogManager.GetLogger("databaseLogger");
+
+        public AspNetUserRepository(DataContext dataContext) : base(dataContext)
+        {
+        }
+
+        public AspNetUser GetByUserName(string UserName)
+        {
+            return FindBy(i => i.UserName == UserName).FirstOrDefault();
+        }
+        public AspNetUser GetByUserId(Guid UserId)
+        {
+            return FindBy(i => i.UserId == UserId).FirstOrDefault();
+        }
+
+        public void UpdateUserLastActivityDate(Guid userId)
+        {
+            try
+            {
+                AspNetUser user = GetByUserId(userId);
+                user.LastActivityDate = DateTime.UtcNow;
+                Save();
+            }
+            catch (Exception e)
+            {
+                Log.Error(e, "User LastActivity Update Error: " + e.StackTrace);
+            }
+            
+
+        }
+    }
+}
