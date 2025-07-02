@@ -1,58 +1,52 @@
-<tr class="printbutton">
-	<td class="BrandBorder">
-		<table cellspacing="2" cellpadding="2" style="width: 100%;">
-			<tr>
-				<td>Sort By:</td>
-				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">
-							<xsl:value-of select="'SUBMIT'" />
-						</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="'Sales Price'" />
-						</xsl:attribute>
-						<xsl:attribute name="style">
-							<xsl:value-of select="'width:100px;'" />
-						</xsl:attribute>
-						<xsl:attribute name="onclick">
-							<xsl:value-of select="concat('SubmitForm(2,', $cdisplayall, ')')" />
-						</xsl:attribute>
-					</xsl:element>
-				</td>
-				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">
-							<xsl:value-of select="'SUBMIT'" />
-						</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="'Sales Date'" />
-						</xsl:attribute>
-						<xsl:attribute name="style">
-							<xsl:value-of select="'width:100px;'" />
-						</xsl:attribute>
-						<xsl:attribute name="onclick">
-							<xsl:value-of select="concat('SubmitForm(0,', $cdisplayall, ')')" />
-						</xsl:attribute>
-					</xsl:element>
+Provide a button with link above Plat Map for How to Read an Assessor’s Map
+https://page.fnf.com/rs/393-REY-847/images/20240826_AssessorMapGuide.pdf?version=0
 
-				</td>
-				<td>
-					<xsl:element name="input">
-						<xsl:attribute name="type">
-							<xsl:value-of select="'SUBMIT'" />
-						</xsl:attribute>
-						<xsl:attribute name="value">
-							<xsl:value-of select="'Proximity'" />
-						</xsl:attribute>
-						<xsl:attribute name="style">
-							<xsl:value-of select="'width:100px;'" />
-						</xsl:attribute>
-						<xsl:attribute name="onclick">
-							<xsl:value-of select="concat('SubmitForm(1,', $cdisplayall, ')')" />
-						</xsl:attribute>
-					</xsl:element>
-				</td>
-				<td colspan="3">
-				</td>
-			</tr>
+For CA properties only; Chicago Title only
+Link is below Click map image to view PDF version
+Link to display as Click here to learn how to read an assessor's plat map
+
+	<xsl:template name="plat">
+<xsl:call-template name="header"/>
+<tr>
+<td>
+<div style="margin-left: auto; margin-right: auto; text-align: justify; white-space: normal; font-size: 11px; width:75%;">
+<xsl:call-template name="translateText">
+<xsl:with-param name="file" select="'TranslateText'"/>
+<xsl:with-param name="key" select="'MapDisclaimer'"/>
+<xsl:with-param name="translateText" select="'This map/plat is being furnished as an aid in locating the herein described Land in relation to adjoining streets, natural boundaries and other land, and is not a survey of the land depicted. Except to the extent a policy of title insurance is expressly modified by endorsement, if any, the Company does not insure dimensions, distances, location of easements, acreage or other matters shown thereon. '"/>
+</xsl:call-template>
+</div>
+</td>
 </tr>
+<tr class="printhide">
+<td align="center">
+<br/>Click  map image to view PDF version</td>
+</tr>
+<tr>
+<td align="center">
+<xsl:element name="a">
+<xsl:attribute name="href">
+<xsl:value-of select="concat($serviceurl, '/document.ashx?token=', /GPSSERVICES/PROFILE/PLATMAPTOKEN/text(), '&amp;p=www&amp;aid=92&amp;v=1.1&amp;fid=1')" />
+</xsl:attribute>
+<xsl:attribute name="target">
+<xsl:value-of select="'_blank'" />
+</xsl:attribute>
+<xsl:element name="img">
+<xsl:attribute name="src">
+<xsl:value-of select="concat($serviceurl, '/document.ashx?token=', /GPSSERVICES/PROFILE/PLATMAPTOKEN/text(), '&amp;p=www&amp;aid=92&amp;v=1.1&amp;fid=2')" />
+</xsl:attribute>
+<xsl:attribute name="alt">
+<xsl:value-of select="''" />
+</xsl:attribute>
+<xsl:attribute name="border">
+<xsl:value-of select="'0'" />
+</xsl:attribute>
+<xsl:attribute name="style">
+<xsl:value-of select="'max-height:700px;max-width:700px'" />
+</xsl:attribute>
+</xsl:element>
+</xsl:element>
+</td>
+</tr>
+<xsl:call-template name="footer"/>
+</xsl:template>
