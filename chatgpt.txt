@@ -1,1 +1,24 @@
-EMPTY
+		  <xsl:if test="$brand='CTIC'">
+			  <td class="Left Top" style="width: 8%;">
+				  <xsl:element name="img">
+					  <xsl:attribute name="src">
+						  <xsl:value-of select="concat($rootpath, 'Common/Images/ProfileEnhanced/NewOwnerIcon.png')" />
+					  </xsl:attribute>
+					  <xsl:attribute name="style">
+						  <xsl:value-of select="'height: 50px;'" />
+					  </xsl:attribute>
+				  </xsl:element>
+			  </td>
+		  
+		  
+        <td class="Left Top" style="width: 8%;">
+          <xsl:element name="img">
+            <xsl:attribute name="src">
+              <xsl:value-of select="concat($rootpath, 'Common/Images/ProfileEnhanced/OwnerIcon.png')" />
+            </xsl:attribute>
+            <xsl:attribute name="style">
+              <xsl:value-of select="'height: 50px;'" />
+            </xsl:attribute>
+          </xsl:element>          
+        </td>
+		  </xsl:if>
