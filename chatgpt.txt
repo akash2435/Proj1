@@ -1,1 +1,15 @@
-Empty
+  <xsl:attribute name="style">
+    <xsl:choose>
+      <xsl:when test="$brand = 'CTIC'">
+        <xsl:value-of select="'width:100px;background-color : #5d9f32; color : white'" />
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="'width:100px;'" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:attribute>
+
+  <xsl:attribute name="onclick">
+    <xsl:value-of select="concat('SubmitForm(2,', $cdisplayall, ')')" />
+  </xsl:attribute>
+</xsl:element>
