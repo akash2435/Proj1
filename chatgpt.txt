@@ -1,24 +1,547 @@
-		  <xsl:if test="$brand='CTIC'">
-			  <td class="Left Top" style="width: 8%;">
-				  <xsl:element name="img">
-					  <xsl:attribute name="src">
-						  <xsl:value-of select="concat($rootpath, 'Common/Images/ProfileEnhanced/NewOwnerIcon.png')" />
-					  </xsl:attribute>
-					  <xsl:attribute name="style">
-						  <xsl:value-of select="'height: 50px;'" />
-					  </xsl:attribute>
-				  </xsl:element>
-			  </td>
-		  
-		  
-        <td class="Left Top" style="width: 8%;">
-          <xsl:element name="img">
-            <xsl:attribute name="src">
-              <xsl:value-of select="concat($rootpath, 'Common/Images/ProfileEnhanced/OwnerIcon.png')" />
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform"
+    xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
+  <xsl:output method="html" indent="yes"/>
+
+  <xsl:template name="header">
+    <table class="Table PrintOn">
+        <tr>
+            <td class="Logo">	
+              <xsl:element name="img">
+					      <xsl:attribute name="src">
+						      <xsl:value-of select="$profilelogo" />
+					      </xsl:attribute>
+					      <xsl:attribute name="alt">
+						      <xsl:value-of select="$brandname" />
+					      </xsl:attribute>
+					      <xsl:attribute name="class">
+						      <xsl:value-of select="'PrintOn'" />
+					      </xsl:attribute>
+					      <xsl:attribute name="style">
+						      <xsl:value-of select="'max-height:75px;border-width:0px;'" />
+					      </xsl:attribute>
+				      </xsl:element>
+          </td>
+        </tr>
+      </table>
+  </xsl:template>
+
+  <xsl:template name="footer">    
+    <table class="Table BorderTop PrintOn">
+      <tr>
+        <td></td>
+      </tr>
+    </table>
+  </xsl:template>
+
+  <xsl:template name="propertyaddress">
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITEADDRESS/text())!=0">
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITEADDRESS/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITEUNIT/text())!=0">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITEUNIT/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITECITY/text())!=0">
+      <xsl:text>, </xsl:text>
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITECITY/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITESTATE/text())!=0">
+      <xsl:text>, </xsl:text>
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITESTATE/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITEZIP/text())!=0">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SITEZIP/text()" />
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="mailaddress">
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILADDRESS/text())!=0">
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILADDRESS/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILUNIT/text())!=0">
+      <xsl:text> </xsl:text>
+      <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILUNIT/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILCITY/text())!=0">
+      , <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILCITY/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILSTATE/text())!=0">
+      , <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILSTATE/text()" />
+    </xsl:if>
+    <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILZIP/text())!=0">
+      , <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/MAILZIP/text()" />
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="compsort">
+    <xsl:if test="string-length($usent) != 0 and $usent = '1'">
+      <table class="Table TableNarrow TableBorder PrintOff">
+        <tr>
+          <td>
+            <input type="hidden" name="csort" id="csort">
+              <xsl:attribute name="value">
+                <xsl:value-of select="$csort" />
+              </xsl:attribute>
+            </input>
+            <input type="hidden" name="cdisplayall" id="cdisplayall">
+              <xsl:attribute name="value">
+                <xsl:value-of select="$cdisplayall" />
+              </xsl:attribute>
+            </input>
+            <input type="hidden" name="cinclude" id="cinclude">
+              <xsl:attribute name="value">
+                <xsl:value-of select="$cinclude" />
+              </xsl:attribute>
+            </input>
+            <xsl:text disable-output-escaping="yes">
+                <![CDATA[   
+                <script type="text/javascript">
+                <!--
+                    $(document).ready(function() {
+
+                        $("#CheckAllItems").click(function() {
+                            $(".CompChk").each(function() {
+                                $(this).attr('checked', true);
+                            });
+                        });
+
+                        $("#UnCheckAllItems").click(function() {
+                            $(".CompChk").each(function() {
+                                $(this).attr('checked', false);
+                            });
+                        });
+                    });
+      
+                    function SubmitForm(sort, allitems) {
+                        var update = document.getElementById("hfUpdate");
+                        if (update)
+                            update.value = "true";
+                        //var thisform = document.forms['aspnetForm'];
+                        var thisform = document.forms[0];
+                        //if (!thisform)
+                        //    thisform = document.aspnetForm;
+              
+                        var csort = document.getElementById("csort")
+                        if (csort)
+                            csort.value = sort;
+              
+                        var cdisplayall = document.getElementById("cdisplayall")
+                        if (cdisplayall)
+                            cdisplayall.value = allitems;
+              
+                        try {
+                            thisform.submit();
+                        }
+                        catch (e) {
+                        }
+                    }
+                  -->
+                </script>
+                ]]>
+          </xsl:text>
+          </td>
+        </tr>
+        <tr>
+          <td class="Left CellHeaderSmall" style="width: 14%;">Sort By:</td>
+          <td>
+            <xsl:element name="input">
+              <xsl:attribute name="type">
+                <xsl:value-of select="'SUBMIT'" />
+              </xsl:attribute>
+              <xsl:attribute name="value">
+                <xsl:value-of select="'Sales Price'" />
+              </xsl:attribute>
+              <xsl:attribute name="style">
+                <xsl:value-of select="'width:100px;background-color : #5d9f32; color : white'" />
+              </xsl:attribute>
+              <xsl:attribute name="onclick">
+                <xsl:value-of select="concat('SubmitForm(2,', $cdisplayall, ')')" />
+              </xsl:attribute>
+            </xsl:element>
+          </td>
+          <td>
+            <xsl:element name="input">
+              <xsl:attribute name="type">
+                <xsl:value-of select="'SUBMIT'" />
+              </xsl:attribute>
+              <xsl:attribute name="value">
+                <xsl:value-of select="'Sales Date'" />
+              </xsl:attribute>
+              <xsl:attribute name="style">
+                <xsl:value-of select="'width:100px;background-color : #5d9f32; color : white'" />
+              </xsl:attribute>
+              <xsl:attribute name="onclick">
+                <xsl:value-of select="concat('SubmitForm(0,', $cdisplayall, ')')" />
+              </xsl:attribute>
+            </xsl:element>
+
+          </td>
+          <td>
+            <xsl:element name="input">
+              <xsl:attribute name="type">
+                <xsl:value-of select="'SUBMIT'" />
+              </xsl:attribute>
+              <xsl:attribute name="value">
+                <xsl:value-of select="'Proximity'" />
+              </xsl:attribute>
+              <xsl:attribute name="style">
+                <xsl:value-of select="'width:100px;background-color : #5d9f32; color : white'" />
+              </xsl:attribute>
+              <xsl:attribute name="onclick">
+                <xsl:value-of select="concat('SubmitForm(1,', $cdisplayall, ')')" />
+              </xsl:attribute>
+            </xsl:element>
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td class="Left CellHeaderSmall">Selection Options:</td>
+          <td>
+            <a id="CheckAllItems" style="cursor: pointer; text-decoration: underline;">Select All</a>
+          </td>
+          <td>
+            <a id="UnCheckAllItems" style="cursor: pointer; text-decoration: underline;">UnSelect All</a>
+          </td>
+          <td>
+            <xsl:element name="input">
+              <xsl:attribute name="type">
+                <xsl:value-of select="'SUBMIT'" />
+              </xsl:attribute>
+              <xsl:attribute name="value">
+                <xsl:value-of select="'Display All'" />
+              </xsl:attribute>
+              <xsl:attribute name="style">
+                <xsl:value-of select="'width:100px;'" />
+              </xsl:attribute>
+              <xsl:attribute name="onclick">
+                <xsl:value-of select="concat('SubmitForm(', $csort, ', 0)')" />
+              </xsl:attribute>
+            </xsl:element>
+          </td>
+          <td>
+            <xsl:element name="input">
+              <xsl:attribute name="type">
+                <xsl:value-of select="'SUBMIT'" />
+              </xsl:attribute>
+              <xsl:attribute name="value">
+                <xsl:value-of select="'Display only selected Comparables'" />
+              </xsl:attribute>
+              <xsl:attribute name="style">
+                <xsl:value-of select="'width:300px;'" />
+              </xsl:attribute>
+              <xsl:attribute name="onclick">
+                <xsl:value-of select="concat('SubmitForm(', $csort, ', 1)')" />
+              </xsl:attribute>
+            </xsl:element>
+          </td>
+        </tr>
+      </table>
+    </xsl:if>
+  </xsl:template>
+
+  <xsl:template name="SalesAnalysis">
+    <table class="Table SubContentHeader">
+      <tr>
+        <td class="Left CellHeader">
+          <xsl:call-template name="translate">
+            <xsl:with-param name="file" select="'A05Comps2'"/>
+            <xsl:with-param name="keyword" select="'Area Sales Analysis'"/>
+          </xsl:call-template>
+        </td>  
+      </tr>
+    </table>
+    <table class="Table DataTable">
+      <tr>           
+        <td class="Left Top" style="width: 5%;"></td>
+        <td class="Top" style="width: 95%;">
+          <table class="SubTable">
+              <tr>
+                <td class="CellSubHeader" style="width: 15%;">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Total Area Sales'"/>
+                  </xsl:call-template>:
+                </td>
+                <td style="width: 25%;">
+                  <xsl:value-of select="/GPSSERVICES/PROFILE/AREASALESANALYSIS/TOTALAREASALES/text()" />
+                </td>
+                <td class="CellSubHeader" style="width: 15%;">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median # of Bedrooms'"/>
+                  </xsl:call-template>:
+                </td>
+                <td style="width: 45%;">
+                  <xsl:value-of select="/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANNUMBEDS/text()" />
+                </td>
+              </tr>
+              <tr>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median Lot Size'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:value-of select="format-number(/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANLOTSIZE/text(),'###,###,###.###')" />
+                </td>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median # of Baths'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:value-of select="/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANNUMBATHS/text()" />
+                </td>
+              </tr>
+              <tr>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median Living Area'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:value-of select="format-number(/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANLIVINGAREA/text(),'###,###,###.###')" />
+                </td>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median Year Built'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:value-of select="/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANYEARBUILT/text()" />
+                </td>
+              </tr>
+              <tr>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Price Range - 2 Yrs'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:if test="string-length(/GPSSERVICES/PROFILE/AREASALESANALYSIS/PRICERANGEMIN/text())!=0">
+                    <xsl:value-of select="concat(/GPSSERVICES/PROFILE/AREASALESANALYSIS/PRICERANGEMIN/text(), ' ')" />
+                    <xsl:call-template name="translate">
+                      <xsl:with-param name="file" select="'A05Comps2'"/>
+                      <xsl:with-param name="keyword" select="'to'"/>
+                    </xsl:call-template>
+                    <xsl:value-of select="concat(' ', /GPSSERVICES/PROFILE/AREASALESANALYSIS/PRICERANGEMAX/text())" />
+                  </xsl:if>
+                </td>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Age Range'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:if test="string-length(/GPSSERVICES/PROFILE/AREASALESANALYSIS/AGERANGEMIN/text())!=0">
+                    <xsl:value-of select="concat(/GPSSERVICES/PROFILE/AREASALESANALYSIS/AGERANGEMIN/text(), ' ')" />
+                    <xsl:call-template name="translate">
+                      <xsl:with-param name="file" select="'A05Comps2'"/>
+                      <xsl:with-param name="keyword" select="'to'"/>
+                    </xsl:call-template>
+                    <xsl:value-of select="concat(' ', /GPSSERVICES/PROFILE/AREASALESANALYSIS/AGERANGEMAX/text())" />
+                  </xsl:if>
+                </td>
+              </tr>
+              <tr>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median Value'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:value-of select="/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANVALUE/text()" />
+                </td>
+                <td class="CellSubHeader">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A05Comps2'"/>
+                    <xsl:with-param name="keyword" select="'Median Age'"/>
+                  </xsl:call-template>:
+                </td>
+                <td>
+                  <xsl:value-of select="/GPSSERVICES/PROFILE/AREASALESANALYSIS/MEDIANAGE/text()" />
+                </td>
+              </tr>
+            </table>
+          </td>
+        </tr>
+      </table>
+      <br/>    
+
+  </xsl:template>
+
+  <xsl:template name="docurl">
+    <xsl:choose>
+      <xsl:when test="string-length($serviceurl) != 0 and string-length($token) != 0 and /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/@DOCFORMATEXISTS='true'">
+
+        <xsl:variable name="UrlBookString">
+          <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text()) != 0 and /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text() != 'N/A'">
+            <xsl:value-of select="concat('&amp;book=', /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text(), '&amp;page=', /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/PAGE/text())" />
+          </xsl:if>
+        </xsl:variable>
+
+        <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text()) != 0 and /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text() != 'N/A'">
+          <a>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat($docServiceurl, /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/@DOCUMENTLINK)" />
             </xsl:attribute>
-            <xsl:attribute name="style">
-              <xsl:value-of select="'height: 50px;'" />
+            <xsl:attribute name="target">
+              <xsl:value-of select="'DocWindow'" />
             </xsl:attribute>
-          </xsl:element>          
+            <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text()" />
+          </a>
+        </xsl:if>
+        <xsl:if test="(string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text()) != 0 and /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text() != 'N/A') and (string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text()) = 0 or /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text() = 'N/A')">
+          <a>
+            <xsl:attribute name="href">
+              <xsl:value-of select="concat($docServiceurl, /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/@DOCUMENTLINK)" />
+            </xsl:attribute>
+            <xsl:attribute name="target">
+              <xsl:value-of select="'DocWindow'" />
+            </xsl:attribute>
+            <xsl:call-template name="translate">
+              <xsl:with-param name="file" select="'A03Transaction'"/>
+              <xsl:with-param name="keyword" select="'BK-PG'"/>
+            </xsl:call-template>:
+            <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text()" />
+            <xsl:text>-</xsl:text>
+            <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/PAGE/text()" />
+          </a>
+        </xsl:if>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text()) != 0 and /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text() != 'N/A'">
+          <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/DOCUMENTNUMBER/text()" />
+        </xsl:if>
+        <xsl:if test="string-length(/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text()) != 0 and /GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text() != 'N/A'">
+          <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/BOOK/text()" />
+          <xsl:text>-</xsl:text>
+          <xsl:value-of select="/GPSSERVICES/PROFILE/PROPERTYPROFILE/SALELOANINFO/PAGE/text()" />
+        </xsl:if>
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="plat"> 
+    <xsl:if test="$firstpagename!='bplat'">
+      <xsl:call-template name="header"/>
+    </xsl:if>    
+    <table class="Table MainContentHeader BorderBottom BorderTop">
+      <tr>
+        <td class="Left CellHeader">
+            PLAT MAP
+        </td>       
+      </tr>
+    </table>
+    <table class="Table TableNarrow TableBorder">
+      <tr>
+        <td class="Left" style="padding-top: 4px;">
+          <xsl:call-template name="translateText">
+            <xsl:with-param name="file" select="'TranslateText'"/>
+            <xsl:with-param name="key" select="'MapDisclaimer'"/>
+            <xsl:with-param name="translateText" select="'This map/plat is being furnished as an aid in locating the herein described Land in relation to adjoining streets, natural boundaries and other land, and is not a survey of the land depicted. Except to the extent a policy of title insurance is expressly modified by endorsement, if any, the Company does not insure dimensions, distances, location of easements, acreage or other matters shown thereon. '"/>
+          </xsl:call-template>
         </td>
-		  </xsl:if>
+      </tr>  
+      <tr>
+        <td>
+          <table align="center">
+            <tr>
+              <td class="Center CellHeaderSmall">Click  map image to view PDF version</td>
+            </tr>
+			  <xsl:if test="$brand='CTIC'">
+				  <tr>
+					  <td>
+						  <a href="https://page.fnf.com/rs/393-REY-847/images/20240826_AssessorMapGuide.pdf?version=0" target="_blank"> Click here to learn how to read an assessor's plat map</a>
+					  </td>
+				  </tr>
+			  </xsl:if>
+            <tr>
+              <td>
+                <xsl:element name="a">
+                  <xsl:attribute name="href">
+                    <xsl:value-of select="concat($serviceurl, '/document.ashx?token=', /GPSSERVICES/PROFILE/PLATMAPTOKEN/text(), '&amp;p=www&amp;aid=92&amp;v=1.1&amp;fid=1')" />
+                  </xsl:attribute>
+                  <xsl:attribute name="target">
+                    <xsl:value-of select="'_blank'" />
+                  </xsl:attribute>
+                  <xsl:element name="img">
+                    <xsl:attribute name="src">
+                      <xsl:value-of select="concat($serviceurl, '/document.ashx?token=', /GPSSERVICES/PROFILE/PLATMAPTOKEN/text(), '&amp;p=www&amp;aid=92&amp;v=1.1&amp;fid=2')" />
+                    </xsl:attribute>
+                    <xsl:attribute name="alt">
+                      <xsl:value-of select="''" />
+                    </xsl:attribute>
+                    <xsl:attribute name="border">
+                      <xsl:value-of select="'0'" />
+                    </xsl:attribute>
+                    <xsl:attribute name="style">
+                      <xsl:value-of select="'max-height:700px;max-width:700px'" />
+                    </xsl:attribute>
+                  </xsl:element>
+                </xsl:element>
+              </td>
+            </tr>
+          </table> 
+        </td>
+      </tr>    
+    </table>  
+    <xsl:call-template name="footer"/>
+  </xsl:template>
+
+  <xsl:template name="translate">
+    <xsl:param name="file" />
+    <xsl:param name="keyword" />
+    <xsl:choose>
+      <xsl:when test="string-length($lang)!=0">
+        <xsl:variable name="filename" select="concat(string($xsltpath), '/', string($lang), '/', string($file), '.xml')"/>
+        <!--xsl:variable name="translation" select="document($filename)//FIELD[@NAME=string($keyword)]/@VALUE"/-->
+        <!--xsl:value-of select="$filename"/-->
+        <xsl:choose>
+          <xsl:when test="string-length(document($filename, .)//FIELD[@NAME=string($keyword)]/@VALUE)!=0">
+            <xsl:value-of select="document($filename, .)//FIELD[@NAME=string($keyword)]/@VALUE"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$keyword"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$keyword" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+
+  <xsl:template name="translateText">
+    <xsl:param name="file" />
+    <xsl:param name="key" />
+    <xsl:param name="translateText" />
+    <xsl:choose>
+      <xsl:when test="string-length($lang)!=0">
+        <xsl:variable name="filename" select="concat(string($xsltpath), '/', string($lang), '/', string($file), '.xml')"/>
+        <!--xsl:variable name="translation" select="document($filename)//FIELD[@NAME=string($keyword)]/@VALUE"/-->
+        <!--xsl:value-of select="$filename"/-->
+        <xsl:choose>
+          <xsl:when test="string-length(document($filename, .)//FIELD[@NAME=string($key)]/@VALUE)!=0">
+            <xsl:value-of select="document($filename, .)//FIELD[@NAME=string($key)]/@VALUE"/>
+          </xsl:when>
+          <xsl:otherwise>
+            <xsl:value-of select="$translateText"/>
+          </xsl:otherwise>
+        </xsl:choose>
+      </xsl:when>
+      <xsl:otherwise>
+        <xsl:value-of select="$translateText" />
+      </xsl:otherwise>
+    </xsl:choose>
+  </xsl:template>
+</xsl:stylesheet>
