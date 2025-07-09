@@ -1,1 +1,851 @@
-Empty
+<?xml version="1.0" encoding="utf-8"?>
+<xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns:msxsl="urn:schemas-microsoft-com:xslt" exclude-result-prefixes="msxsl">
+  <xsl:output method="html" indent="yes"/>
+  <xsl:template name="transaction">
+    <xsl:if test="$firstpagename!='btrans'">
+      <xsl:call-template name="header"/>
+    </xsl:if>    
+    <table class="Table MainContentHeader">
+      <tr>
+        <td class="Left CellHeader" style="width: 50%;">
+          <xsl:call-template name="translate">
+            <xsl:with-param name="file" select="'A03Transaction'"/>
+            <xsl:with-param name="keyword" select="'PROPERTY HISTORY'"/>
+          </xsl:call-template>
+        </td>
+        <td class="Right CellHeader" style="width: 50%;">
+          <xsl:call-template name="propertyaddress" />
+        </td>
+      </tr>
+    </table>
+
+    <xsl:for-each select="GPSSERVICES/PROFILE/TRANSFERHISTORY/TRANSFERWITHDEFAULT">
+      <!--<xsl:if test="position() mod 4 = 1 and position()!=1">-->
+    <xsl:if test="PAGEBREAK">
+        <xsl:call-template name="footer"/>
+        <p class="PageBreak"></p>
+        <xsl:call-template name="header"/>
+        <table class="Table MainContentHeader">
+          <tr>
+            <td class="Left CellHeader" style="width: 50%;">
+              <xsl:call-template name="translate">
+                <xsl:with-param name="file" select="'A03Transaction'"/>
+                <xsl:with-param name="keyword" select="'PROPERTY HISTORY'"/>
+              </xsl:call-template>
+            </td>
+            <td class="Right CellHeader" style="width: 50%;">
+              <xsl:call-template name="propertyaddress" />
+            </td>
+          </tr>
+        </table>
+      </xsl:if>   
+      <table class="Table SubContentHeader">
+        <tr>
+			
+          <td class="Left CellHeaderSmall">
+			  <img src="/Common/Images/ProfileEnhanced/NewOwnerIcon.png" alt="LOGO"/>
+			  <div class="sample">
+				  <xsl:value-of select="@CAPTION"/>
+			  </div>
+          </td>
+			
+        </tr>
+      </table>
+      <table class="Table DataTable">
+        <tr>         
+          <td class="Left Top" style="width: 100%;">
+            <table class="SubTable">
+              <tr>               
+                <td class="CellSubHeader" style="width: 16%;">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A03Transaction'"/>
+                    <xsl:with-param name="keyword" select="'Recording Date'"/>
+                  </xsl:call-template>:
+                </td>
+                <td style="width: 34%;">
+                  <xsl:value-of select="RECORDINGDATE/text()" />
+                </td>             
+                <td class="CellSubHeader" style="width: 16%;">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A03Transaction'"/>
+                    <xsl:with-param name="keyword" select="'Document#'"/>
+                  </xsl:call-template>:
+                </td>
+                <td style="width: 33%;">
+                  <xsl:choose>
+                    <xsl:when test="string-length($serviceurl) != 0 and string-length($token) != 0 and @DOCFORMATEXISTS='true'">
+                      <xsl:variable name="UrlBookString">
+                        <xsl:if test="string-length(BOOK/text()) != 0 and BOOK/text() != 'N/A'">
+                          <xsl:value-of select="concat('&amp;book=', BOOK/text(), '&amp;page=', PAGE/text())" />
+                        </xsl:if>
+                      </xsl:variable>
+                      <xsl:if test="string-length(DOCUMENTNUMBER/text()) != 0 and DOCUMENTNUMBER/text() != 'N/A'">
+                        <a>
+                          <xsl:attribute name="href">
+                            <xsl:value-of select="concat($docServiceurl, DOCUMENTNUMBER/@DOCUMENTLINK)" />
+                          </xsl:attribute>
+                          <xsl:attribute name="target">
+                            <xsl:value-of select="'DocWindow'" />
+                          </xsl:attribute>
+                          <xsl:value-of select="DOCUMENTNUMBER/text()" />
+                        </a>
+                      </xsl:if>
+                      <xsl:if test="(string-length(BOOK/text()) != 0 and BOOK/text() != 'N/A') and (string-length(DOCUMENTNUMBER/text()) = 0 or DOCUMENTNUMBER/text() = 'N/A')">
+                        <a>
+                          <xsl:attribute name="href">
+                            <xsl:value-of select="concat($docServiceurl, DOCUMENTNUMBER/@DOCUMENTLINK)" />
+                          </xsl:attribute>
+                          <xsl:attribute name="target">
+                            <xsl:value-of select="'DocWindow'" />
+                          </xsl:attribute>
+                          <xsl:call-template name="translate">
+                            <xsl:with-param name="file" select="'A03Transaction'"/>
+                            <xsl:with-param name="keyword" select="'BK-PG'"/>
+                          </xsl:call-template>:
+                          <xsl:value-of select="BOOK/text()" />
+                          <xsl:text>-</xsl:text>
+                          <xsl:value-of select="PAGE/text()" />
+                        </a>
+                      </xsl:if>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <xsl:if test="DOCUMENTNUMBER/text() != 'N/A'">
+                        <xsl:value-of select="DOCUMENTNUMBER/text()" />                      
+                      </xsl:if>
+                      <xsl:if test="BOOK/text() != 'N/A' and string-length(BOOK/text()) != 0">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'BK-PG'"/>
+                        </xsl:call-template>:
+                        <xsl:value-of select="BOOK/text()" />
+                        <xsl:text>-</xsl:text>
+                        <xsl:value-of select="PAGE/text()" />
+                      </xsl:if>
+                    </xsl:otherwise>
+                  </xsl:choose>
+                </td>             
+              </tr>
+              <xsl:choose>
+                <xsl:when test="@TYPECD = 1">
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Price'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:choose>
+                        <xsl:when test="number(SALEPRICE/text()) != 0">
+                          <xsl:value-of select="SALEPRICE/text()" />
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>N/A</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                      <xsl:if test="string-length(MULTIAPN/text()) != 0 and MULTIAPN != 'A'">
+                        <xsl:choose>
+                          <xsl:when test="MULTIAPN = 'P'">
+                            <br />
+                            <xsl:call-template name="translate">
+                              <xsl:with-param name="file" select="'A03Transaction'"/>
+                              <xsl:with-param name="keyword" select="'Only portion of this parcel is conveyed'"/>
+                            </xsl:call-template>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <br />
+                            <xsl:call-template name="translate">
+                              <xsl:with-param name="file" select="'A03Transaction'"/>
+                              <xsl:with-param name="keyword" select="'Multiple Parcels Involved in this transaction'"/>
+                            </xsl:call-template>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </xsl:if>
+                    </td>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Document Type'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="DOCUMENTTYPE/text()" />
+                    </td>
+                  </tr>
+                </xsl:when>
+                <xsl:when test="@TYPECD = 6 or @TYPECD = 7">
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Price'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:choose>
+                        <xsl:when test="number(SALEPRICE/text()) != 0">
+                          <xsl:value-of select="SALEPRICE/text()" />
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:text>N/A</xsl:text>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                      <xsl:if test="string-length(MULTIAPN/text()) != 0 and MULTIAPN != 'A'">
+                        <xsl:choose>
+                          <xsl:when test="MULTIAPN = 'P'">
+                            <br />
+                            <xsl:call-template name="translate">
+                              <xsl:with-param name="file" select="'A03Transaction'"/>
+                              <xsl:with-param name="keyword" select="'Only portion of this parcel is conveyed'"/>
+                            </xsl:call-template>
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <br />
+                            <xsl:call-template name="translate">
+                              <xsl:with-param name="file" select="'A03Transaction'"/>
+                              <xsl:with-param name="keyword" select="'Multiple Parcels Involved in this transaction'"/>
+                            </xsl:call-template>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </xsl:if>
+                    </td>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Document Type'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="DOCUMENTTYPE/text()" />
+                    </td>
+                  </tr>
+                </xsl:when>
+                <xsl:when test="@TYPECD = 2 or @TYPECD = 3 or @TYPECD = 4">
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Document Type'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="DOCUMENTTYPE/text()" />
+                    </td>
+                    <td class="CellSubHeader"></td>
+                    <td></td>
+                  </tr>
+                  <xsl:if test="string-length(AUCTIONLOCATION/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Auction Location'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="AUCTIONLOCATION/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(AUCTIONDATE/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Auction Date/Time'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="AUCTIONDATE/text()" />
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="substring(AUCTIONTIME,1,2)" />
+                        <xsl:text>:</xsl:text>
+                        <xsl:value-of select="substring(AUCTIONTIME,3,2)" />
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="substring(AUCTIONTIME,5,1)" />
+                        <xsl:text>.M.</xsl:text>
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(AUCTIONMINIMUMBIDAMOUNT/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Min. Bid Amount'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="AUCTIONMINIMUMBIDAMOUNT/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(LENDERNAME/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Beneficiary Name'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="LENDERNAME/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(TRUSTORNAME/text()) != 0 and TRUSTORNAME/text() != ', '">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Beneficiary Name'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="TRUSTORNAME/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(TRUSTEENAME/text()) != 0 and TRUSTEENAME/text() != ', '">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Trustee Names'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="TRUSTEENAME/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(CONTACTADDRESS/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Mailing Address'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="CONTACTADDRESS" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="CONTACTUNIT" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="CONTACTCITY" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="CONTACTSTATE" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="CONTACTZIP" ></xsl:value-of>
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(TRUSTEEPHONE/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Trustee Phone'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="TRUSTEEPHONE/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(TRUSTEESALENUMBER/text()) != 0 and string-length(LOANDOC/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'TS#'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="TRUSTEESALENUMBER/text()" />
+                      </td>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Loan Doc #'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="LOANDOC/text()" />
+                      </td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(LOANDATE/text()) != 0 and string-length(LOANAMOUNT/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Loan Date'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="LOANDATE/text()" />
+                      </td>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Loan Amount'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="LOANAMOUNT/text()" />
+                      </td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(CONTACTNAME/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Contact Name'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="CONTACTNAME/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(TRUSTEENAME/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Attention'"/>
+                        </xsl:call-template>:                     
+                      </td>
+                      <td>
+                        <xsl:value-of select="CONTACTATTENTIONTO/text()" />
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                  <xsl:if test="string-length(TRUSTEEADDRESS/text()) != 0">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Mailing Address'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="TRUSTEEADDRESS" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="TRUSTEEUNIT" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="TRUSTEECITY" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="TRUSTEESTATE" ></xsl:value-of>
+                        <xsl:text>&#xa0;</xsl:text>
+                        <xsl:value-of select="TRUSTEEZIP" ></xsl:value-of>
+                      </td>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </tr>
+                  </xsl:if>
+                </xsl:when>
+                <xsl:otherwise>
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Loan Amount'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="LOAN1AMOUNT/text()" />
+                    </td>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Loan Type'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="LOAN1TYPE/text()" />
+                    </td>
+                  </tr>
+                </xsl:otherwise>
+              </xsl:choose>
+              <xsl:if test="@TYPECD != 2 and @TYPECD != 3 and @TYPECD != 4">
+                <xsl:choose>
+                  <xsl:when test="@TYPECD = 1">
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'First TD'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:choose>
+                          <xsl:when test="number(LOAN1AMOUNT/text()) != 0">
+                            <xsl:value-of select="LOAN1AMOUNT/text()" />
+                          </xsl:when>
+                          <xsl:otherwise>
+                            <xsl:text>N/A</xsl:text>
+                          </xsl:otherwise>
+                        </xsl:choose>
+                      </td>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Type of Sale'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="SALETYPE/text()" />
+                      </td>
+                    </tr>
+                  </xsl:when>
+                  <xsl:otherwise>
+                    <tr>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'TD Due Date'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="LOAN1DUEDATE/text()" />
+                      </td>
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Type of Financing'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="TYPEFINANCING/text()" />
+                      </td>
+                    </tr>
+                  </xsl:otherwise>
+                </xsl:choose>
+                <xsl:if test="string-length(MORTDOC/text()) != 0 and string-length(MORTDOC/text()) != 0">
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'First TD Doc'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:choose>
+                        <xsl:when test="string-length($serviceurl) != 0 and string-length($token) != 0 and @DOCFORMATEXISTS='true'">
+                          <xsl:if test="string-length(MORTDOC/text()) != 0 and MORTDOC/text() != 'N/A'">
+                            <a>
+                              <xsl:attribute name="href">
+                                <xsl:value-of select="concat($docServiceurl, MORTDOC/@DOCUMENTLINK)" />
+                              </xsl:attribute>
+                              <xsl:attribute name="target">
+                                <xsl:value-of select="'DocWindow'" />
+                              </xsl:attribute>
+                              <xsl:value-of select="MORTDOC/text()" />
+                            </a>
+                          </xsl:if>
+                        </xsl:when>
+                        <xsl:otherwise>
+                          <xsl:if test="MORTDOC/text() != 'N/A'">
+                            <xsl:value-of select="MORTDOC/text()" />
+                          </xsl:if>
+                        </xsl:otherwise>
+                      </xsl:choose>
+                    </td>
+                    <td class="CellSubHeader"></td>
+                    <td></td>
+                  </tr>
+                </xsl:if>
+                <tr>
+                  <td class="CellSubHeader">
+                    <xsl:call-template name="translate">
+                      <xsl:with-param name="file" select="'A03Transaction'"/>
+                      <xsl:with-param name="keyword" select="'Lender Name'"/>
+                    </xsl:call-template>:
+                  </td>
+                  <td>
+                    <xsl:value-of select="LENDERNAME/text()" />
+                  </td>
+                  <td class="CellSubHeader"></td>
+                  <td></td>
+                </tr>
+              </xsl:if>
+              <xsl:choose>
+                <xsl:when test="@TYPECD = 1">
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Buyer Name'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="BUYERNAME/text()" />
+                    </td>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Buyer Vesting'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="BUYERVESTING/text()" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Seller Name'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="SELLERNAME/text()" />
+                    </td>
+                    <td class="CellSubHeader"></td>
+                    <td></td>
+                  </tr>
+                </xsl:when>
+                <xsl:otherwise>
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Lender Type'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="LENDERTYPE/text()" />
+                    </td>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Borrowers Name'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="BUYERNAME/text()" />
+                    </td>
+                  </tr>
+                  <tr>
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Vesting'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="BUYERVESTING/text()" />
+                    </td>
+                    <td class="CellSubHeader"></td>
+                    <td></td>
+                  </tr>
+                </xsl:otherwise>
+              </xsl:choose>
+              <tr>
+                <td class="CellSubHeader Top">
+                  <xsl:call-template name="translate">
+                    <xsl:with-param name="file" select="'A03Transaction'"/>
+                    <xsl:with-param name="keyword" select="'Legal Description'"/>
+                  </xsl:call-template>:
+                </td>
+                <td style="padding-top:0px !important;" colspan="3">
+                  <table class="SubTable">
+                    <tr style="display: none;"><td></td><td></td></tr>
+                    <xsl:for-each select="LEGALDESCRIPTIONINFO/child::*">
+                      <xsl:if test="string-length(text())!=0">
+                        <tr>
+                          <td style="width: 17%;" class="CellSubHeader">
+                            <xsl:call-template name="translate">
+                              <xsl:with-param name="file" select="'A03Transaction'"/>
+                              <xsl:with-param name="keyword" select="@CAPTION"/>
+                            </xsl:call-template>:
+                          </td>
+                          <td>
+                            <xsl:value-of select="concat(' ', text())" />
+                          </td>
+                        </tr> 
+                      </xsl:if>
+                    </xsl:for-each>
+                  </table>
+                </td>              
+              </tr>
+              <!-- Trans Location Details -->
+              <xsl:if test="string-length(INTERESTRATE/text()) != 0 or string-length(ADJRATEINDEX/text()) != 0">
+                <tr>
+                  <xsl:if test="string-length(INTERESTRATE/text()) != 0">                    
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Interest Rate'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="INTERESTRATE/text()" />
+                      </td>                      
+                  </xsl:if>
+                  <xsl:choose>
+                    <xsl:when test="string-length(ADJRATEINDEX/text()) != 0">
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Adjustable Rate Index'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="ADJRATEINDEX/text()" />
+                      </td>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </xsl:otherwise>
+                  </xsl:choose>                  
+              </tr>
+              </xsl:if>
+              <xsl:if test="string-length(RATECHANGEFREQUENCY/text()) != 0 or string-length(FIRSTCHANGEDATE/text()) != 0">
+                <tr>
+                  <xsl:if test="string-length(RATECHANGEFREQUENCY/text()) != 0">
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Rate Change Frequency'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="RATECHANGEFREQUENCY/text()" />
+                    </td>
+                  </xsl:if>
+                  <xsl:choose>
+                    <xsl:when test="string-length(FIRSTCHANGEDATE/text()) != 0">
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'First Change Date'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="FIRSTCHANGEDATE/text()" />
+                      </td>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </xsl:otherwise>
+                  </xsl:choose>               
+                </tr>
+              </xsl:if>
+              <xsl:if test="string-length(INTRATENOTGREATER/text()) != 0 or string-length(INTRATENOTLESS/text()) != 0">
+                <tr>
+                  <xsl:if test="string-length(INTRATENOTGREATER/text()) != 0">
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Interest Rate Not Greater'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="INTRATENOTGREATER/text()" />
+                    </td>
+                  </xsl:if>
+                  <xsl:choose>
+                    <xsl:when test="string-length(INTRATENOTLESS/text()) != 0">
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Interest Rate Not Less'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="INTRATENOTLESS/text()" />
+                      </td>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </xsl:otherwise>
+                  </xsl:choose>                
+                </tr>
+              </xsl:if>
+              <xsl:if test="string-length(INTERESTONLYPERIOD/text()) != 0 or string-length(PREPAYMENTPENALTYRIDER/text()) != 0">
+                <tr>
+                  <xsl:if test="string-length(INTERESTONLYPERIOD/text()) != 0">
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Interest Only Period'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="INTERESTONLYPERIOD/text()" />
+                    </td>
+                  </xsl:if>
+                  <xsl:choose>
+                    <xsl:when test="string-length(PREPAYMENTPENALTYRIDER/text()) != 0">
+                      <td class="CellSubHeader">
+                        <xsl:call-template name="translate">
+                          <xsl:with-param name="file" select="'A03Transaction'"/>
+                          <xsl:with-param name="keyword" select="'Prepayment Penalty Rider'"/>
+                        </xsl:call-template>:
+                      </td>
+                      <td>
+                        <xsl:value-of select="PREPAYMENTPENALTYRIDER/text()" />
+                      </td>
+                    </xsl:when>
+                    <xsl:otherwise>
+                      <td class="CellSubHeader"></td>
+                      <td></td>
+                    </xsl:otherwise>
+                  </xsl:choose>                  
+                </tr>
+              </xsl:if>
+              <xsl:if test="string-length(PREPAYMENTPENALTYRIDERTERM/text()) != 0">
+                <tr>
+                  <xsl:if test="string-length(PREPAYMENTPENALTYRIDERTERM/text()) != 0">
+                    <td class="CellSubHeader">
+                      <xsl:call-template name="translate">
+                        <xsl:with-param name="file" select="'A03Transaction'"/>
+                        <xsl:with-param name="keyword" select="'Prepayment Penalty Rider Term'"/>
+                      </xsl:call-template>:
+                    </td>
+                    <td>
+                      <xsl:value-of select="PREPAYMENTPENALTYRIDERTERM/text()" />
+                    </td>
+                  </xsl:if>
+                  <!--<xsl:if test="string-length(PREPAYMENTPENALTYRIDERTERM/text()) != 0">-->
+                    <td class="CellSubHeader"></td>
+                    <td></td>
+                  <!--</xsl:if>-->
+                </tr>
+              </xsl:if>
+              <!-- End Trans Location Details -->
+            </table>
+          </td>
+        </tr>
+      </table>
+    </xsl:for-each>
+    <xsl:call-template name="footer"/>
+  </xsl:template>
+</xsl:stylesheet>
