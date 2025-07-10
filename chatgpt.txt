@@ -1,1 +1,45 @@
-Empty
+		<xsl:if test="$brand = 'CTIC'">
+			<table class="Table LegendTable">
+				<tr>
+					<td colspan="5"  style="background-color : #f1f1f1; padding : 6px; font-weight : bold;font-size:20px;">
+						Transaction History Legend
+					</td>
+				</tr>
+				<tr>
+					<td class="LegendIcons">
+						<div style="display:flex;align-items:center;gap:6px;font-weight:bolder;margin-top:10px;margin-bottom:10px;">
+							<img src="/Common/Images/ProfileEnhanced/NewOwnerIcon.png" alt="Transfer" />
+							Transfer
+						</div>
+					</td>
+
+					<td class="LegendIcons">
+						<div style="display:flex;align-items:center;gap:6px;font-weight:bolder;">
+							<img src="/Common/Images/ProfileEnhanced/NewOwnerIcon2.png" alt="Forclosure" />
+							Forclosure
+						</div>
+					</td>
+
+					<td class="LegendIcons">
+						<div style="display:flex;align-items:center;gap:6px;font-weight:bolder;">
+							<img src="/Common/Images/ProfileEnhanced/NewOwnerIcon3.png" alt="Mortgage" />
+							Mortgage
+						</div>
+					</td>
+
+					<td class="LegendIcons">
+						<div style="display:flex;align-items:center;gap:6px;font-weight:bolder;">
+							<img src="/Common/Images/ProfileEnhanced/NewOwnerIcon4.png" alt="Release" />
+							Release
+						</div>
+					</td>
+
+					<td class="LegendIcons">
+						<div style="display:flex;align-items:center;gap:6px;font-weight:bolder;">
+							<img src="/Common/Images/ProfileEnhanced/NewOwnerIcon5.png" alt="Assignment" />
+							Assignment
+						</div>
+					</td>
+				</tr>
+			</table>
+		</xsl:if>
