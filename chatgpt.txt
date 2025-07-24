@@ -84,9 +84,34 @@
       </xsl:if>   
       <table class="Table SubContentHeader">
         <tr>
+			
           <td class="Left CellHeaderSmall">
-            <xsl:value-of select="@CAPTION" />
+			  <xsl:choose>
+				  <xsl:when test="$brand = 'CTIC'">
+					  <xsl:choose>
+						  <xsl:when test="@TYPECD = 1">
+							  <img src="/Common/Images/ProfileEnhanced/MortgageAssignmentIcon_white.png" alt="Mortgage" style="height : 30px;"/>
+						  </xsl:when>
+						  <xsl:when test="@TYPECD = 2">
+							  <img src="/Common/Images/ProfileEnhanced/ForeclosureIcon_white.png" alt="Forclosure" style="height : 30px;"/>
+						  </xsl:when>
+						  <xsl:when test="@TYPECD = 3">
+							  <img src="/Common/Images/ProfileEnhanced/Image1.png" alt="Forclosure" style="height : 30px;"/>
+						  </xsl:when>
+						  <xsl:when test="@TYPECD = 4">
+							  <img src="/Common/Images/ProfileEnhanced/TransferIcon_white.png" alt="Transfer" style="height : 30px;"/>
+						  </xsl:when>
+						  <xsl:when test="@TYPECD = 5">
+							  <img src="/Common/Images/ProfileEnhanced/MortgageReleaseIcon_white.png" alt="Mortgage-Release" style="height : 30px;"/>
+						  </xsl:when>
+					  </xsl:choose>
+				  </xsl:when>
+			  </xsl:choose>
+			  <span>
+				  <xsl:value-of select="@CAPTION"/>
+			  </span>
           </td>
+			
         </tr>
       </table>
       <table class="Table DataTable">
