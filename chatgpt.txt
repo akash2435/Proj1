@@ -1,1 +1,99 @@
-Empty
+<xsl:for-each select="GPSSERVICES/PROFILE/TRANSFERHISTORY/TRANSFERWITHDEFAULT">
+  
+  <!-- PAGEBREAK handling (no change) -->
+  <xsl:if test="PAGEBREAK">
+    <xsl:call-template name="footer"/>
+    <p class="PageBreak"></p>
+    <xsl:call-template name="header"/>
+    <table class="Table MainContentHeader">
+      <tr>
+        <td class="Left CellHeader" style="width: 50%;">
+          <xsl:call-template name="translate">
+            <xsl:with-param name="file" select="'A03Transaction'"/>
+            <xsl:with-param name="keyword" select="'PROPERTY HISTORY'"/>
+          </xsl:call-template>
+        </td>
+        <td class="Right CellHeader" style="width: 50%;">
+          <xsl:call-template name="propertyaddress" />
+        </td>
+      </tr>
+    </table>
+
+    <!-- Transaction Legend shown only when PAGEBREAK and CTIC brand -->
+    <xsl:if test="$brand = 'CTIC'">
+      <table class="Table LegendTable" style="width : 100%;">
+        <tr>
+          <td colspan="5" style="background-color : #f1f1f1; padding : 6px; font-weight : bold; font-size : 18px; border-top: 1px solid #000000; border-bottom: 1px solid #000000;">
+            Transaction History Legend
+          </td>
+        </tr>
+        <tr>
+          <td style="padding : 8px; min-width : 100px">
+            <div style="display : flex; align-items : center; gap : 5px;">
+              <img src="/Common/Images/ProfileEnhanced/MortgageAssignmentIcon_white.png" alt="Assignment Record" style="height : 30px;"/>
+              <span style="font-weight : bold;">Assignment Record</span>
+            </div>
+          </td>
+          <td style="padding : 8px; min-width : 100px">
+            <div style="display : flex; align-items : center; gap : 5px;">
+              <img src="/Common/Images/ProfileEnhanced/ForeclosureIcon_white.png" alt="Foreclosure" style="height : 30px;"/>
+              <span style="font-weight : bold;">Foreclosure</span>
+            </div>
+          </td>
+          <td style="padding : 8px; min-width : 100px">
+            <div style="display : flex; align-items : center; gap : 5px;">
+              <img src="/Common/Images/ProfileEnhanced/Image1.png" alt="Mortgage Record" style="height : 30px;"/>
+              <span style="font-weight : bold;">Mortgage Record</span>
+            </div>
+          </td>
+          <td style="padding : 8px; min-width : 100px">
+            <div style="display : flex; align-items : center; gap : 5px;">
+              <img src="/Common/Images/ProfileEnhanced/TransferIcon_white.png" alt="Prior Transfer" style="height : 30px;"/>
+              <span style="font-weight : bold;">Prior Transfer</span>
+            </div>
+          </td>
+          <td style="padding : 8px; min-width : 100px">
+            <div style="display : flex; align-items : center; gap : 5px;">
+              <img src="/Common/Images/ProfileEnhanced/MortgageReleaseIcon_white.png" alt="Release Record" style="height : 30px;"/>
+              <span style="font-weight : bold;">Release Record</span>
+            </div>
+          </td>
+        </tr>
+      </table>
+    </xsl:if>
+  </xsl:if>
+
+  <!-- 🔧 This table is shown for every transaction, and now icon logic always runs -->
+  <table class="Table SubContentHeader">
+    <tr>
+      <td class="Left CellHeaderSmall" style="display: flex; align-items: center; gap: 10px;">
+        <xsl:if test="$brand = 'CTIC'">
+          <xsl:choose>
+            <xsl:when test="@TYPECD = 1">
+              <img src="/Common/Images/ProfileEnhanced/MortgageAssignmentIcon_white.png" alt="Assignment Record" style="height: 30px;" />
+            </xsl:when>
+            <xsl:when test="@TYPECD = 2">
+              <img src="/Common/Images/ProfileEnhanced/ForeclosureIcon_white.png" alt="Foreclosure" style="height: 30px;" />
+            </xsl:when>
+            <xsl:when test="@TYPECD = 3">
+              <img src="/Common/Images/ProfileEnhanced/Image1.png" alt="Mortgage Record" style="height: 30px;" />
+            </xsl:when>
+            <xsl:when test="@TYPECD = 4">
+              <img src="/Common/Images/ProfileEnhanced/TransferIcon_white.png" alt="Prior Transfer" style="height: 30px;" />
+            </xsl:when>
+            <xsl:when test="@TYPECD = 5">
+              <img src="/Common/Images/ProfileEnhanced/MortgageReleaseIcon_white.png" alt="Release Record" style="height: 30px;" />
+            </xsl:when>
+          </xsl:choose>
+        </xsl:if>
+        <span>
+          <xsl:value-of select="@CAPTION"/>
+        </span>
+      </td>
+    </tr>
+  </table>
+
+  <!-- Keep rest of your transaction content here (like DataTable, Legal Description, etc.) -->
+  <!-- This part is already working correctly so you don’t need to change it -->
+
+</xsl:for-each>
