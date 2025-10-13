@@ -1,83 +1,39 @@
-using Microsoft.AspNetCore.Mvc;
-using System;
-using System.IO;
-
-namespace FileCopyMVC.Controllers
-{
-    public class FileController : Controller
-    {
-        // GET: /File/Index
-        public IActionResult Index()
-        {
-            return View();
-        }
-
-        // POST: Copy all files from source to destination
-        [HttpPost]
-        public IActionResult CopyAll(string sourcePath, string destinationPath)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(sourcePath) || string.IsNullOrWhiteSpace(destinationPath))
-                    return Content("Please enter both source and destination paths.");
-
-                if (!Directory.Exists(sourcePath))
-                    return Content("Source directory does not exist.");
-
-                Directory.CreateDirectory(destinationPath);
-
-                CopyAllFiles(sourcePath, destinationPath);
-
-                return Content($"✅ All files copied successfully from {sourcePath} to {destinationPath}");
-            }
-            catch (Exception ex)
-            {
-                return Content($"❌ Error: {ex.Message}");
-            }
-        }
-
-        // POST: Copy one named file from source to destination
-        [HttpPost]
-        public IActionResult CopySingle(string fileName, string sourcePath, string destinationPath)
-        {
-            try
-            {
-                if (string.IsNullOrWhiteSpace(fileName) || string.IsNullOrWhiteSpace(sourcePath) || string.IsNullOrWhiteSpace(destinationPath))
-                    return Content("Please provide all inputs.");
-
-                string sourceFile = Path.Combine(sourcePath, fileName);
-                if (!System.IO.File.Exists(sourceFile))
-                    return Content($"File '{fileName}' not found in {sourcePath}");
-
-                Directory.CreateDirectory(destinationPath);
-                string destFile = Path.Combine(destinationPath, fileName);
-
-                System.IO.File.Copy(sourceFile, destFile, overwrite: true);
-
-                return Content($"✅ File '{fileName}' copied successfully from {sourcePath} to {destinationPath}");
-            }
-            catch (Exception ex)
-            {
-                return Content($"❌ Error: {ex.Message}");
-            }
-        }
-
-        // --- Helper method to copy directories recursively ---
-        private void CopyAllFiles(string sourceDir, string destDir)
-        {
-            Directory.CreateDirectory(destDir);
-
-            foreach (var file in Directory.GetFiles(sourceDir))
-            {
-                string targetFile = Path.Combine(destDir, Path.GetFileName(file));
-                System.IO.File.Copy(file, targetFile, overwrite: true);
-            }
-
-            foreach (var subDir in Directory.GetDirectories(sourceDir))
-            {
-                string newDestSubDir = Path.Combine(destDir, Path.GetFileName(subDir));
-                CopyAllFiles(subDir, newDestSubDir);
-            }
-        }
-    }
+@{
+    ViewData["Title"] = "Copy Files";
 }
+
+<div class="container mt-5">
+    <h2 class="mb-4">📁 Copy All Files from One Directory to Another</h2>
+
+    <form asp-controller="File" asp-action="CopyAll" method="post">
+        <div class="form-group mb-3">
+            <label>Source Directory Path:</label>
+            <input type="text" name="sourcePath" class="form-control" placeholder="e.g. C:\Temp\Source" required />
+        </div>
+        <div class="form-group mb-3">
+            <label>Destination Directory Path:</label>
+            <input type="text" name="destinationPath" class="form-control" placeholder="e.g. C:\Temp\Dest" required />
+        </div>
+        <button type="submit" class="btn btn-primary">Copy All Files</button>
+    </form>
+
+    <hr class="my-5" />
+
+    <h2 class="mb-4">📄 Copy a Single Named File</h2>
+
+    <form asp-controller="File" asp-action="CopySingle" method="post">
+        <div class="form-group mb-3">
+            <label>File Name (with extension):</label>
+            <input type="text" name="fileName" class="form-control" placeholder="e.g. report.pdf" required />
+        </div>
+        <div class="form-group mb-3">
+            <label>Source Directory Path:</label>
+            <input type="text" name="sourcePath" class="form-control" placeholder="e.g. C:\Temp\Source" required />
+        </div>
+        <div class="form-group mb-3">
+            <label>Destination Directory Path:</label>
+            <input type="text" name="destinationPath" class="form-control" placeholder="e.g. C:\Temp\Dest" required />
+        </div>
+        <button type="submit" class="btn btn-success">Copy Named File</button>
+    </form>
+</div>
