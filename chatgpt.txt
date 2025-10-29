@@ -1,1 +1,50 @@
-Empty
+Bug.no	Type	Desc	Assigned	State	Tags							
+710771	Bug	DD bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | news-events page | DD issues on News & Events page	R, Akash <Akash.R@fnf.com>	New	The description of the bug was not matching the title so discussed with Vinay							
+710795	Bug	DD bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | news-events page | DD issues on Contact page	R, Akash <Akash.R@fnf.com>	New	The description of the bug was not matching the title so discussed with Vinay							
+718559	Bug	Update Browsing tab naming format	R, Akash <Akash.R@fnf.com>	Resolved								
+710730	Bug	Accordion issues	R, Akash <Akash.R@fnf.com>	Resolved								
+710731	Bug	Accordion font colouring issue	R, Akash <Akash.R@fnf.com>	Resolved								
+710712	Bug	Link navigation issue	R, Akash <Akash.R@fnf.com>	Resolved								
+710304	Bug	Employee description and Employee photo are overlapping each other	R, Akash <Akash.R@fnf.com>	Resolved								
+710123	Bug	Button formatting issue	R, Akash <Akash.R@fnf.com>	Resolved								
+												
+												
+ID	Work Item Type	Title	Assigned To	State	Tags							
+710011	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | Home Page | Padding and font format issues	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710119	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | contact  Page |  Miscellaneous issues	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710228	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | patrick-vaeth Bio page |  Make silhouette image more bigger size	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710232	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | Offices page | Header formatting and alignment issue	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710266	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | Home  page | On hovering color of the EARNEST MONEY button remains the same.	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710289	Bug	Device bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | Home  page | Image cropping and missing section issues	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710297	Bug	Device bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | Home  page | Padding and image cropping issue	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+710698	Bug	DD bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | Home page |  Multiple Design document errors under HOME page	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+718683	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | Home page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+718704	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | title-insurance page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+718718	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | recording-special-projects page | Remove unwanted hovering action	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+718725	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | 1031-property-exchange page | Link disappearing issue	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+718776	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | people page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+718887	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | BIO page | Employee image resize and link hovering issue	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+718888	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | people page | Arrow icon overlaps with the employees details	R, Akash <Akash.R@fnf.com>	New	This bug was created on Monday I will be working on it today along with other bugs							
+719057	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | royal-oak-office office page | Banner text alignment issue	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719067	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | news-events page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719074	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | contact page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719079	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | earnest-money page | Hovering color issue	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719097	Bug	QA Bug | KOSX | Other Brand | parkstitle.com | open-an-order page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719170	Bug	Device bug: QA Bug | KOSX | Other Brand | parkstitle.com | Home page | Misc. Issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719171	Bug	Device bug: QA Bug | KOSX | Other Brand | parkstitle.com | Home page |Employee images are need to center aligned	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719285	Bug	Device bug: QA Bug | KOSX | Other Brand | parkstitle.com | Offices page |  Padding issue	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719289	Bug	Device bug: QA Bug | KOSX | Other Brand | parkstitle.com | news-events page | NEWSDESK section needs to be center aligned	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719293	Bug	Device bug: QA Bug | KOSX | Other Brand | parkstitle.com | contact page | Missing padding above headers	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719296	Bug	Device bug: QA Bug | KOSX | Other Brand | parkstitle.com | open-an-order page | Radio button alignment issue	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719310	Bug	DD bug: QA Bug | KOSX | Other Brand | parkstitle.com | Home page | Design Document issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719318	Bug	DD bug: QA Bug | KOSX | Other Brand | parkstitle.com | people page | Design Document issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719322	Bug	DD bug: QA Bug | KOSX | Other Brand | parkstitle.com | news-events page | Design Document issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719361	Bug	DD bug: QA Bug | KOSX | Other Brand | parkstitle.com | contact page | Design Document issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719366	Bug	DD bug: QA Bug | KOSX | Other Brand | parkstitle.com  BIO page | Design Document issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719370	Bug	DD bug: QA Bug | KOSX | Other Brand | parkstitle.com | open-an-order page | Design Document issues	R, Akash <Akash.R@fnf.com>	New	This bug was created yesterday I will be completing it on Thursday							
+719380	Bug	QA bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | Home page | Misc. issues	R, Akash <Akash.R@fnf.com>	New	Would be completing by EOD							
+709961	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | Home Page | Learn more button overlapping issue	R, Akash <Akash.R@fnf.com>	Active	Would be completing by EOD							
+710163	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | Bio page |  Employee description formatting issues	R, Akash <Akash.R@fnf.com>	Active	Would be completing by EOD							
+710230	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | faq page | Accordion formatting issues	R, Akash <Akash.R@fnf.com>	Active	Would be completing by EOD							
+710265	Bug	QA Bug | KOSX | Other Brand | amerititledowntown.com | open-an-order page | Issues in Open order form	R, Akash <Akash.R@fnf.com>	Active	Would be completing by EOD							
+710301	Bug	Device bug: QA Bug | KOSX | Other Brand | amerititledowntown.com | columbus-commercial-office  page |  Office name under CONTACT section is not aligned within background colour	R, Akash <Akash.R@fnf.com>	Active	Would be completing by EOD							
